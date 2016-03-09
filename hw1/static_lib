@@ -1,0 +1,5 @@
+#!/bin/sh
+gcc -Wall -g -c -o roots.o roots.c
+ar rcs libroots.a roots.o
+gcc -Wall -g -c find_roots_lib.c -o find_roots_lib.o
+gcc -g -o find_roots_lib find_roots_lib.o -L. -lroots
