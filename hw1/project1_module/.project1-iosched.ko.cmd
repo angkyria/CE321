@@ -1,0 +1,1 @@
+cmd_/home/user/project1_module/project1-iosched.ko := ld -r -m elf_i386 -T /usr/src/linux-3.14.62-dev/scripts/module-common.lds --build-id  -o /home/user/project1_module/project1-iosched.ko /home/user/project1_module/project1-iosched.o /home/user/project1_module/project1-iosched.mod.o
