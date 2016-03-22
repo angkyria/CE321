@@ -1,0 +1,4 @@
+[ ] Study SJF algorithm
+[ ] Learn in-depth how the VM works
+[ ] What changes must be implemented and where
+[ ] What debugging options do we have
