@@ -24,7 +24,7 @@ struct task_struct
 	enum sleep_type sleep_type;				/* What type of sleep task is in */
 	int need_reschedule;					/* Flag, set if task needs to
 											   have schedule called */
-	struct task_struct *prev, *next;	/* Used to link the task struct in the 
+	struct task_struct *prev, *next;	/* Used to link the task struct in the
 										   runqueue. Make sure to set them to
 										   NULL when the process is not in the
 										   runqueue */
@@ -37,12 +37,19 @@ struct runqueue {
 	struct task_struct *head;
 };
 
+/* waitqueue */
+struct waitqueue {
+    unsigned long    no_waiting;			/* number of sleeping/waiting tasks */
+	struct task_struct *head;
+};
+
+
 /*----------------------- System Calls ------------------------------*/
 /* These calls are provided by the VM for your
  * convenience, and mimic system calls provided
  * normally by Linux
  */
-void context_switch(struct task_struct *next); 
+void context_switch(struct task_struct *next);
 unsigned long long sched_clock();
 
 /*------------------YOU MAY EDIT BELOW THIS LINE---------------------*/
