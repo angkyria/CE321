@@ -48,9 +48,12 @@ extern struct task_struct *idle;
 
 void initschedule(struct runqueue *newrq, struct task_struct *seedTask)
 {
+    seedTask->thread_info->burst=0;
+    seedTask->thread_info->exp_burst=0;
 	seedTask->next = seedTask->prev = seedTask;
 	newrq->head = seedTask;
 	newrq->nr_running++;
+    printf("locatin of init %p\n", seedTask);
 
 }
 
@@ -61,7 +64,7 @@ void initschedule(struct runqueue *newrq, struct task_struct *seedTask)
  */
 void killschedule(){
 
-	struct task_struct *tmp, *curr;
+	/*struct task_struct *tmp, *curr;
 	struct thread_info *thread;
 	curr = rq->head;
 
@@ -88,7 +91,14 @@ void killschedule(){
 	//free(thread->parent);
 	//free(thread);
 	free(curr);
+    if (rq->head==NULL){
+        printf("Noting in head of rq\n");
+    }else{
+        
+        printf("my ponter location is %p\n", rq->head);
+        free(rq->head);
 
+    }*/
 	return;
 }
 
@@ -116,10 +126,10 @@ void print_rq () {
 void schedule()
 {
 	static struct task_struct *nxt = NULL;
-	struct task_struct *curr;
+	struct task_struct *curr, *test;
 
-printf("In schedule\n");
-print_rq();
+    //printf("In schedule\n");
+    //print_rq();
 
 	current->need_reschedule = 0; /* Always make sure to reset that, in case *
 								   * we entered the scheduler because current*
@@ -137,6 +147,21 @@ print_rq();
 								/* processes available					   */
 		context_switch(curr);
 	}
+
+    test=nxt;
+    while(test!=NULL){
+        
+        if(test->thread_info->id==0){
+            printf("Hi iam the init my burst:%lld exp_burst: %lld\n", test->thread_info->burst, test->thread_info->exp_burst);
+            printf("My prev %d\n", test->prev->thread_info->id);
+            break;
+        }
+        printf("num of process in runqueu %lu id of process: %d processName %s my burst: %lld my exp_burst: %lld\n",rq->nr_running, test->thread_info->id, test->thread_info->processName, test->thread_info->burst, test->thread_info->exp_burst);
+        test=test->next;
+
+
+    }
+
 }
 
 
@@ -146,6 +171,14 @@ print_rq();
 void sched_fork(struct task_struct *p)
 {
 	p->time_slice = 100;
+    p->thread_info->burst=0;
+    p->thread_info->exp_burst=0;
+    printf("Hello i am processName: %s and my id: %d\n", p->thread_info->processName, p->thread_info->id);
+    if(p->next!=NULL){
+
+        printf("Hello i am the parent : %s and my id: %d\n", p->next->thread_info->processName, p->next->thread_info->id);
+
+    }
 }
 
 /* scheduler_tick

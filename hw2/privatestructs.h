@@ -30,6 +30,8 @@ struct thread_info
 	struct thread_info *parent;
 	struct list_head list;
 	struct list_head clist;
+    unsigned long long exp_burst;
+    unsigned long long burst;
 };
 
 #endif
