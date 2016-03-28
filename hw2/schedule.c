@@ -12,6 +12,7 @@
 #include "privatestructs.h"
 
 #define NEWTASKSLICE (NS_TO_JIFFIES(100000000))
+#define AGEING 0.5
 
 /* Local Globals
  * rq - This is a pointer to the runqueue that the scheduler uses.
@@ -127,6 +128,7 @@ void schedule()
 {
 	static struct task_struct *nxt = NULL;
 	struct task_struct *curr, *test;
+    long long start_burst, end_burst;
 
     //printf("In schedule\n");
     //print_rq();
@@ -135,8 +137,11 @@ void schedule()
 								   * we entered the scheduler because current*
 								   * had requested so by setting this flag   */
 
+    curr=NULL;
 	if (rq->nr_running == 1) {
-		context_switch(rq->head);
+		start_burst=sched_clock(); 
+        context_switch(rq->head);
+        end_burst=sched_clock()-start_burst;
 		nxt = rq->head->next;
 	}
 	else {
@@ -145,9 +150,16 @@ void schedule()
 		if (nxt == rq->head)    /* Do this to always skip init at the head */
 			nxt = nxt->next;	/* of the queue, whenever there are other  */
 								/* processes available					   */
+        start_burst=sched_clock();
 		context_switch(curr);
+        end_burst=sched_clock()-start_burst;
 	}
-
+    printf("times start: %lld end: %lld\n", start_burst, end_burst);
+    if(curr!=NULL){
+        curr->thread_info->exp_burst=( (curr->thread_info->burst + ( AGEING*curr->thread_info->exp_burst ) ) / (1+AGEING) );
+        curr->thread_info->burst=end_burst;
+    }
+    /*
     test=nxt;
     while(test!=NULL){
         
@@ -161,7 +173,7 @@ void schedule()
 
 
     }
-
+        */
 }
 
 
