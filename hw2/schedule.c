@@ -138,10 +138,9 @@ void schedule()
 								   * had requested so by setting this flag   */
 
     curr=NULL;
-	if (rq->nr_running == 1) {
-		start_burst=sched_clock(); 
+	
+    if (rq->nr_running == 1) {
         context_switch(rq->head);
-        end_burst=sched_clock()-start_burst;
 		nxt = rq->head->next;
 	}
 	else {
@@ -150,16 +149,19 @@ void schedule()
 		if (nxt == rq->head)    /* Do this to always skip init at the head */
 			nxt = nxt->next;	/* of the queue, whenever there are other  */
 								/* processes available					   */
+
         start_burst=sched_clock();
 		context_switch(curr);
-        end_burst=sched_clock()-start_burst;
+        end_burst=sched_clock();
 	}
+
+    
     printf("times start: %lld end: %lld\n", start_burst, end_burst);
     if(curr!=NULL){
         curr->thread_info->exp_burst=( (curr->thread_info->burst + ( AGEING*curr->thread_info->exp_burst ) ) / (1+AGEING) );
-        curr->thread_info->burst=end_burst;
+        curr->thread_info->burst=end_burst-start_burst;
     }
-    /*
+    
     test=nxt;
     while(test!=NULL){
         
@@ -173,7 +175,7 @@ void schedule()
 
 
     }
-        */
+      
 }
 
 
@@ -182,7 +184,7 @@ void schedule()
  */
 void sched_fork(struct task_struct *p)
 {
-	p->time_slice = 100;
+	p->time_slice = 100000000;
     p->thread_info->burst=0;
     p->thread_info->exp_burst=0;
     printf("Hello i am processName: %s and my id: %d\n", p->thread_info->processName, p->thread_info->id);
