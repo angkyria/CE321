@@ -95,7 +95,7 @@ void killschedule(){
     if (rq->head==NULL){
         printf("Noting in head of rq\n");
     }else{
-        
+
         printf("my ponter location is %p\n", rq->head);
         free(rq->head);
 
@@ -127,44 +127,73 @@ void print_rq () {
 void schedule()
 {
 	static struct task_struct *nxt = NULL;
-	struct task_struct *curr, *test;
-    long long start_burst, end_burst;
+	struct task_struct *curr, *test, *tmp, *min, *curr2;
+  long long start_burst, end_burst, min_burst;
 
-    //printf("In schedule\n");
-    //print_rq();
+  printf("In schedule\n");
+  print_rq();
+
+
+
+	start_burst = sched_clock();
 
 	current->need_reschedule = 0; /* Always make sure to reset that, in case *
 								   * we entered the scheduler because current*
 								   * had requested so by setting this flag   */
 
     curr=NULL;
-	
+
     if (rq->nr_running == 1) {
-        context_switch(rq->head);
-		nxt = rq->head->next;
-	}
+      context_switch(rq->head);
+			nxt = rq->head->next;
+		}
 	else {
-		curr = nxt;
+		/*curr = nxt;
 		nxt = nxt->next;
-		if (nxt == rq->head)    /* Do this to always skip init at the head */
-			nxt = nxt->next;	/* of the queue, whenever there are other  */
-								/* processes available					   */
+		if (nxt == rq->head)    /* Do this to always skip init at the head
+			nxt = nxt->next;	/* of the queue, whenever there are other
+								/* processes available
+								*/
+		/**********/
 
-        start_burst=sched_clock();
-		context_switch(curr);
-        end_burst=sched_clock();
+
+		curr2 = rq->head->next;
+		min = curr2;
+		tmp = curr2;
+
+		while (curr2 != rq->head) {
+			if (min->thread_info->exp_burst > curr2->thread_info->exp_burst) {
+				min = curr2;
+			}
+			curr2 = curr2->next;
+		}
+
+		if (min != tmp) {
+			context_switch(min);
+		}
+		else {
+			context_switch(tmp);
+		}
+
+
+
+		/**********/
+
+	end_burst=sched_clock();
+	/*context_switch(curr); */
+
 	}
 
-    
+
     printf("times start: %lld end: %lld\n", start_burst, end_burst);
     if(curr!=NULL){
         curr->thread_info->exp_burst=( (curr->thread_info->burst + ( AGEING*curr->thread_info->exp_burst ) ) / (1+AGEING) );
         curr->thread_info->burst=end_burst-start_burst;
     }
-    
+
     test=nxt;
     while(test!=NULL){
-        
+
         if(test->thread_info->id==0){
             printf("Hi iam the init my burst:%lld exp_burst: %lld\n", test->thread_info->burst, test->thread_info->exp_burst);
             printf("My prev %d\n", test->prev->thread_info->id);
@@ -175,7 +204,7 @@ void schedule()
 
 
     }
-      
+
 }
 
 
