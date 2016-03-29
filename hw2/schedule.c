@@ -129,7 +129,8 @@ void print_rq () {
 void schedule(){
 
     static struct task_struct *nxt = NULL;
-    struct task_struct *curr, *test, *tmp, *min, *curr2;
+    struct task_struct *curr, *test, *tmp, *min, *curr2, *max;
+    unsigned long long max_wait, min_exp_burst, currTime;
     //long long start_burst, end_burst;
 
     //printf("In schedule\n");
@@ -174,8 +175,47 @@ void schedule(){
         min = curr2;
         tmp = rq->head->next;
 
-        while (curr2 != rq->head) {
+        while (curr2 != rq->head) {                     // finds minimum exp burst
             if (min->exp_burst > curr2->exp_burst) {
+                min = curr2;
+            }
+            curr2 = curr2->next;
+        }
+
+        min_exp_burst = min->exp_burst;
+
+        curr2 = rq->head->next;
+        max = curr2;
+        tmp = rq->head->next;
+
+        currTime = sched_clock();
+        max_wait = currTime - max->entry_time_RQ;
+        while (curr2 != rq->head) {
+            if (currTime - max->entry_time_RQ < currTime - curr2->entry_time_RQ) {
+                max_wait = currTime - curr2->entry_time_RQ;
+            }
+            curr2 = curr2->next;
+        }
+
+
+        /*else {
+            printf("[[CURR Hi iam the current(%s) process my burst:%lld exp_burst: %lld goodness: %lld\n",current->thread_info->processName, current->burst, current->exp_burst, current->goodness);
+            context_switch(current);
+        }*/
+
+        end_burst=sched_clock();
+        current->burst=end_burst-start_burst;
+        current->exp_burst=( (current->burst + ( AGEING*current->exp_burst ) ) / (1+AGEING) );
+
+        current->goodness = ((1 + current->exp_burst)/(1 + min->exp_burst))*((1 + max_wait)/(1 + currTime - current->entry_time_RQ));
+        printf("[[Hi iam the current(%s) process my burst:%lld exp_burst: %lld goodness: %lld\n",current->thread_info->processName, current->burst, current->exp_burst, current->goodness);
+
+        curr2 = rq->head->next;
+        min = curr2;
+        tmp = rq->head->next;
+
+        while (curr2 != rq->head) {                 // finds minimum goodness
+            if (min->goodness > curr2->goodness) {
                 min = curr2;
             }
             curr2 = curr2->next;
@@ -183,13 +223,8 @@ void schedule(){
 
         if (min != current) {
             current->CPU = 0;
-            end_burst=sched_clock();
-            current->burst=end_burst-start_burst;
-            current->exp_burst=( (current->burst + ( AGEING*current->exp_burst ) ) / (1+AGEING) );
+
         }
-
-
-
 
         context_switch(min);
 
@@ -227,6 +262,7 @@ void sched_fork(struct task_struct *p)
     p->time_slice = 0;
     p->burst=0;
     p->exp_burst=0;
+    p->goodness=0;
     p->CPU=0;
     /*printf("Hello i am processName: %s and my id: %d\n", p->thread_info->processName, p->thread_info->id);
      if(p->next!=NULL){
@@ -243,7 +279,7 @@ void sched_fork(struct task_struct *p)
  */
 void scheduler_tick(struct task_struct *p){
 
-    printf("[[Hi iam the current(%s) process my burst:%lld exp_burst: %lld\n",current->thread_info->processName, current->burst, current->exp_burst);
+
     schedule();
 
 }
@@ -261,6 +297,7 @@ void wake_up_new_task(struct task_struct *p)
     p->prev->next = p;
 
     rq->nr_running++;
+    p->entry_time_RQ = sched_clock();
 }
 
 /* activate_task
@@ -275,6 +312,7 @@ void activate_task(struct task_struct *p)
     p->prev->next = p;
 
     rq->nr_running++;
+    p->entry_time_RQ = sched_clock();
 
 
 }

@@ -32,7 +32,11 @@ struct task_struct
 
 	unsigned long long exp_burst;
 	unsigned long long burst;
+	unsigned long long goodness;
+	unsigned long long entry_time_RQ;
+	unsigned long long waiting_RQ;
 	int CPU;
+
 };
 
 /* runqueue */
@@ -41,11 +45,6 @@ struct runqueue {
 	struct task_struct *head;
 };
 
-/* waitqueue */
-struct waitqueue {
-    unsigned long    no_waiting;			/* number of sleeping/waiting tasks */
-	struct task_struct *head;
-};
 
 
 /*----------------------- System Calls ------------------------------*/
