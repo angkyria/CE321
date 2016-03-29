@@ -20,6 +20,7 @@
  */
 struct runqueue *rq;
 struct task_struct *current;
+unsigned long long start_burst=0, end_burst=0;
 
 /* External Globals
  * jiffies - A discrete unit of time used for scheduling.
@@ -47,10 +48,11 @@ extern struct task_struct *idle;
   * the simulation.
   */
 
-void initschedule(struct runqueue *newrq, struct task_struct *seedTask)
-{
-    seedTask->thread_info->burst=0;
-    seedTask->thread_info->exp_burst=0;
+void initschedule(struct runqueue *newrq, struct task_struct *seedTask){
+
+  seedTask->burst=0;
+  seedTask->exp_burst=0;
+  seedTask->CPU=0;
 	seedTask->next = seedTask->prev = seedTask;
 	newrq->head = seedTask;
 	newrq->nr_running++;
@@ -124,86 +126,90 @@ void print_rq () {
 /* schedule
  * Gets the next task in the queue
  */
-void schedule()
-{
+void schedule(){
+
 	static struct task_struct *nxt = NULL;
-	struct task_struct *curr, *test, *tmp, *min, *curr2;
-  long long start_burst, end_burst, min_burst;
+    struct task_struct *curr, *test, *tmp, *min, *curr2;
+    //long long start_burst, end_burst;
 
-  printf("In schedule\n");
-  print_rq();
+  //printf("In schedule\n");
+  //print_rq();
+    printf("{{TIMES START %lld END: %lld\n", start_burst, end_burst);
+    if(current->CPU ==0){
 
+        if(current!=rq->head){
+            start_burst = sched_clock();
+            current->CPU = 1;
+        }
 
-
-	start_burst = sched_clock();
+    }
 
 	current->need_reschedule = 0; /* Always make sure to reset that, in case *
 								   * we entered the scheduler because current*
 								   * had requested so by setting this flag   */
 
-    curr=NULL;
+  curr=NULL;
 
-    if (rq->nr_running == 1) {
+  if (rq->nr_running == 1) {
       context_switch(rq->head);
 			nxt = rq->head->next;
-		}
-	else {
-		/*curr = nxt;
-		nxt = nxt->next;
-		if (nxt == rq->head)    /* Do this to always skip init at the head
-			nxt = nxt->next;	/* of the queue, whenever there are other
-								/* processes available
-								*/
-		/**********/
 
+	}else{
+    		/*curr = nxt;
+    		nxt = nxt->next;
+    		if (nxt == rq->head)    /* Do this to always skip init at the head
+    			nxt = nxt->next;	/* of the queue, whenever there are other
+    								/* processes available
+    								*/
+    		/**********/
 
-		curr2 = rq->head->next;
-		min = curr2;
-		tmp = curr2;
+    		curr2 = rq->head->next;
+    		min = curr2;
+    		tmp = rq->head->next;
 
-		while (curr2 != rq->head) {
-			if (min->thread_info->exp_burst > curr2->thread_info->exp_burst) {
-				min = curr2;
-			}
-			curr2 = curr2->next;
-		}
+    	while (curr2 != rq->head) {
+    		if (min->exp_burst > curr2->exp_burst) {
+    			min = curr2;
+    		}
+    		curr2 = curr2->next;
+    	}
 
-		if (min != tmp) {
-			context_switch(min);
-		}
-		else {
-			context_switch(tmp);
-		}
+    	if (min != current) {
+            end_burst=sched_clock();
+            current->CPU = 0;
+            current->exp_burst=( (min->burst + ( AGEING*min->exp_burst ) ) / (1+AGEING) );
+            current->burst=end_burst-start_burst;
+    		context_switch(min);
+    	}
+    	else {
+            /*min->burst=end_burst-start_burst;
+            end_burst = 0;
+            min->exp_burst=( (min->burst + ( AGEING*min->exp_burst ) ) / (1+AGEING) );
+*/
+    		context_switch(tmp);
+    	}
 
-
-
-		/**********/
-
-	end_burst=sched_clock();
+	/**********/
 	/*context_switch(curr); */
 
 	}
 
 
-    printf("times start: %lld end: %lld\n", start_burst, end_burst);
-    if(curr!=NULL){
-        curr->thread_info->exp_burst=( (curr->thread_info->burst + ( AGEING*curr->thread_info->exp_burst ) ) / (1+AGEING) );
-        curr->thread_info->burst=end_burst-start_burst;
-    }
 
-    test=nxt;
+
+    /*test=rq->head->next;
+
     while(test!=NULL){
 
-        if(test->thread_info->id==0){
-            printf("Hi iam the init my burst:%lld exp_burst: %lld\n", test->thread_info->burst, test->thread_info->exp_burst);
-            printf("My prev %d\n", test->prev->thread_info->id);
-            break;
-        }
-        printf("num of process in runqueu %lu id of process: %d processName %s my burst: %lld my exp_burst: %lld\n",rq->nr_running, test->thread_info->id, test->thread_info->processName, test->thread_info->burst, test->thread_info->exp_burst);
-        test=test->next;
-
-
+    if(test->thread_info->id==0){
+      printf("||Hi iam the init my burst:%lld exp_burst: %lld\n", test->burst, test->exp_burst);
+      printf("||My prev %d\n", test->prev->thread_info->id);
+      break;
     }
+    printf("||num of process in runqueu %lu id of process: %d processName %s my burst: %lld my exp_burst: %lld\n",rq->nr_running, test->thread_info->id, test->thread_info->processName, test->burst, test->exp_burst);
+    test=test->next;
+
+}*/
 
 }
 
@@ -213,24 +219,28 @@ void schedule()
  */
 void sched_fork(struct task_struct *p)
 {
-	p->time_slice = 100000000;
-    p->thread_info->burst=0;
-    p->thread_info->exp_burst=0;
-    printf("Hello i am processName: %s and my id: %d\n", p->thread_info->processName, p->thread_info->id);
+	p->time_slice = 0;
+    p->burst=0;
+    p->exp_burst=0;
+    p->CPU=0;
+    /*printf("Hello i am processName: %s and my id: %d\n", p->thread_info->processName, p->thread_info->id);
     if(p->next!=NULL){
 
         printf("Hello i am the parent : %s and my id: %d\n", p->next->thread_info->processName, p->next->thread_info->id);
 
-    }
+    }*/
+
 }
 
 /* scheduler_tick
  * Updates information and priority
  * for the task that is currently running.
  */
-void scheduler_tick(struct task_struct *p)
-{
+void scheduler_tick(struct task_struct *p){
+
+    printf("[[Hi iam the current(%s) process my burst:%lld exp_burst: %lld\n",current->thread_info->processName, current->burst, current->exp_burst);
 	schedule();
+
 }
 
 /* wake_up_new_task
@@ -260,6 +270,8 @@ void activate_task(struct task_struct *p)
 	p->prev->next = p;
 
 	rq->nr_running++;
+
+
 }
 
 /* deactivate_task
@@ -274,4 +286,5 @@ void deactivate_task(struct task_struct *p)
 							   * next is checked in cpu.c      */
 
 	rq->nr_running--;
+
 }
