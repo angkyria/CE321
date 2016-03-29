@@ -174,20 +174,15 @@ void schedule(){
     		curr2 = curr2->next;
     	}
 
-    	if (min != current) {
-            end_burst=sched_clock();
+        if (min != current) {
             current->CPU = 0;
-            current->exp_burst=( (min->burst + ( AGEING*min->exp_burst ) ) / (1+AGEING) );
+        }
+            end_burst=sched_clock();
+
+            current->exp_burst=( (current->burst + ( AGEING*current->exp_burst ) ) / (1+AGEING) );
             current->burst=end_burst-start_burst;
     		context_switch(min);
-    	}
-    	else {
-            /*min->burst=end_burst-start_burst;
-            end_burst = 0;
-            min->exp_burst=( (min->burst + ( AGEING*min->exp_burst ) ) / (1+AGEING) );
-*/
-    		context_switch(tmp);
-    	}
+
 
 	/**********/
 	/*context_switch(curr); */
