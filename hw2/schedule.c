@@ -35,27 +35,27 @@ extern struct task_struct *idle;
  * to setup and destroy the scheduler cleanly.
  */
 
- /* initscheduler
-  * Sets up and allocates memory for the scheduler, as well
-  * as sets initial values. This function should also
-  * set the initial effective priority for the "seed" task
-  * and enqueu it in the scheduler.
-  * INPUT:
-  * newrq - A pointer to an allocated rq to assign to your
-  *			local rq.
-  * seedTask - A pointer to a task to seed the scheduler and start
-  * the simulation.
-  */
+/* initscheduler
+ * Sets up and allocates memory for the scheduler, as well
+ * as sets initial values. This function should also
+ * set the initial effective priority for the "seed" task
+ * and enqueu it in the scheduler.
+ * INPUT:
+ * newrq - A pointer to an allocated rq to assign to your
+ *			local rq.
+ * seedTask - A pointer to a task to seed the scheduler and start
+ * the simulation.
+ */
 
 void initschedule(struct runqueue *newrq, struct task_struct *seedTask)
 {
     seedTask->thread_info->burst=0;
     seedTask->thread_info->exp_burst=0;
-	seedTask->next = seedTask->prev = seedTask;
-	newrq->head = seedTask;
-	newrq->nr_running++;
+    seedTask->next = seedTask->prev = seedTask;
+    newrq->head = seedTask;
+    newrq->nr_running++;
     printf("locatin of init %p\n", seedTask);
-
+    
 }
 
 /* killschedule
@@ -64,58 +64,58 @@ void initschedule(struct runqueue *newrq, struct task_struct *seedTask)
  * It SHOULD NOT free the runqueue itself.
  */
 void killschedule(){
-
-	/*struct task_struct *tmp, *curr;
-	struct thread_info *thread;
-	curr = rq->head;
-
-	while(curr->next != NULL){
-		curr = curr -> next;
-	}
-
-	while(curr->prev != NULL){
-
-		thread = curr->thread_info;
-		printf("Freed processes with Id: %d\n", thread->id);
-		tmp = curr->prev;
-		free(thread->type_struct);
-		free(thread->processName);
-		free(thread->parent);
-		free(thread);
-		free(curr);
-		curr = tmp;
-	}
-	thread = curr->thread_info;
-	printf("Freed processes with Id: %d\n", thread->id);
-	//free(thread->type_struct);
-	//free(thread->processName);
-	//free(thread->parent);
-	//free(thread);
-	free(curr);
-    if (rq->head==NULL){
-        printf("Noting in head of rq\n");
-    }else{
-        
-        printf("my ponter location is %p\n", rq->head);
-        free(rq->head);
-
-    }*/
-	return;
+    
+    /*struct task_struct *tmp, *curr;
+     struct thread_info *thread;
+     curr = rq->head;
+     
+     while(curr->next != NULL){
+     curr = curr -> next;
+     }
+     
+     while(curr->prev != NULL){
+     
+     thread = curr->thread_info;
+     printf("Freed processes with Id: %d\n", thread->id);
+     tmp = curr->prev;
+     free(thread->type_struct);
+     free(thread->processName);
+     free(thread->parent);
+     free(thread);
+     free(curr);
+     curr = tmp;
+     }
+     thread = curr->thread_info;
+     printf("Freed processes with Id: %d\n", thread->id);
+     //free(thread->type_struct);
+     //free(thread->processName);
+     //free(thread->parent);
+     //free(thread);
+     free(curr);
+     if (rq->head==NULL){
+     printf("Noting in head of rq\n");
+     }else{
+     
+     printf("my ponter location is %p\n", rq->head);
+     free(rq->head);
+     
+     }*/
+    return;
 }
 
 
 void print_rq () {
-	struct task_struct *curr;
-
-	printf("Rq: \n");
-	curr = rq->head;
-	if (curr)
-		printf("%p", curr);
-	while(curr->next != rq->head) {
-		curr = curr->next;
-		printf(", %p", curr);
-	};
-	printf("\n");
+    struct task_struct *curr;
+    
+    printf("Rq: \n");
+    curr = rq->head;
+    if (curr)
+        printf("%p", curr);
+    while(curr->next != rq->head) {
+        curr = curr->next;
+        printf(", %p", curr);
+    };
+    printf("\n");
 }
 
 /*-------------Scheduler Code Goes Below------------*/
@@ -126,35 +126,35 @@ void print_rq () {
  */
 void schedule()
 {
-	static struct task_struct *nxt = NULL;
-	struct task_struct *curr, *test;
+    static struct task_struct *nxt = NULL;
+    struct task_struct *curr, *test;
     long long start_burst, end_burst;
-
+    
     //printf("In schedule\n");
     //print_rq();
-
-	current->need_reschedule = 0; /* Always make sure to reset that, in case *
-								   * we entered the scheduler because current*
-								   * had requested so by setting this flag   */
-
+    
+    current->need_reschedule = 0; /* Always make sure to reset that, in case *
+                                   * we entered the scheduler because current*
+                                   * had requested so by setting this flag   */
+    
     curr=NULL;
-	
+    
     if (rq->nr_running == 1) {
         context_switch(rq->head);
-		nxt = rq->head->next;
-	}
-	else {
-		curr = nxt;
-		nxt = nxt->next;
-		if (nxt == rq->head)    /* Do this to always skip init at the head */
-			nxt = nxt->next;	/* of the queue, whenever there are other  */
+        nxt = rq->head->next;
+    }
+    else {
+        curr = nxt;
+        nxt = nxt->next;
+        if (nxt == rq->head)    /* Do this to always skip init at the head */
+            nxt = nxt->next;	/* of the queue, whenever there are other  */
 								/* processes available					   */
-
+        
         start_burst=sched_clock();
-		context_switch(curr);
+        context_switch(curr);
         end_burst=sched_clock();
-	}
-
+    }
+    
     
     printf("times start: %lld end: %lld\n", start_burst, end_burst);
     if(curr!=NULL){
@@ -172,10 +172,10 @@ void schedule()
         }
         printf("num of process in runqueu %lu id of process: %d processName %s my burst: %lld my exp_burst: %lld\n",rq->nr_running, test->thread_info->id, test->thread_info->processName, test->thread_info->burst, test->thread_info->exp_burst);
         test=test->next;
-
-
+        
+        
     }
-      
+    
 }
 
 
@@ -184,14 +184,14 @@ void schedule()
  */
 void sched_fork(struct task_struct *p)
 {
-	p->time_slice = 100000000;
+    p->time_slice = 100000000;
     p->thread_info->burst=0;
     p->thread_info->exp_burst=0;
     printf("Hello i am processName: %s and my id: %d\n", p->thread_info->processName, p->thread_info->id);
     if(p->next!=NULL){
-
+        
         printf("Hello i am the parent : %s and my id: %d\n", p->next->thread_info->processName, p->next->thread_info->id);
-
+        
     }
 }
 
@@ -201,7 +201,7 @@ void sched_fork(struct task_struct *p)
  */
 void scheduler_tick(struct task_struct *p)
 {
-	schedule();
+    schedule();
 }
 
 /* wake_up_new_task
@@ -211,12 +211,12 @@ void scheduler_tick(struct task_struct *p)
  */
 void wake_up_new_task(struct task_struct *p)
 {
-	p->next = rq->head->next;
-	p->prev = rq->head;
-	p->next->prev = p;
-	p->prev->next = p;
-
-	rq->nr_running++;
+    p->next = rq->head->next;
+    p->prev = rq->head;
+    p->next->prev = p;
+    p->prev->next = p;
+    
+    rq->nr_running++;
 }
 
 /* activate_task
@@ -225,12 +225,12 @@ void wake_up_new_task(struct task_struct *p)
  */
 void activate_task(struct task_struct *p)
 {
-	p->next = rq->head->next;
-	p->prev = rq->head;
-	p->next->prev = p;
-	p->prev->next = p;
-
-	rq->nr_running++;
+    p->next = rq->head->next;
+    p->prev = rq->head;
+    p->next->prev = p;
+    p->prev->next = p;
+    
+    rq->nr_running++;
 }
 
 /* deactivate_task
@@ -239,10 +239,10 @@ void activate_task(struct task_struct *p)
  */
 void deactivate_task(struct task_struct *p)
 {
-	p->prev->next = p->next;
-	p->next->prev = p->prev;
-	p->next = p->prev = NULL; /* Make sure to set them to NULL *
-							   * next is checked in cpu.c      */
-
-	rq->nr_running--;
+    p->prev->next = p->next;
+    p->next->prev = p->prev;
+    p->next = p->prev = NULL; /* Make sure to set them to NULL *
+                               * next is checked in cpu.c      */
+    
+    rq->nr_running--;
 }
