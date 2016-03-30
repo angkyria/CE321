@@ -10,36 +10,37 @@ struct thread_info;
 /* Sleep Types */
 enum sleep_type
 {
-    SLEEP_NORMAL,
-    SLEEP_NONINTERACTIVE,
-    SLEEP_INTERACTIVE,
-    SLEEP_INTERRUPTED
+	SLEEP_NORMAL,
+	SLEEP_NONINTERACTIVE,
+	SLEEP_INTERACTIVE,
+	SLEEP_INTERRUPTED
 };
 
 /* task_struct */
 struct task_struct
 {
-    struct thread_info *thread_info;		/* Information about the thread */
-    unsigned int time_slice;				/* Timeslice values */
-    enum sleep_type sleep_type;				/* What type of sleep task is in */
-    int need_reschedule;					/* Flag, set if task needs to
-                                             have schedule called */
-    struct task_struct *prev, *next;	/* Used to link the task struct in the
-                                         runqueue. Make sure to set them to
-                                         NULL when the process is not in the
-                                         runqueue */
-    /* ---------------- Do NOT Touch END-------------- */
-    unsigned long long exp_burst;
-    unsigned long long burst;
-    unsigned long long goodness;
-    unsigned long long entry_time_RQ;
-    int CPU;
+	struct thread_info *thread_info;		/* Information about the thread */
+	unsigned int time_slice;				/* Timeslice values */
+	enum sleep_type sleep_type;				/* What type of sleep task is in */
+	int need_reschedule;					/* Flag, set if task needs to
+											   have schedule called */
+	struct task_struct *prev, *next;	/* Used to link the task struct in the
+										   runqueue. Make sure to set them to
+										   NULL when the process is not in the
+										   runqueue */
+/* ---------------- Do NOT Touch END-------------- */
+	unsigned long long exp_burst;
+	unsigned long long burst;
+	double goodness;
+	int entry_time_RQ;
+	int CPU;
+	unsigned long long start_burst, end_burst;
 };
 
 /* runqueue */
 struct runqueue {
     unsigned long    nr_running;			/* number of runnable tasks */
-    struct task_struct *head;
+	struct task_struct *head;
 };
 
 
