@@ -3,7 +3,7 @@
  * Emulates a simple CPU running processes with a generic interrupt
  * for "IO."
  *
- * Requires a properly written schedule.c and schedule.h files 
+ * Requires a properly written schedule.c and schedule.h files
  * with stubs filled out.
  */
 
@@ -14,10 +14,10 @@
 #include <stdlib.h>
 #include <string.h>
 #include <stddef.h>
-#include "list.h" 
+#include "list.h"
 #include "macros.h"
- 
- /* Static methods */
+
+/* Static methods */
 static void __init_sched();
 static int taskEnd();
 static void spawnChildren();
@@ -40,10 +40,10 @@ int readProfile(char *filename);
  * The other macros are bookkeeping
  * macros for debugging output, and should
  * be self-explainatory.
- */ 
+ */
 #define CLOCK_HZ 500000
 #define HZ_TO_MS (1000 / HZ)
-#define MS_TO_TICKS(ms) (CLOCK_HZ / 1000 * (ms)) 
+#define MS_TO_TICKS(ms) (CLOCK_HZ / 1000 * (ms))
 #define TICKS_TO_MS(tick) ((long long)((tick) / (long double)CLOCK_HZ * (1000)))
 
 #define LEVEL1(p, q) OUTPUT("", p, q)
@@ -52,8 +52,8 @@ int readProfile(char *filename);
 #define OUTPUT(o, p, q) (printf("%s%s/%d/%lldms - %s\n", (o), (p)->thread_info->processName, (p)->time_slice, TICKS_TO_MS(clocktick), (q)))
 
 #define ALERT(p) (printf("###-%s-###\n", (p)))
- 
-/* Globals 
+
+/* Globals
  * jiffies - A jiffy represents the smallest unit of time that can occur
  *			 between schedule ticks
  * clocktick - The number of cycles the clock has run
@@ -87,7 +87,7 @@ int ranSeed = 42;
 long long intTimer = -1;
 long long intWaitTimer = -1;
 long endtime = 1;
- 
+
 /*-------------- INTERRUPT DATA ---------------*/
 /* This section has data specific to our
  * machine "interrupts."
@@ -98,57 +98,57 @@ long endtime = 1;
 /* This is an IO wait queue */
 struct waitlist
 {
-	struct task_struct *task;
-	struct list_head list;
+    struct task_struct *task;
+    struct list_head list;
 };
- 
- /* Wait Queues
-  * This is the wait queue for our "IO"
-  */
+
+/* Wait Queues
+ * This is the wait queue for our "IO"
+ */
 struct list_head intwaitlist;
 
 /*---------------APPLICATION LOGIC------------------*/
 
 /* main
  * Takes a profile to load and run
- */ 
+ */
 int main(int argc, char *argv[])
 {
-	if(argc < 2)
-	{
-		printf("Virtual Scheduler\nUsage: vsch [filename]\n");
-		return(1);
-	}
-
-	/* Initialize CPU and scheduler */
-	__init_sched();
-
-	/* Read in the profile */
-	if(!readProfile(argv[1]))
-		goto ERROR;
-		
-	/* Set the random seed we read in */
-	srand(ranSeed);
-	
-	/* Schedule the idle task to "prep" the scheduler */
-	ALERT("Starting CPU");
-	schedule();
-	/* Set first schedule tick timer */
-	timer = MS_TO_TICKS(HZ_TO_MS);
-	/* Start the CPU */
-	runcpu();
-	
-	/* Clean up from the CPU */
-	ALERT("Shutting Down CPU");
-	shutdowncpu();
-	
-	return(0);
-	
+    if(argc < 2)
+    {
+        printf("Virtual Scheduler\nUsage: vsch [filename]\n");
+        return(1);
+    }
+    
+    /* Initialize CPU and scheduler */
+    __init_sched();
+    
+    /* Read in the profile */
+    if(!readProfile(argv[1]))
+        goto ERROR;
+    
+    /* Set the random seed we read in */
+    srand(ranSeed);
+    
+    /* Schedule the idle task to "prep" the scheduler */
+    ALERT("Starting CPU");
+    schedule();
+    /* Set first schedule tick timer */
+    timer = MS_TO_TICKS(HZ_TO_MS);
+    /* Start the CPU */
+    runcpu();
+    
+    /* Clean up from the CPU */
+    ALERT("Shutting Down CPU");
+    shutdowncpu();
+    
+    return(0);
+    
 ERROR:
-	/* Cleanup from an error */
-	badshutdowncpu();
-	shutdowncpu();
-	return(1);
+    /* Cleanup from an error */
+    badshutdowncpu();
+    shutdowncpu();
+    return(1);
 }
 
 /* ---------------------- VM FUNCTIONS -------------------*/
@@ -159,56 +159,56 @@ ERROR:
  */
 static void runcpu()
 {
-	long long lastMS = 0;
-	
-	do
-	{
-		/* Run a single cycle of our application */
-		if(cycle())
-			goto END_CYCLE;
-	//INTERRUPT:
-		/* Check for interrupts
-		 * This routine checks for fired
-		 * IO routines or timer ticks
-		 */
-		switch(interrupt())
-		{
-			/* Current task signaled for 
-			 * reschedule
-			 */
-			case RESCHEDULE:
-				clocktick++;
-				schedule();
-				goto END_CYCLE;
-			break;
-		}
-		
-		/* We've completed a clock cycle,
-		 * add a tick.
-		 */
-		clocktick++;
-	END_CYCLE:
-	
-		/* Check for ending conditions for our simulation */
-		if(!init->thread_info->kill && TICKS_TO_MS(clocktick) >= endtime)
-		{
-			ALERT("Sending Kill Message");
-			//isEnding = 1;
-			init->thread_info->kill = 1;
-		}
-		
-		/* Flush output and sleep */
-		fflush(stdout);
-		
-		if(TICKS_TO_MS(clocktick) > lastMS)
-		{
-			lastMS = TICKS_TO_MS(clocktick);
-			
-			if(cycletime > 0)
-				usleep(cycletime);
-		}
-
-	}while(rq->nr_running);
+    long long lastMS = 0;
+    
+    do
+    {
+        /* Run a single cycle of our application */
+        if(cycle())
+            goto END_CYCLE;
+        //INTERRUPT:
+        /* Check for interrupts
+         * This routine checks for fired
+         * IO routines or timer ticks
+         */
+        switch(interrupt())
+        {
+                /* Current task signaled for
+                 * reschedule
+                 */
+            case RESCHEDULE:
+                clocktick++;
+                schedule();
+                goto END_CYCLE;
+                break;
+        }
+        
+        /* We've completed a clock cycle,
+         * add a tick.
+         */
+        clocktick++;
+    END_CYCLE:
+        
+        /* Check for ending conditions for our simulation */
+        if(!init->thread_info->kill && TICKS_TO_MS(clocktick) >= endtime)
+        {
+            ALERT("Sending Kill Message");
+            //isEnding = 1;
+            init->thread_info->kill = 1;
+        }
+        
+        /* Flush output and sleep */
+        fflush(stdout);
+        
+        if(TICKS_TO_MS(clocktick) > lastMS)
+        {
+            lastMS = TICKS_TO_MS(clocktick);
+            
+            if(cycletime > 0)
+                usleep(cycletime);
+        }
+        
+    }while(rq->nr_running);
 }
 
 /* cycle
@@ -217,144 +217,144 @@ static void runcpu()
  */
 static int cycle()
 {
-	struct waitlist *tempwaitlist;
-	
-	/* Check to see if the task is ending */
-	if(taskEnd())
-		return(0);
-
-//	printf("CYCLE %s %llu\n", current->thread_info->processName, clocktick);
-	/* Run logic based on task type */
-	switch(current->thread_info->thread_type)
-	{
-		case INIT:
-		break;
-		
-		/* Interactive tasks need to check to see
-		 * if they are going to wait on IO
-		 */
-		case INTERACTIVE:
-			if(current->thread_info->work_duration > 0) {
-				current->thread_info->work_duration--;
-//				printf("CDA: thread %s remaining %lld, clocktick %llu\n", current->thread_info->processName, current->thread_info->work_duration, clocktick);
-			}
-			if(current->thread_info->work_duration == 0) {
-				printf("CDA: thread %s finished\n", current->thread_info->processName);
-				if(taskEnd())
-					return(0);
-			}
-			/* Tick the timer for sleeping */
-			if(intWaitTimer > 0)
-				intWaitTimer--;
-				
-			/* When timer expires, sleep! */
-			if(intWaitTimer == 0)
-			{
-				intWaitTimer--;
-				LEVEL2(current, "Going to Sleep");
-				
-				/* Add task to wait queue */
-				tempwaitlist = (struct waitlist*)malloc(sizeof(struct waitlist));
-				INIT_LIST_HEAD(&tempwaitlist->list);
-				tempwaitlist->task = current;
-				list_add_tail(&tempwaitlist->list, &intwaitlist);
-				
-				/* Deactivate the task and remove it from the 
-				 * scheduler.
-				 */
-				deactivate_task(current);
-				
-				
-				/* We need to be rescheduled! */
-				current->need_reschedule = 1;
-			}
-		break;
-		
-		case NONINTERACTIVE:
-			if(current->thread_info->work_duration > 0) {
-				current->thread_info->work_duration--;
-//				printf("CDA: thread %s remaining %lld clocktick %llu\n", current->thread_info->processName, current->thread_info->work_duration, clocktick);
-			}
-			if(current->thread_info->work_duration == 0) {
-				printf("CDA: thread %s finished\n", current->thread_info->processName);
-				if (taskEnd())
-					return(0);
-			}
-		break;
-	}
-	
-	/* If no other task has slept on IO, 
-	 * set a random time for the next "IO"
-	 * event.
-	 */
-	if(intTimer < 0)
-		intTimer = MS_TO_TICKS(rand() % 1000 + 50);
-	
-	/* Create any children */
-	spawnChildren(current);
-	spawnChildren(init);
-	
-	return(0);
+    struct waitlist *tempwaitlist;
+    
+    /* Check to see if the task is ending */
+    if(taskEnd())
+        return(0);
+    
+    //	printf("CYCLE %s %llu\n", current->thread_info->processName, clocktick);
+    /* Run logic based on task type */
+    switch(current->thread_info->thread_type)
+    {
+        case INIT:
+            break;
+            
+            /* Interactive tasks need to check to see
+             * if they are going to wait on IO
+             */
+        case INTERACTIVE:
+            if(current->thread_info->work_duration > 0) {
+                current->thread_info->work_duration--;
+                //				printf("CDA: thread %s remaining %lld, clocktick %llu\n", current->thread_info->processName, current->thread_info->work_duration, clocktick);
+            }
+            if(current->thread_info->work_duration == 0) {
+                printf("CDA: thread %s finished\n", current->thread_info->processName);
+                if(taskEnd())
+                    return(0);
+            }
+            /* Tick the timer for sleeping */
+            if(intWaitTimer > 0)
+                intWaitTimer--;
+            
+            /* When timer expires, sleep! */
+            if(intWaitTimer == 0)
+            {
+                intWaitTimer--;
+                LEVEL2(current, "Going to Sleep");
+                
+                /* Add task to wait queue */
+                tempwaitlist = (struct waitlist*)malloc(sizeof(struct waitlist));
+                INIT_LIST_HEAD(&tempwaitlist->list);
+                tempwaitlist->task = current;
+                list_add_tail(&tempwaitlist->list, &intwaitlist);
+                
+                /* Deactivate the task and remove it from the
+                 * scheduler.
+                 */
+                deactivate_task(current);
+                
+                
+                /* We need to be rescheduled! */
+                current->need_reschedule = 1;
+            }
+            break;
+            
+        case NONINTERACTIVE:
+            if(current->thread_info->work_duration > 0) {
+                current->thread_info->work_duration--;
+                //				printf("CDA: thread %s remaining %lld clocktick %llu\n", current->thread_info->processName, current->thread_info->work_duration, clocktick);
+            }
+            if(current->thread_info->work_duration == 0) {
+                printf("CDA: thread %s finished\n", current->thread_info->processName);
+                if (taskEnd())
+                    return(0);
+            }
+            break;
+    }
+    
+    /* If no other task has slept on IO,
+     * set a random time for the next "IO"
+     * event.
+     */
+    if(intTimer < 0)
+        intTimer = MS_TO_TICKS(rand() % 1000 + 50);
+    
+    /* Create any children */
+    spawnChildren(current);
+    spawnChildren(init);
+    
+    return(0);
 }
 
 /* interrupt
  * Checks our computers interrupts
  */
 static int interrupt()
-{	
-		struct list_head *listcur, *listnext;
-		struct waitlist *tempwaitlist;
-		
-	/*----------SCHEDULE TICK TIMER-------------*/
-		/* Decrement the timer */
-		if(timer > 0)
-			timer--;
-		
-		/* Timer Tick! Run the scheduler */
-		if(timer <= 0)
-		{
-			jiffies++;
-			timer = MS_TO_TICKS(HZ_TO_MS);
-			if(current->next != NULL)
-					scheduler_tick(current);
-		}
-
-	/*-------IO EVENT TIMER----------*/
-		/* Decrement the timer */
-		if(intTimer > 0)
-			intTimer--;
-		
-		/* Timer tick! */
-		if(intTimer == 0)
-		{
-			intTimer--;
-			listcur = intwaitlist.next;
-			
-			ALERT("An Interrupt has fired!");
-			
-			/* Check the IO waitlist to see if 
-			 * their are processes sleeping.
-			 */
-			while(listcur != &intwaitlist)
-			{
-				tempwaitlist = list_entry(listcur, struct waitlist, list);
-				LEVEL2(tempwaitlist->task, "Waking Up from Sleep");
-				activate_task(tempwaitlist->task);
-				listnext = listcur->next;
-				list_del(listcur);
-				free(tempwaitlist);
-				listcur = listnext;
-			}
-			
-			/* Notify that we need to reschedule! */
-			current->need_reschedule = 1;
-		}
-		
-		/* If a task needs rescheduling, alert! */
-		if(current->need_reschedule)
-			return(RESCHEDULE);
-		
-	return(0);
+{
+    struct list_head *listcur, *listnext;
+    struct waitlist *tempwaitlist;
+    
+    /*----------SCHEDULE TICK TIMER-------------*/
+    /* Decrement the timer */
+    if(timer > 0)
+        timer--;
+    
+    /* Timer Tick! Run the scheduler */
+    if(timer <= 0)
+    {
+        jiffies++;
+        timer = MS_TO_TICKS(HZ_TO_MS);
+        if(current->next != NULL)
+            scheduler_tick(current);
+    }
+    
+    /*-------IO EVENT TIMER----------*/
+    /* Decrement the timer */
+    if(intTimer > 0)
+        intTimer--;
+    
+    /* Timer tick! */
+    if(intTimer == 0)
+    {
+        intTimer--;
+        listcur = intwaitlist.next;
+        
+        ALERT("An Interrupt has fired!");
+        
+        /* Check the IO waitlist to see if
+         * their are processes sleeping.
+         */
+        while(listcur != &intwaitlist)
+        {
+            tempwaitlist = list_entry(listcur, struct waitlist, list);
+            LEVEL2(tempwaitlist->task, "Waking Up from Sleep");
+            activate_task(tempwaitlist->task);
+            listnext = listcur->next;
+            list_del(listcur);
+            free(tempwaitlist);
+            listcur = listnext;
+        }
+        
+        /* Notify that we need to reschedule! */
+        current->need_reschedule = 1;
+    }
+    
+    /* If a task needs rescheduling, alert! */
+    if(current->need_reschedule)
+        return(RESCHEDULE);
+    
+    return(0);
 }
 
 /*------------------ SYSTEM CALLS --------------------*/
@@ -364,19 +364,19 @@ static int interrupt()
  */
 void context_switch(struct task_struct *next)
 {
-	LEVEL1(next, "Switching Process In");
-	
-	if(TICKS_TO_MS(clocktick) == 8790)
-		printf("BREAK\n");
-	
-	/* If this is an interactive task,
-	 * set random chance for sleep.
-	 */
-	if(next->thread_info->thread_type == INTERACTIVE)
-		intWaitTimer = MS_TO_TICKS(rand() % (next->time_slice * HZ / 1000 + 100) + 5);
-	
-	/* Set new task as current */
-	current = next;
+    LEVEL1(next, "Switching Process In");
+    
+    if(TICKS_TO_MS(clocktick) == 8790)
+        printf("BREAK\n");
+    
+    /* If this is an interactive task,
+     * set random chance for sleep.
+     */
+    if(next->thread_info->thread_type == INTERACTIVE)
+        intWaitTimer = MS_TO_TICKS(rand() % (next->time_slice * HZ / 1000 + 100) + 5);
+    
+    /* Set new task as current */
+    current = next;
 }
 
 /* sched_clock
@@ -386,7 +386,7 @@ void context_switch(struct task_struct *next)
  */
 unsigned long long sched_clock()
 {
-	return(JIFFIES_TO_NS(jiffies));
+    return(JIFFIES_TO_NS(jiffies));
 }
 
 /*-------------------Local Methods-------------------*/
@@ -394,43 +394,43 @@ unsigned long long sched_clock()
 /* __init_sched
  * A pre-initialization function. Sets up
  * Initial tasks and runqueue for scheduler
- * before calling user's function to 
+ * before calling user's function to
  * setup custom queues.
  */
 static void __init_sched()
 {
-	struct task_struct *task;
-
-	/* Create Init Task */
-	task = createTask();
-	task->thread_info = createInfo("Init");
-	task->thread_info->thread_type = INIT;
-	task->thread_info->kill_time = -1;
-	task->prev = task->next = NULL;
-
-	INIT_LIST_HEAD(&task->thread_info->list);
-	//task->time_slice = task_timeslice(task);
-
-	/* Assign to global pointer for Config */
-	init = task;
-
-	/* Initialize Runqueue */
-	rq = (struct runqueue*)malloc(sizeof(struct runqueue));
-	rq->nr_running = 0;
-	rq->head = NULL;
-
-	
-	/* Initialize Scheduler */
-	initschedule(rq, init);
-	
-	/* Create Idle Task */
-	idle = createTask();
-	idle->thread_info = createInfo("IDLE");
-	processID--;
-	current = idle;
-	
-	/* Prepare List heads */
-	INIT_LIST_HEAD(&intwaitlist);
+    struct task_struct *task;
+    
+    /* Create Init Task */
+    task = createTask();
+    task->thread_info = createInfo("Init");
+    task->thread_info->thread_type = INIT;
+    task->thread_info->kill_time = -1;
+    task->prev = task->next = NULL;
+    
+    INIT_LIST_HEAD(&task->thread_info->list);
+    //task->time_slice = task_timeslice(task);
+    
+    /* Assign to global pointer for Config */
+    init = task;
+    
+    /* Initialize Runqueue */
+    rq = (struct runqueue*)malloc(sizeof(struct runqueue));
+    rq->nr_running = 0;
+    rq->head = NULL;
+    
+    
+    /* Initialize Scheduler */
+    initschedule(rq, init);
+    
+    /* Create Idle Task */
+    idle = createTask();
+    idle->thread_info = createInfo("IDLE");
+    processID--;
+    current = idle;
+    
+    /* Prepare List heads */
+    INIT_LIST_HEAD(&intwaitlist);
 }
 
 /* forktask
@@ -440,71 +440,71 @@ static void __init_sched()
  */
 static void forktask(struct thread_info *thread, struct task_struct *parent)
 {
-	struct task_struct *task;
-	char str[1024];
-	
-	task = createTask();
-	task->thread_info = thread;
-	task->thread_info->id = processID++;
-	task->thread_info->children = 0;
-	task->thread_info->kill = 0;
-	if (task->thread_info->work_duration != -1)
-		task->thread_info->work_duration = MS_TO_TICKS(task->thread_info->work_duration);
-	
-	/* Assigne Thread Name */
-	if(parent->thread_info->parent != NULL)
-		sprintf(str, "%s:(%s:%d)", parent->thread_info->processName, task->thread_info->processName, task->thread_info->id);
-	else
-		sprintf(str, "(%s:%d)", task->thread_info->processName, task->thread_info->id);
-
-	free(task->thread_info->processName);
-	task->thread_info->processName = (char*)malloc(strlen(str) + 1);
-	memcpy(task->thread_info->processName, str, strlen(str) + 1);
-
-	/* If the parent is not INIT, display parent info */
-	if(thread->parent != NULL)
-		thread->parent->children++;
-	
-//	/* Set NICE value */
-//	task->static_prio = NICE_TO_PRIO(task->thread_info->niceValue);
-	
-	/* Alert Creation */
-	printf("###-Process: %s has been created-###\n", thread->processName);
-	/* Fork process in Scheduler */
-	sched_fork(task);
-	/* Wake up the task */
-	wake_up_new_task(task);
-	/* Signal need for schedule call */
-	current->need_reschedule = 1;
+    struct task_struct *task;
+    char str[1024];
+    
+    task = createTask();
+    task->thread_info = thread;
+    task->thread_info->id = processID++;
+    task->thread_info->children = 0;
+    task->thread_info->kill = 0;
+    if (task->thread_info->work_duration != -1)
+        task->thread_info->work_duration = MS_TO_TICKS(task->thread_info->work_duration);
+    
+    /* Assigne Thread Name */
+    if(parent->thread_info->parent != NULL)
+        sprintf(str, "%s:(%s:%d)", parent->thread_info->processName, task->thread_info->processName, task->thread_info->id);
+    else
+        sprintf(str, "(%s:%d)", task->thread_info->processName, task->thread_info->id);
+    
+    free(task->thread_info->processName);
+    task->thread_info->processName = (char*)malloc(strlen(str) + 1);
+    memcpy(task->thread_info->processName, str, strlen(str) + 1);
+    
+    /* If the parent is not INIT, display parent info */
+    if(thread->parent != NULL)
+        thread->parent->children++;
+    
+    //	/* Set NICE value */
+    //	task->static_prio = NICE_TO_PRIO(task->thread_info->niceValue);
+    
+    /* Alert Creation */
+    printf("###-Process: %s has been created-###\n", thread->processName);
+    /* Fork process in Scheduler */
+    sched_fork(task);
+    /* Wake up the task */
+    wake_up_new_task(task);
+    /* Signal need for schedule call */
+    current->need_reschedule = 1;
 }
 
 /* taskEnd
- * Checks for an exit signal for the current 
+ * Checks for an exit signal for the current
  * running task.
  */
 static int taskEnd()
 {
-	/* Check to see if the time for this process to end
-	 * has passed.
-	 */
-	 if(current->thread_info->kill ||
-	    (current->thread_info->parent != NULL && current->thread_info->parent->kill) ||
-	    (current->thread_info->kill_time >= 0 && TICKS_TO_MS(clocktick) >= current->thread_info->kill_time) ||
-	    (current->thread_info->work_duration == 0)
-	   )
-	{
-		if(!current->thread_info->kill)
-			current->thread_info->kill = 1;
-		
-		if(current->thread_info->children == 0)
-		{
-			deactivate_task(current);
-			killtask(&current);
-			return(1);
-		}
-	}
-	
-	return(0);
+    /* Check to see if the time for this process to end
+     * has passed.
+     */
+    if(current->thread_info->kill ||
+       (current->thread_info->parent != NULL && current->thread_info->parent->kill) ||
+       (current->thread_info->kill_time >= 0 && TICKS_TO_MS(clocktick) >= current->thread_info->kill_time) ||
+       (current->thread_info->work_duration == 0)
+       )
+    {
+        if(!current->thread_info->kill)
+            current->thread_info->kill = 1;
+        
+        if(current->thread_info->children == 0)
+        {
+            deactivate_task(current);
+            killtask(&current);
+            return(1);
+        }
+    }
+    
+    return(0);
 }
 
 /* spawnChildren
@@ -512,32 +512,32 @@ static int taskEnd()
  */
 static void spawnChildren(struct task_struct *parent)
 {
-	struct list_head *child, *next;;
-	struct thread_info *temp;
-
-	/* Make sure the parent process can spawn */
-	if(parent->thread_info->spawns)
-	{
-		/* Run through the list of children to be spawned */
-		child = &parent->thread_info->list;
-		child = child->next;
-		while(child != &parent->thread_info->list)
-		{
-			/* If it is time to spawn a child,
-			 * spawn that child.
-			 */
-			temp = list_entry(child, struct thread_info, clist);
-			if(MS_TO_TICKS(temp->spawn_time) <= clocktick) 
-			{
-				forktask(temp, parent);
-				next = child;
-				child = child->next;
-				list_del(next);
-			}
-			else	
-				child = child->next;
-		}
-	}
+    struct list_head *child, *next;;
+    struct thread_info *temp;
+    
+    /* Make sure the parent process can spawn */
+    if(parent->thread_info->spawns)
+    {
+        /* Run through the list of children to be spawned */
+        child = &parent->thread_info->list;
+        child = child->next;
+        while(child != &parent->thread_info->list)
+        {
+            /* If it is time to spawn a child,
+             * spawn that child.
+             */
+            temp = list_entry(child, struct thread_info, clist);
+            if(MS_TO_TICKS(temp->spawn_time) <= clocktick)
+            {
+                forktask(temp, parent);
+                next = child;
+                child = child->next;
+                list_del(next);
+            }
+            else
+                child = child->next;
+        }
+    }
 }
 
 /* killtask
@@ -546,31 +546,31 @@ static void spawnChildren(struct task_struct *parent)
  */
 static void killtask(struct task_struct **p)
 {
-	struct task_struct *j = *p;
-
-	printf("###-Process: %s is going down-###\n", j->thread_info->processName); 
-
-	/* If task has a parent, decrement the parent's
-	 * count of running children.
-	 */
-	if(j->thread_info->parent != NULL)
-		j->thread_info->parent->children--;
-	
-	/* Free data structures */
-	free(j->thread_info->processName);
-	free(j->thread_info);
-	free(j);
-	
-	/* Set the idle task in place
-	 * of the current one so the
-	 * scheduler works correctly.
-	 */
-	*p = idle;
-	j = *p;
-	
-	/* If there are still tasks to be run, run them. */
-	if(rq->nr_running != 0)
-		j->need_reschedule = 1;
+    struct task_struct *j = *p;
+    
+    printf("###-Process: %s is going down-###\n", j->thread_info->processName); 
+    
+    /* If task has a parent, decrement the parent's
+     * count of running children.
+     */
+    if(j->thread_info->parent != NULL)
+        j->thread_info->parent->children--;
+    
+    /* Free data structures */
+    free(j->thread_info->processName);
+    free(j->thread_info);
+    free(j);
+    
+    /* Set the idle task in place
+     * of the current one so the
+     * scheduler works correctly.
+     */
+    *p = idle;
+    j = *p;
+    
+    /* If there are still tasks to be run, run them. */
+    if(rq->nr_running != 0)
+        j->need_reschedule = 1;
 }
 
 /* shutdowncpu
@@ -579,16 +579,16 @@ static void killtask(struct task_struct **p)
  */
 static void shutdowncpu()
 {
-  
-	free(idle->thread_info->processName);
-	free(idle->thread_info);
-	free(idle);
-	
-	/* Shuts down the scheduler */
-	killschedule();
-	/* Free the runqueue */
-//	free(rq);
-
+    
+    free(idle->thread_info->processName);
+    free(idle->thread_info);
+    free(idle);
+    
+    /* Shuts down the scheduler */
+    killschedule();
+    /* Free the runqueue */
+    //	free(rq);
+    
 }
 
 /* badshutdowncpu
@@ -597,12 +597,12 @@ static void shutdowncpu()
  */
 static void badshutdowncpu()
 {
-	cleanuptask(init->thread_info);
-	
-	if(init->thread_info->processName != NULL)
-		free(init->thread_info->processName);
-	free(init->thread_info);
-	free(init);
+    cleanuptask(init->thread_info);
+    
+    if(init->thread_info->processName != NULL)
+        free(init->thread_info->processName);
+    free(init->thread_info);
+    free(init);
 }
 
 /* cleanuptask
@@ -612,24 +612,24 @@ static void badshutdowncpu()
  */
 static void cleanuptask(struct thread_info *p)
 {
-	struct list_head *child, *next;
-	struct thread_info *temp;
-
-	child = &p->list;
-	child = child->next;
-	while(child != NULL && child != &p->list)
-	{
-		temp = list_entry(child, struct thread_info, clist);
-		next = child;
-		child = child->next;
-		list_del(next);
-		
-		/* Clean up task children */
-		cleanuptask(temp);
-		
-		/* Clean up this task */
-		if(temp->processName != NULL)
-			free(temp->processName);
-		free(temp);
-	}
+    struct list_head *child, *next;
+    struct thread_info *temp;
+    
+    child = &p->list;
+    child = child->next;
+    while(child != NULL && child != &p->list)
+    {
+        temp = list_entry(child, struct thread_info, clist);
+        next = child;
+        child = child->next;
+        list_del(next);
+        
+        /* Clean up task children */
+        cleanuptask(temp);
+        
+        /* Clean up this task */
+        if(temp->processName != NULL)
+            free(temp->processName);
+        free(temp);
+    }
 }
