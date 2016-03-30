@@ -29,14 +29,11 @@ struct task_struct
 										   NULL when the process is not in the
 										   runqueue */
 /* ---------------- Do NOT Touch END-------------- */
-
 	unsigned long long exp_burst;
 	unsigned long long burst;
 	unsigned long long goodness;
 	unsigned long long entry_time_RQ;
-	unsigned long long waiting_RQ;
 	int CPU;
-
 };
 
 /* runqueue */
@@ -44,7 +41,6 @@ struct runqueue {
     unsigned long    nr_running;			/* number of runnable tasks */
 	struct task_struct *head;
 };
-
 
 
 /*----------------------- System Calls ------------------------------*/

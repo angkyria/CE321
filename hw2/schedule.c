@@ -128,10 +128,8 @@ void print_rq () {
  */
 void schedule(){
 
-    static struct task_struct *nxt = NULL;
-    struct task_struct *curr, *test, *tmp, *min, *curr2, *max;
-    unsigned long long max_wait, min_exp_burst, currTime;
-    //long long start_burst, end_burst;
+    struct task_struct *curr, *test, *min, *max;
+    unsigned long long max_wait, min_exp_burst, curr_time;
 
     //printf("In schedule\n");
     //print_rq();
@@ -157,68 +155,52 @@ void schedule(){
 
     if (rq->nr_running == 1) {
         context_switch(rq->head);
-        nxt = rq->head->next;
+        current = rq->head->next;
 
     }else{
         if (current == rq->head) {
             current = current->next;
         }
-        /*curr = nxt;
-         nxt = nxt->next;
-         if (nxt == rq->head)    /* Do this to always skip init at the head
-         nxt = nxt->next;	/* of the queue, whenever there are other
-         /* processes available
-         */
-        /**********/
 
-        curr2 = rq->head->next;
-        min = curr2;
-        tmp = rq->head->next;
+        curr = rq->head->next;
+        min = curr;
 
-        while (curr2 != rq->head) {                     // finds minimum exp burst
-            if (min->exp_burst > curr2->exp_burst) {
-                min = curr2;
+        while (curr != rq->head) {                     // finds minimum exp burst
+            if (min->exp_burst > curr->exp_burst) {
+                min = curr;
             }
-            curr2 = curr2->next;
+            curr = curr->next;
         }
 
         min_exp_burst = min->exp_burst;
 
-        curr2 = rq->head->next;
-        max = curr2;
-        tmp = rq->head->next;
+        curr = rq->head->next;
+        max = curr;
 
-        currTime = sched_clock();
-        max_wait = currTime - max->entry_time_RQ;
-        while (curr2 != rq->head) {
-            if (currTime - max->entry_time_RQ < currTime - curr2->entry_time_RQ) {
-                max_wait = currTime - curr2->entry_time_RQ;
+        curr_time = sched_clock();
+        max_wait = curr_time - max->entry_time_RQ;
+        while (curr != rq->head) {
+            if (curr_time - max->entry_time_RQ < curr_time - curr->entry_time_RQ) {
+                max_wait = curr_time - curr->entry_time_RQ;
             }
-            curr2 = curr2->next;
+            curr = curr->next;
         }
-
-
-        /*else {
-            printf("[[CURR Hi iam the current(%s) process my burst:%lld exp_burst: %lld goodness: %lld\n",current->thread_info->processName, current->burst, current->exp_burst, current->goodness);
-            context_switch(current);
-        }*/
 
         end_burst=sched_clock();
         current->burst=end_burst-start_burst;
         current->exp_burst=( (current->burst + ( AGEING*current->exp_burst ) ) / (1+AGEING) );
 
-        current->goodness = ((1 + current->exp_burst)/(1 + min->exp_burst))*((1 + max_wait)/(1 + currTime - current->entry_time_RQ));
+        current->goodness = ((1 + current->exp_burst)/(1 + min->exp_burst))*((1 + max_wait)/(1 + curr_time - current->entry_time_RQ));
         printf("[[Hi iam the current(%s) process my burst:%lld exp_burst: %lld goodness: %lld\n",current->thread_info->processName, current->burst, current->exp_burst, current->goodness);
 
-        curr2 = rq->head->next;
-        min = curr2;
-        tmp = rq->head->next;
+        curr = rq->head->next;
+        min = curr;
 
-        while (curr2 != rq->head) {                 // finds minimum goodness
-            if (min->goodness > curr2->goodness) {
-                min = curr2;
+        while (curr != rq->head) {                 // finds minimum goodness
+            if (min->goodness > curr->goodness) {
+                min = curr;
             }
-            curr2 = curr2->next;
+            curr = curr->next;
         }
 
         if (min != current) {
@@ -227,10 +209,6 @@ void schedule(){
         }
 
         context_switch(min);
-
-
-        /**********/
-        /*context_switch(curr); */
 
     }
 
@@ -278,7 +256,6 @@ void sched_fork(struct task_struct *p)
  * for the task that is currently running.
  */
 void scheduler_tick(struct task_struct *p){
-
 
     schedule();
 
