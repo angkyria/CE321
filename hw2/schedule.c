@@ -130,9 +130,9 @@ void print_rq () {
 void schedule(){
 
     struct task_struct *curr, *test, *min, *max;
-    int max_wait, min_exp_burst, curr_time;
+    unsigned long long max_wait, min_exp_burst, curr_time;
 
-  
+
     if(current->CPU ==0){
 
         if(current!=rq->head){
@@ -183,13 +183,13 @@ void schedule(){
         }
 
         current->end_burst=curr_time;
-        
+
         current->exp_burst=( (current->burst + ( AGEING*current->exp_burst ) ) / (1+AGEING) );
 
 	    current->burst=current->end_burst-current->start_burst;
-        
+
         current->goodness = ((1 + current->exp_burst)/(1 + min->exp_burst))*((1 + max_wait)/(1 + curr_time - current->entry_time_RQ));
-       
+
 
         curr = rq->head->next;
         min = curr;
@@ -256,7 +256,7 @@ void scheduler_tick(struct task_struct *p){
  */
 void wake_up_new_task(struct task_struct *p)
 {
-	
+
     p->next = rq->head->next;
     p->prev = rq->head;
     p->next->prev = p;
