@@ -7,7 +7,7 @@
 #######################################
 
 # The C compiler
-CC = gcc-5
+CC = gcc
 
 # Put any flags for the C compiler here
 CFLAGS = -Wall -g
