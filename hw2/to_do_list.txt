@@ -1,8 +1,5 @@
-[ ] Study SJF algorithm
-[ ] Learn in-depth how the VM works
-[ ] What changes must be implemented and where
-[ ] What debugging options do we have
-	1)Time in the VM is imaginary and can be slowed down for debuging
-	2)Messages generated from CPU
+[ ] Verify correct VM oporation on Lab PCs with test cases
+[ ] Write report for project
+[ ] Bugcheck project 
 	
 
