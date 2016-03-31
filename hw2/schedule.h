@@ -31,10 +31,11 @@ struct task_struct
 /* ---------------- Do NOT Touch END-------------- */
 	unsigned long long exp_burst;
 	unsigned long long burst;
-	double goodness;
-	int entry_time_RQ;
-	int CPU;
+    unsigned long long waitingRQ;
+	unsigned long long goodness;
+	unsigned long long entry_time_RQ;
 	unsigned long long start_burst, end_burst;
+	int CPU;
 };
 
 /* runqueue */
