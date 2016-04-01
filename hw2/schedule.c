@@ -57,8 +57,6 @@ void initschedule(struct runqueue *newrq, struct task_struct *seedTask){
     seedTask->next = seedTask->prev = seedTask;
     newrq->head = seedTask;
     newrq->nr_running++;
-    printf("locatin of init %p\n", seedTask);
-
 }
 
 /* killschedule
@@ -68,41 +66,6 @@ void initschedule(struct runqueue *newrq, struct task_struct *seedTask){
  */
 void killschedule(){
 
-    /*struct task_struct *tmp, *curr;
-     struct thread_info *thread;
-     curr = rq->head;
-
-     while(curr->next != NULL){
-     curr = curr -> next;
-     }
-
-     while(curr->prev != NULL){
-
-     thread = curr->thread_info;
-     printf("Freed processes with Id: %d\n", thread->id);
-     tmp = curr->prev;
-     free(thread->type_struct);
-     free(thread->processName);
-     free(thread->parent);
-     free(thread);
-     free(curr);
-     curr = tmp;
-     }
-     thread = curr->thread_info;
-     printf("Freed processes with Id: %d\n", thread->id);
-     //free(thread->type_struct);
-     //free(thread->processName);
-     //free(thread->parent);
-     //free(thread);
-     free(curr);
-     if (rq->head==NULL){
-     printf("Noting in head of rq\n");
-     }else{
-
-     printf("my ponter location is %p\n", rq->head);
-     free(rq->head);
-
-     }*/
     return;
 }
 
@@ -173,7 +136,10 @@ void schedule(){
 
         curr_time = sched_clock();
         while (curr != rq->head) {
-            curr->waitingRQ=curr_time - curr->entry_time_RQ;
+            if(curr!=current){
+
+                curr->waitingRQ=curr_time - curr->entry_time_RQ;
+            }
             if (max->waitingRQ < curr->waitingRQ) {
                 max=curr;
             }
@@ -185,8 +151,6 @@ void schedule(){
         current->exp_burst=( (current->burst + ( AGEING*current->exp_burst ) ) / (1+AGEING) );
 
 	    current->burst=current->end_burst-current->start_burst;
-
-        //current->goodness = ((1 + current->exp_burst)/(1 + min->exp_burst))*((1 + max->waitingRQ)/(1 + current->waitingRQ));
 
 
         curr = rq->head->next;
@@ -202,16 +166,16 @@ void schedule(){
 
         if (min1 != current) {
 			min1->start_burst = sched_clock();
-			//current->end_burst = sched_clock();
             current->CPU = 0;
             printf("____________________\n");
-			printf("(%s) start_burst: %lld end_burst:%lld burst: %lld ext_burst:%lld waitingRQ: %lld goodness: %lld\n",current->thread_info->processName, current->start_burst, current->end_burst, current->burst, current->exp_burst, current->waitingRQ, current->goodness);
+            printf("max_waiting: %lld, min_exp_burst: %lld\n", max->waitingRQ, min->exp_burst);
+			printf("(%d) curr_time %lld ext_burst:%lld  waitingRQ:%lld goodness: %lld\n",current->thread_info->id, curr_time, current->exp_burst, current->waitingRQ, current->goodness);
 			curr = rq->head->next;
 			printf("\n---------------------\n");
 			printf("|        RQ         |\n");
 			printf("---------------------\n");
 			while (curr!= rq->head) {
-				 printf("(%s): start_burst: %lld end_burst:%lld burst: %lld ext_burst:%lld waitingRQ: %lld goodness: %lld \n",curr->thread_info->processName, curr->start_burst, curr->end_burst, curr->burst, curr->exp_burst, curr->waitingRQ, curr->goodness);
+				 printf("(%d): ext_burst:%lld waitingRQ: %lld goodness: %lld \n",curr->thread_info->id, curr->exp_burst, curr->waitingRQ, curr->goodness);
 				 curr=curr->next;
 			}
 			printf("|                   |\n");
