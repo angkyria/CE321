@@ -31,3 +31,6 @@ sjf_sched
 
 # Debug files
 *.dSYM/
+
+#Other files
+*.txt~
