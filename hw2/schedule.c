@@ -66,6 +66,8 @@ void initschedule(struct runqueue *newrq, struct task_struct *seedTask){
  */
 void killschedule(){
 
+    free(rq->head);
+
     return;
 }
 
@@ -92,14 +94,13 @@ void print_rq () {
  */
 void schedule(){
 
-    struct task_struct *curr, *min, *max, *min1;
+    struct task_struct *curr, *min_exp_burst, *max_waiting, *min_goodness;
     unsigned long long curr_time;
 
 
     if(current->CPU ==0){
 
         if(current!=rq->head){
-           // start_burst = sched_clock();
             current->CPU = 1;
         }
 
@@ -121,27 +122,27 @@ void schedule(){
         }
 
         curr = rq->head->next;
-        min = curr;
+        min_exp_burst = curr;
 
-        while (curr != rq->head) {                     // finds minimum exp burst
-            if (min->exp_burst > curr->exp_burst) {
-                min = curr;
+        while (curr != rq->head) {                     /* finds minimum exp burst*/
+            if (min_exp_burst->exp_burst > curr->exp_burst) {
+                min_exp_burst = curr;
             }
             curr = curr->next;
         }
 
 
         curr = rq->head->next;
-        max=curr;
+        max_waiting=curr;
 
         curr_time = sched_clock();
-        while (curr != rq->head) {
+        while (curr != rq->head) {                  /*finds max waiting time in rq*/
             if(curr!=current){
 
                 curr->waitingRQ=curr_time - curr->entry_time_RQ;
             }
-            if (max->waitingRQ < curr->waitingRQ) {
-                max=curr;
+            if (max_waiting->waitingRQ < curr->waitingRQ) {
+                max_waiting=curr;
             }
             curr = curr->next;
         }
@@ -154,21 +155,21 @@ void schedule(){
 
 
         curr = rq->head->next;
-        min1 = curr;
+        min_goodness = curr;
 
-        while (curr != rq->head) {                 // finds minimum goodness
-            curr->goodness= ((1 + curr->exp_burst)/(1 + min->exp_burst))*((1 + max->waitingRQ)/(1 + curr->waitingRQ)); 
-            if (min1->goodness > curr->goodness) {
-                min1 = curr;
+        while (curr != rq->head) {                 /* finds minimum goodness*/
+            curr->goodness= ((1 + curr->exp_burst)/(1 + min_exp_burst->exp_burst))*((1 + max_waiting->waitingRQ)/(1 + curr->waitingRQ));
+            if (min_goodness->goodness > curr->goodness) {
+                min_goodness = curr;
             }
             curr = curr->next;
         }
 
-        if (min1 != current) {
-			min1->start_burst = sched_clock();
+        if (min_goodness != current) {
+			min_goodness->start_burst = sched_clock();
             current->CPU = 0;
             printf("____________________\n");
-            printf("max_waiting: %lld, min_exp_burst: %lld\n", max->waitingRQ, min->exp_burst);
+            printf("max_waiting: %lld, min_exp_burst: %lld\n", max_waiting->waitingRQ, min_exp_burst->exp_burst);
 			printf("(%d) curr_time %lld ext_burst:%lld  waitingRQ:%lld goodness: %lld\n",current->thread_info->id, curr_time, current->exp_burst, current->waitingRQ, current->goodness);
 			curr = rq->head->next;
 			printf("\n---------------------\n");
@@ -180,7 +181,7 @@ void schedule(){
 			}
 			printf("|                   |\n");
 			printf("---------------------\n");
-			context_switch(min1);
+			context_switch(min_goodness);
         }
     }
 }
