@@ -1,5 +1,5 @@
 /* privatestruct
- * This file contains data structures that are 
+ * This file contains data structures that are
  * exclusively for the VM, and should not be
  * accessible to the scheduler.
  */
@@ -16,22 +16,20 @@
 
 struct thread_info
 {
-	int id;
-	int spawn_time;
-	int kill_time;
-	int niceValue;
-	int spawns;
-	int children;
-	int kill;
-	long long int work_duration;
-	int thread_type;
-	void *type_struct;
-	char *processName;
-	struct thread_info *parent;
-	struct list_head list;
-	struct list_head clist;
-    unsigned long long exp_burst;
-    unsigned long long burst;
+    int id;
+    int spawn_time;
+    int kill_time;
+    int niceValue;
+    int spawns;
+    int children;
+    int kill;
+    long long int work_duration;
+    int thread_type;
+    void *type_struct;
+    char *processName;
+    struct thread_info *parent;
+    struct list_head list;
+    struct list_head clist;
 };
 
 #endif
