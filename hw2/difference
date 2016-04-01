@@ -1,0 +1,1002 @@
+20,33c20
+< ____________________
+< max_waiting: 30000000, min_exp_burst: 6666666
+< (2) curr_time 60000000 ext_burst:6666666  waitingRQ:0 goodness: 30000001
+< 
+< ---------------------
+< |        RQ         |
+< ---------------------
+< (2): ext_burst:6666666 waitingRQ: 0 goodness: 30000001 
+< (1): ext_burst:33333333 waitingRQ: 30000000 goodness: 4 
+< |                   |
+< ---------------------
+< (Gatakia:1)/0/59ms - Switching Process In
+< ###-Process: (Gatakia:1):(NoNInteractive:3) has been created-###
+< ###-Process: (Skilakia:4) has been created-###
+---
+> ###-Process: (Skilakia:3) has been created-###
+36,92c23
+< (1) curr_time 60000000 ext_burst:37777777  waitingRQ:30000000 goodness: 37777778
+< 
+< ---------------------
+< |        RQ         |
+< ---------------------
+< (4): ext_burst:0 waitingRQ: 0 goodness: 30000001 
+< (3): ext_burst:0 waitingRQ: 0 goodness: 30000001 
+< (2): ext_burst:6666666 waitingRQ: 20000000 goodness: 6666667 
+< (1): ext_burst:37777777 waitingRQ: 30000000 goodness: 37777778 
+< |                   |
+< ---------------------
+< (Papakia:2)/0/60ms - Switching Process In
+< ____________________
+< max_waiting: 40000000, min_exp_burst: 0
+< (2) curr_time 70000000 ext_burst:15555555  waitingRQ:20000000 goodness: 15555556
+< 
+< ---------------------
+< |        RQ         |
+< ---------------------
+< (4): ext_burst:0 waitingRQ: 10000000 goodness: 3 
+< (3): ext_burst:0 waitingRQ: 10000000 goodness: 3 
+< (2): ext_burst:15555555 waitingRQ: 20000000 goodness: 15555556 
+< (1): ext_burst:37777777 waitingRQ: 40000000 goodness: 37777778 
+< |                   |
+< ---------------------
+< (Skilakia:4)/0/69ms - Switching Process In
+< ____________________
+< max_waiting: 50000000, min_exp_burst: 0
+< (4) curr_time 80000000 ext_burst:0  waitingRQ:10000000 goodness: 4
+< 
+< ---------------------
+< |        RQ         |
+< ---------------------
+< (4): ext_burst:0 waitingRQ: 10000000 goodness: 4 
+< (3): ext_burst:0 waitingRQ: 20000000 goodness: 2 
+< (2): ext_burst:15555555 waitingRQ: 40000000 goodness: 15555556 
+< (1): ext_burst:37777777 waitingRQ: 50000000 goodness: 37777778 
+< |                   |
+< ---------------------
+< (Gatakia:1):(NoNInteractive:3)/0/79ms - Switching Process In
+< ____________________
+< max_waiting: 60000000, min_exp_burst: 0
+< (3) curr_time 90000000 ext_burst:0  waitingRQ:20000000 goodness: 2
+< 
+< ---------------------
+< |        RQ         |
+< ---------------------
+< (4): ext_burst:0 waitingRQ: 30000000 goodness: 1 
+< (3): ext_burst:0 waitingRQ: 20000000 goodness: 2 
+< (2): ext_burst:15555555 waitingRQ: 50000000 goodness: 15555556 
+< (1): ext_burst:37777777 waitingRQ: 60000000 goodness: 37777778 
+< |                   |
+< ---------------------
+< (Skilakia:4)/0/89ms - Switching Process In
+< ____________________
+< max_waiting: 70000000, min_exp_burst: 6666666
+< (4) curr_time 100000000 ext_burst:6666666  waitingRQ:30000000 goodness: 2
+---
+> (2) curr_time 60000000 ext_burst:15555555  waitingRQ:0 goodness: 15555556
+97,100c28,30
+< (4): ext_burst:6666666 waitingRQ: 30000000 goodness: 2 
+< (3): ext_burst:0 waitingRQ: 40000000 goodness: 0 
+< (2): ext_burst:15555555 waitingRQ: 60000000 goodness: 2 
+< (1): ext_burst:37777777 waitingRQ: 70000000 goodness: 5 
+---
+> (3): ext_burst:0 waitingRQ: 0 goodness: 1 
+> (2): ext_burst:15555555 waitingRQ: 0 goodness: 15555556 
+> (1): ext_burst:33333333 waitingRQ: 30000000 goodness: 33333334 
+103c33
+< (Gatakia:1):(NoNInteractive:3)/0/99ms - Switching Process In
+---
+> (Skilakia:3)/0/60ms - Switching Process In
+105,106c35,36
+< max_waiting: 80000000, min_exp_burst: 6666666
+< (3) curr_time 110000000 ext_burst:6666666  waitingRQ:40000000 goodness: 1
+---
+> max_waiting: 70000000, min_exp_burst: 25185185
+> (3) curr_time 100000000 ext_burst:25185185  waitingRQ:0 goodness: 1
+111,114c41,43
+< (4): ext_burst:6666666 waitingRQ: 50000000 goodness: 1 
+< (3): ext_burst:6666666 waitingRQ: 40000000 goodness: 1 
+< (2): ext_burst:15555555 waitingRQ: 70000000 goodness: 2 
+< (1): ext_burst:37777777 waitingRQ: 80000000 goodness: 5 
+---
+> (3): ext_burst:25185185 waitingRQ: 0 goodness: 1 
+> (2): ext_burst:15555555 waitingRQ: 60000000 goodness: 0 
+> (1): ext_burst:33333333 waitingRQ: 70000000 goodness: 1 
+117c46
+< (Skilakia:4)/0/109ms - Switching Process In
+---
+> (Papakia:2)/0/99ms - Switching Process In
+119,120c48,49
+< max_waiting: 90000000, min_exp_burst: 8888888
+< (4) curr_time 120000000 ext_burst:8888888  waitingRQ:50000000 goodness: 1
+---
+> max_waiting: 80000000, min_exp_burst: 18518518
+> (2) curr_time 110000000 ext_burst:18518518  waitingRQ:60000000 goodness: 1
+125,128c54,56
+< (4): ext_burst:8888888 waitingRQ: 50000000 goodness: 1 
+< (3): ext_burst:6666666 waitingRQ: 60000000 goodness: 0 
+< (2): ext_burst:15555555 waitingRQ: 80000000 goodness: 1 
+< (1): ext_burst:37777777 waitingRQ: 90000000 goodness: 4 
+---
+> (3): ext_burst:25185185 waitingRQ: 50000000 goodness: 1 
+> (2): ext_burst:18518518 waitingRQ: 60000000 goodness: 1 
+> (1): ext_burst:33333333 waitingRQ: 80000000 goodness: 1 
+131c59
+< (Gatakia:1):(NoNInteractive:3)/0/119ms - Switching Process In
+---
+> (Skilakia:3)/0/109ms - Switching Process In
+133,134c61,62
+< max_waiting: 100000000, min_exp_burst: 8888888
+< (3) curr_time 130000000 ext_burst:8888888  waitingRQ:60000000 goodness: 1
+---
+> max_waiting: 110000000, min_exp_burst: 19451303
+> (3) curr_time 140000000 ext_burst:19451303  waitingRQ:50000000 goodness: 1
+139,142c67,69
+< (4): ext_burst:8888888 waitingRQ: 70000000 goodness: 1 
+< (3): ext_burst:8888888 waitingRQ: 60000000 goodness: 1 
+< (2): ext_burst:15555555 waitingRQ: 90000000 goodness: 1 
+< (1): ext_burst:37777777 waitingRQ: 100000000 goodness: 4 
+---
+> (3): ext_burst:19451303 waitingRQ: 50000000 goodness: 1 
+> (2): ext_burst:18518518 waitingRQ: 100000000 goodness: 0 
+> (1): ext_burst:33333333 waitingRQ: 110000000 goodness: 1 
+145,146c72
+< (Skilakia:4)/0/129ms - Switching Process In
+< 	(Skilakia:4)/0/134ms - Going to Sleep
+---
+> (Papakia:2)/0/139ms - Switching Process In
+148,149c74,75
+< max_waiting: 100000000, min_exp_burst: 8888888
+< (4) curr_time 130000000 ext_burst:9629629  waitingRQ:70000000 goodness: 1
+---
+> max_waiting: 120000000, min_exp_burst: 12839506
+> (2) curr_time 150000000 ext_burst:12839506  waitingRQ:100000000 goodness: 1
+154,156c80,82
+< (3): ext_burst:8888888 waitingRQ: 70000000 goodness: 1 
+< (2): ext_burst:15555555 waitingRQ: 90000000 goodness: 1 
+< (1): ext_burst:37777777 waitingRQ: 100000000 goodness: 4 
+---
+> (3): ext_burst:19451303 waitingRQ: 90000000 goodness: 1 
+> (2): ext_burst:12839506 waitingRQ: 100000000 goodness: 1 
+> (1): ext_burst:33333333 waitingRQ: 120000000 goodness: 2 
+159c85
+< (Gatakia:1):(NoNInteractive:3)/0/135ms - Switching Process In
+---
+> (Skilakia:3)/0/149ms - Switching Process In
+161,162c87,88
+< max_waiting: 130000000, min_exp_burst: 16625514
+< (3) curr_time 160000000 ext_burst:16625514  waitingRQ:70000000 goodness: 1
+---
+> max_waiting: 130000000, min_exp_burst: 12839506
+> (3) curr_time 160000000 ext_burst:26483767  waitingRQ:90000000 goodness: 2
+167,169c93,95
+< (3): ext_burst:16625514 waitingRQ: 70000000 goodness: 1 
+< (2): ext_burst:15555555 waitingRQ: 120000000 goodness: 0 
+< (1): ext_burst:37777777 waitingRQ: 130000000 goodness: 2 
+---
+> (3): ext_burst:26483767 waitingRQ: 90000000 goodness: 2 
+> (2): ext_burst:12839506 waitingRQ: 120000000 goodness: 1 
+> (1): ext_burst:33333333 waitingRQ: 130000000 goodness: 2 
+174,175c100,101
+< max_waiting: 140000000, min_exp_burst: 11851851
+< (2) curr_time 170000000 ext_burst:11851851  waitingRQ:120000000 goodness: 1
+---
+> max_waiting: 160000000, min_exp_burst: 16771833
+> (2) curr_time 190000000 ext_burst:16771833  waitingRQ:120000000 goodness: 1
+180,182c106,108
+< (3): ext_burst:16625514 waitingRQ: 110000000 goodness: 1 
+< (2): ext_burst:11851851 waitingRQ: 120000000 goodness: 1 
+< (1): ext_burst:37777777 waitingRQ: 140000000 goodness: 3 
+---
+> (3): ext_burst:26483767 waitingRQ: 130000000 goodness: 1 
+> (2): ext_burst:16771833 waitingRQ: 120000000 goodness: 1 
+> (1): ext_burst:33333333 waitingRQ: 160000000 goodness: 1 
+185c111,112
+< (Gatakia:1):(NoNInteractive:3)/0/169ms - Switching Process In
+---
+> (Skilakia:3)/0/189ms - Switching Process In
+> 	(Skilakia:3)/0/194ms - Going to Sleep
+187,188c114,115
+< max_waiting: 150000000, min_exp_burst: 11851851
+< (3) curr_time 180000000 ext_burst:25541838  waitingRQ:110000000 goodness: 2
+---
+> max_waiting: 160000000, min_exp_burst: 16771833
+> (3) curr_time 190000000 ext_burst:15494589  waitingRQ:130000000 goodness: 1
+193,195c120,121
+< (3): ext_burst:25541838 waitingRQ: 110000000 goodness: 2 
+< (2): ext_burst:11851851 waitingRQ: 140000000 goodness: 1 
+< (1): ext_burst:37777777 waitingRQ: 150000000 goodness: 3 
+---
+> (2): ext_burst:16771833 waitingRQ: 150000000 goodness: 1 
+> (1): ext_burst:33333333 waitingRQ: 160000000 goodness: 1 
+198c124
+< (Papakia:2)/0/179ms - Switching Process In
+---
+> (Papakia:2)/0/195ms - Switching Process In
+200,201c126,127
+< max_waiting: 180000000, min_exp_burst: 16735253
+< (2) curr_time 210000000 ext_burst:16735253  waitingRQ:140000000 goodness: 1
+---
+> max_waiting: 210000000, min_exp_burst: 35377661
+> (2) curr_time 240000000 ext_burst:35377661  waitingRQ:150000000 goodness: 1
+206,208c132,133
+< (3): ext_burst:25541838 waitingRQ: 150000000 goodness: 1 
+< (2): ext_burst:16735253 waitingRQ: 140000000 goodness: 1 
+< (1): ext_burst:37777777 waitingRQ: 180000000 goodness: 2 
+---
+> (2): ext_burst:35377661 waitingRQ: 150000000 goodness: 1 
+> (1): ext_burst:33333333 waitingRQ: 210000000 goodness: 0 
+211c136,137
+< (Gatakia:1):(NoNInteractive:3)/0/209ms - Switching Process In
+---
+> (Gatakia:1)/0/239ms - Switching Process In
+> ###-Process: (Gatakia:1):(NoNInteractive:4) has been created-###
+213,214c139,140
+< max_waiting: 210000000, min_exp_burst: 17242290
+< (3) curr_time 240000000 ext_burst:17242290  waitingRQ:150000000 goodness: 1
+---
+> max_waiting: 210000000, min_exp_burst: 0
+> (1) curr_time 240000000 ext_burst:37777777  waitingRQ:210000000 goodness: 37777778
+219,221c145,147
+< (3): ext_burst:17242290 waitingRQ: 150000000 goodness: 1 
+< (2): ext_burst:16735253 waitingRQ: 200000000 goodness: 0 
+< (1): ext_burst:37777777 waitingRQ: 210000000 goodness: 2 
+---
+> (4): ext_burst:0 waitingRQ: 0 goodness: 1 
+> (2): ext_burst:35377661 waitingRQ: 200000000 goodness: 35377662 
+> (1): ext_burst:37777777 waitingRQ: 210000000 goodness: 37777778 
+224c150
+< (Papakia:2)/0/239ms - Switching Process In
+---
+> (Gatakia:1):(NoNInteractive:4)/0/240ms - Switching Process In
+226,227c152,153
+< max_waiting: 220000000, min_exp_burst: 25578417
+< (2) curr_time 250000000 ext_burst:25578417  waitingRQ:200000000 goodness: 1
+---
+> max_waiting: 270000000, min_exp_burst: 45020576
+> (4) curr_time 300000000 ext_burst:45020576  waitingRQ:0 goodness: 1
+232,273c158,160
+< (3): ext_burst:17242290 waitingRQ: 190000000 goodness: 0 
+< (2): ext_burst:25578417 waitingRQ: 200000000 goodness: 1 
+< (1): ext_burst:37777777 waitingRQ: 220000000 goodness: 1 
+< |                   |
+< ---------------------
+< (Gatakia:1):(NoNInteractive:3)/0/249ms - Switching Process In
+< ____________________
+< max_waiting: 230000000, min_exp_burst: 25747430
+< (3) curr_time 260000000 ext_burst:25747430  waitingRQ:190000000 goodness: 1
+< 
+< ---------------------
+< |        RQ         |
+< ---------------------
+< (3): ext_burst:25747430 waitingRQ: 190000000 goodness: 1 
+< (2): ext_burst:25578417 waitingRQ: 220000000 goodness: 0 
+< (1): ext_burst:37777777 waitingRQ: 230000000 goodness: 1 
+< |                   |
+< ---------------------
+< (Papakia:2)/0/259ms - Switching Process In
+< ____________________
+< max_waiting: 240000000, min_exp_burst: 15192805
+< (2) curr_time 270000000 ext_burst:15192805  waitingRQ:220000000 goodness: 1
+< 
+< ---------------------
+< |        RQ         |
+< ---------------------
+< (3): ext_burst:25747430 waitingRQ: 210000000 goodness: 1 
+< (2): ext_burst:15192805 waitingRQ: 220000000 goodness: 1 
+< (1): ext_burst:37777777 waitingRQ: 240000000 goodness: 2 
+< |                   |
+< ---------------------
+< (Gatakia:1):(NoNInteractive:3)/0/269ms - Switching Process In
+< ____________________
+< max_waiting: 270000000, min_exp_burst: 17249904
+< (3) curr_time 300000000 ext_burst:17249904  waitingRQ:210000000 goodness: 1
+< 
+< ---------------------
+< |        RQ         |
+< ---------------------
+< (3): ext_burst:17249904 waitingRQ: 210000000 goodness: 1 
+< (2): ext_burst:15192805 waitingRQ: 260000000 goodness: 0 
+< (1): ext_burst:37777777 waitingRQ: 270000000 goodness: 2 
+---
+> (4): ext_burst:45020576 waitingRQ: 0 goodness: 1 
+> (2): ext_burst:35377661 waitingRQ: 260000000 goodness: 0 
+> (1): ext_burst:37777777 waitingRQ: 270000000 goodness: 0 
+278,331c165,166
+< max_waiting: 280000000, min_exp_burst: 11730935
+< (2) curr_time 310000000 ext_burst:11730935  waitingRQ:260000000 goodness: 1
+< 
+< ---------------------
+< |        RQ         |
+< ---------------------
+< (3): ext_burst:17249904 waitingRQ: 250000000 goodness: 1 
+< (2): ext_burst:11730935 waitingRQ: 260000000 goodness: 1 
+< (1): ext_burst:37777777 waitingRQ: 280000000 goodness: 3 
+< |                   |
+< ---------------------
+< (Gatakia:1):(NoNInteractive:3)/0/309ms - Switching Process In
+< ____________________
+< max_waiting: 290000000, min_exp_burst: 11730935
+< (3) curr_time 320000000 ext_burst:25749968  waitingRQ:250000000 goodness: 2
+< 
+< ---------------------
+< |        RQ         |
+< ---------------------
+< (3): ext_burst:25749968 waitingRQ: 250000000 goodness: 2 
+< (2): ext_burst:11730935 waitingRQ: 280000000 goodness: 1 
+< (1): ext_burst:37777777 waitingRQ: 290000000 goodness: 3 
+< |                   |
+< ---------------------
+< (Papakia:2)/0/319ms - Switching Process In
+< ____________________
+< max_waiting: 320000000, min_exp_burst: 16730775
+< (2) curr_time 350000000 ext_burst:16730775  waitingRQ:280000000 goodness: 1
+< 
+< ---------------------
+< |        RQ         |
+< ---------------------
+< (3): ext_burst:25749968 waitingRQ: 290000000 goodness: 1 
+< (2): ext_burst:16730775 waitingRQ: 280000000 goodness: 1 
+< (1): ext_burst:37777777 waitingRQ: 320000000 goodness: 2 
+< |                   |
+< ---------------------
+< (Gatakia:1):(NoNInteractive:3)/0/349ms - Switching Process In
+< ____________________
+< max_waiting: 350000000, min_exp_burst: 17249998
+< (3) curr_time 380000000 ext_burst:17249998  waitingRQ:290000000 goodness: 1
+< 
+< ---------------------
+< |        RQ         |
+< ---------------------
+< (3): ext_burst:17249998 waitingRQ: 290000000 goodness: 1 
+< (2): ext_burst:16730775 waitingRQ: 340000000 goodness: 0 
+< (1): ext_burst:37777777 waitingRQ: 350000000 goodness: 2 
+< |                   |
+< ---------------------
+< (Papakia:2)/0/379ms - Switching Process In
+< ____________________
+< max_waiting: 360000000, min_exp_burst: 25576925
+< (2) curr_time 390000000 ext_burst:25576925  waitingRQ:340000000 goodness: 1
+---
+> max_waiting: 280000000, min_exp_burst: 45125887
+> (2) curr_time 310000000 ext_burst:45125887  waitingRQ:260000000 goodness: 1
+336,338c171,173
+< (3): ext_burst:17249998 waitingRQ: 330000000 goodness: 0 
+< (2): ext_burst:25576925 waitingRQ: 340000000 goodness: 1 
+< (1): ext_burst:37777777 waitingRQ: 360000000 goodness: 1 
+---
+> (4): ext_burst:45020576 waitingRQ: 70000000 goodness: 0 
+> (2): ext_burst:45125887 waitingRQ: 260000000 goodness: 1 
+> (1): ext_burst:37777777 waitingRQ: 280000000 goodness: 0 
+341c176
+< (Gatakia:1):(NoNInteractive:3)/0/389ms - Switching Process In
+---
+> (Gatakia:1):(NoNInteractive:4)/0/309ms - Switching Process In
+343,344c178,179
+< max_waiting: 370000000, min_exp_burst: 25749999
+< (3) curr_time 400000000 ext_burst:25749999  waitingRQ:330000000 goodness: 1
+---
+> max_waiting: 340000000, min_exp_burst: 45246941
+> (4) curr_time 370000000 ext_burst:45246941  waitingRQ:70000000 goodness: 1
+349,351c184,186
+< (3): ext_burst:25749999 waitingRQ: 330000000 goodness: 1 
+< (2): ext_burst:25576925 waitingRQ: 360000000 goodness: 0 
+< (1): ext_burst:37777777 waitingRQ: 370000000 goodness: 1 
+---
+> (4): ext_burst:45246941 waitingRQ: 70000000 goodness: 1 
+> (2): ext_burst:45125887 waitingRQ: 330000000 goodness: 0 
+> (1): ext_burst:37777777 waitingRQ: 340000000 goodness: 0 
+354c189
+< (Papakia:2)/0/399ms - Switching Process In
+---
+> (Papakia:2)/0/369ms - Switching Process In
+356,357c191,192
+< max_waiting: 380000000, min_exp_burst: 15192308
+< (2) curr_time 410000000 ext_burst:15192308  waitingRQ:360000000 goodness: 1
+---
+> max_waiting: 380000000, min_exp_burst: 25989208
+> (2) curr_time 410000000 ext_burst:25989208  waitingRQ:330000000 goodness: 1
+362,364c197,199
+< (3): ext_burst:25749999 waitingRQ: 350000000 goodness: 1 
+< (2): ext_burst:15192308 waitingRQ: 360000000 goodness: 1 
+< (1): ext_burst:37777777 waitingRQ: 380000000 goodness: 2 
+---
+> (4): ext_burst:45246941 waitingRQ: 170000000 goodness: 1 
+> (2): ext_burst:25989208 waitingRQ: 330000000 goodness: 1 
+> (1): ext_burst:37777777 waitingRQ: 380000000 goodness: 1 
+367c202
+< (Gatakia:1):(NoNInteractive:3)/0/409ms - Switching Process In
+---
+> (Gatakia:1):(NoNInteractive:4)/0/409ms - Switching Process In
+369,370c204,205
+< max_waiting: 410000000, min_exp_burst: 17249999
+< (3) curr_time 440000000 ext_burst:17249999  waitingRQ:350000000 goodness: 1
+---
+> max_waiting: 390000000, min_exp_burst: 25989208
+> (4) curr_time 420000000 ext_burst:55082313  waitingRQ:170000000 goodness: 2
+375,377c210,212
+< (3): ext_burst:17249999 waitingRQ: 350000000 goodness: 1 
+< (2): ext_burst:15192308 waitingRQ: 400000000 goodness: 0 
+< (1): ext_burst:37777777 waitingRQ: 410000000 goodness: 2 
+---
+> (4): ext_burst:55082313 waitingRQ: 170000000 goodness: 2 
+> (2): ext_burst:25989208 waitingRQ: 380000000 goodness: 1 
+> (1): ext_burst:37777777 waitingRQ: 390000000 goodness: 1 
+380c215
+< (Papakia:2)/0/439ms - Switching Process In
+---
+> (Papakia:2)/0/419ms - Switching Process In
+382,383c217,218
+< max_waiting: 420000000, min_exp_burst: 11730769
+< (2) curr_time 450000000 ext_burst:11730769  waitingRQ:400000000 goodness: 1
+---
+> max_waiting: 400000000, min_exp_burst: 35329736
+> (2) curr_time 430000000 ext_burst:35329736  waitingRQ:380000000 goodness: 1
+388,390c223,225
+< (3): ext_burst:17249999 waitingRQ: 390000000 goodness: 1 
+< (2): ext_burst:11730769 waitingRQ: 400000000 goodness: 1 
+< (1): ext_burst:37777777 waitingRQ: 420000000 goodness: 3 
+---
+> (4): ext_burst:55082313 waitingRQ: 190000000 goodness: 1 
+> (2): ext_burst:35329736 waitingRQ: 380000000 goodness: 1 
+> (1): ext_burst:37777777 waitingRQ: 400000000 goodness: 1 
+393c228
+< (Gatakia:1):(NoNInteractive:3)/0/449ms - Switching Process In
+---
+> (Gatakia:1):(NoNInteractive:4)/0/429ms - Switching Process In
+395,396c230,231
+< max_waiting: 430000000, min_exp_burst: 11730769
+< (3) curr_time 460000000 ext_burst:25749999  waitingRQ:390000000 goodness: 2
+---
+> max_waiting: 450000000, min_exp_burst: 35370709
+> (4) curr_time 480000000 ext_burst:35370709  waitingRQ:190000000 goodness: 1
+401,403c236,238
+< (3): ext_burst:25749999 waitingRQ: 390000000 goodness: 2 
+< (2): ext_burst:11730769 waitingRQ: 420000000 goodness: 1 
+< (1): ext_burst:37777777 waitingRQ: 430000000 goodness: 3 
+---
+> (4): ext_burst:35370709 waitingRQ: 190000000 goodness: 1 
+> (2): ext_burst:35329736 waitingRQ: 440000000 goodness: 0 
+> (1): ext_burst:37777777 waitingRQ: 450000000 goodness: 1 
+406c241
+< (Papakia:2)/0/459ms - Switching Process In
+---
+> (Papakia:2)/0/479ms - Switching Process In
+408,409c243,244
+< max_waiting: 460000000, min_exp_burst: 16730769
+< (2) curr_time 490000000 ext_burst:16730769  waitingRQ:420000000 goodness: 1
+---
+> max_waiting: 460000000, min_exp_burst: 18443245
+> (2) curr_time 490000000 ext_burst:18443245  waitingRQ:440000000 goodness: 1
+414,415c249,250
+< (3): ext_burst:25749999 waitingRQ: 430000000 goodness: 1 
+< (2): ext_burst:16730769 waitingRQ: 420000000 goodness: 1 
+---
+> (4): ext_burst:35370709 waitingRQ: 250000000 goodness: 1 
+> (2): ext_burst:18443245 waitingRQ: 440000000 goodness: 1 
+419c254
+< (Gatakia:1):(NoNInteractive:3)/0/489ms - Switching Process In
+---
+> (Gatakia:1):(NoNInteractive:4)/0/489ms - Switching Process In
+421,422c256,257
+< max_waiting: 490000000, min_exp_burst: 17249999
+< (3) curr_time 520000000 ext_burst:17249999  waitingRQ:430000000 goodness: 1
+---
+> max_waiting: 470000000, min_exp_burst: 18443245
+> (4) curr_time 500000000 ext_burst:45123569  waitingRQ:250000000 goodness: 2
+427,429c262,264
+< (3): ext_burst:17249999 waitingRQ: 430000000 goodness: 1 
+< (2): ext_burst:16730769 waitingRQ: 480000000 goodness: 0 
+< (1): ext_burst:37777777 waitingRQ: 490000000 goodness: 2 
+---
+> (4): ext_burst:45123569 waitingRQ: 250000000 goodness: 2 
+> (2): ext_burst:18443245 waitingRQ: 460000000 goodness: 1 
+> (1): ext_burst:37777777 waitingRQ: 470000000 goodness: 2 
+432c267,269
+< (Papakia:2)/0/519ms - Switching Process In
+---
+> (Papakia:2)/0/499ms - Switching Process In
+> CDA: thread (Papakia:2) finished
+> ###-Process: (Papakia:2) is going down-###
+434,435c271,272
+< max_waiting: 500000000, min_exp_burst: 25576923
+< (2) curr_time 530000000 ext_burst:25576923  waitingRQ:480000000 goodness: 1
+---
+> max_waiting: 480000000, min_exp_burst: 37777777
+> (1) curr_time 510000000 ext_burst:0  waitingRQ:0 goodness: 0
+440,442c277,278
+< (3): ext_burst:17249999 waitingRQ: 470000000 goodness: 0 
+< (2): ext_burst:25576923 waitingRQ: 480000000 goodness: 1 
+< (1): ext_burst:37777777 waitingRQ: 500000000 goodness: 1 
+---
+> (4): ext_burst:45123569 waitingRQ: 270000000 goodness: 1 
+> (1): ext_burst:37777777 waitingRQ: 480000000 goodness: 1 
+445c281
+< (Gatakia:1):(NoNInteractive:3)/0/529ms - Switching Process In
+---
+> (Gatakia:1):(NoNInteractive:4)/0/515ms - Switching Process In
+447,448c283,284
+< max_waiting: 510000000, min_exp_burst: 25749999
+< (3) curr_time 540000000 ext_burst:25749999  waitingRQ:470000000 goodness: 1
+---
+> max_waiting: 540000000, min_exp_burst: 45109908
+> (4) curr_time 570000000 ext_burst:45109908  waitingRQ:270000000 goodness: 1
+453,455c289,290
+< (3): ext_burst:25749999 waitingRQ: 470000000 goodness: 1 
+< (2): ext_burst:25576923 waitingRQ: 500000000 goodness: 0 
+< (1): ext_burst:37777777 waitingRQ: 510000000 goodness: 1 
+---
+> (4): ext_burst:45109908 waitingRQ: 270000000 goodness: 1 
+> (1): ext_burst:37777777 waitingRQ: 540000000 goodness: 0 
+458,460c293,294
+< (Papakia:2)/0/539ms - Switching Process In
+< CDA: thread (Papakia:2) finished
+< ###-Process: (Papakia:2) is going down-###
+---
+> (Gatakia:1)/0/569ms - Switching Process In
+> ###-Process: (Gatakia:1):(Interactive:5) has been created-###
+462,463c296,297
+< max_waiting: 510000000, min_exp_burst: 25749999
+< (1) curr_time 540000000 ext_burst:0  waitingRQ:0 goodness: 0
+---
+> max_waiting: 540000000, min_exp_burst: 0
+> (1) curr_time 570000000 ext_burst:12592592  waitingRQ:540000000 goodness: 12592593
+468,469c302,304
+< (3): ext_burst:25749999 waitingRQ: 480000000 goodness: 1 
+< (1): ext_burst:37777777 waitingRQ: 510000000 goodness: 1 
+---
+> (5): ext_burst:0 waitingRQ: 0 goodness: 1 
+> (4): ext_burst:45109908 waitingRQ: 330000000 goodness: 45109909 
+> (1): ext_burst:12592592 waitingRQ: 540000000 goodness: 12592593 
+472c307,308
+< (Gatakia:1):(NoNInteractive:3)/0/540ms - Switching Process In
+---
+> (Gatakia:1):(Interactive:5)/0/570ms - Switching Process In
+> 	(Gatakia:1):(Interactive:5)/0/588ms - Going to Sleep
+474,475c310,311
+< max_waiting: 570000000, min_exp_burst: 45083333
+< (3) curr_time 600000000 ext_burst:45083333  waitingRQ:480000000 goodness: 1
+---
+> max_waiting: 550000000, min_exp_burst: 12592592
+> (5) curr_time 580000000 ext_burst:6666666  waitingRQ:0 goodness: 1
+480,481c316,317
+< (3): ext_burst:45083333 waitingRQ: 480000000 goodness: 1 
+< (1): ext_burst:37777777 waitingRQ: 570000000 goodness: 0 
+---
+> (4): ext_burst:45109908 waitingRQ: 340000000 goodness: 3 
+> (1): ext_burst:12592592 waitingRQ: 550000000 goodness: 1 
+484,485c320
+< (Gatakia:1)/0/599ms - Switching Process In
+< ###-Process: (Gatakia:1):(Interactive:5) has been created-###
+---
+> (Gatakia:1)/0/588ms - Switching Process In
+487,488c322,323
+< max_waiting: 570000000, min_exp_burst: 0
+< (1) curr_time 610000000 ext_burst:4197530  waitingRQ:570000000 goodness: 4197531
+---
+> max_waiting: 550000000, min_exp_burst: 25340649
+> (1) curr_time 620000000 ext_burst:25340649  waitingRQ:550000000 goodness: 1
+493,495c328,329
+< (5): ext_burst:0 waitingRQ: 10000000 goodness: 56 
+< (3): ext_burst:45083333 waitingRQ: 550000000 goodness: 45083334 
+< (1): ext_burst:4197530 waitingRQ: 570000000 goodness: 4197531 
+---
+> (4): ext_burst:45109908 waitingRQ: 380000000 goodness: 1 
+> (1): ext_burst:25340649 waitingRQ: 550000000 goodness: 1 
+498c332
+< (Gatakia:1):(Interactive:5)/0/609ms - Switching Process In
+---
+> (Gatakia:1):(NoNInteractive:4)/0/619ms - Switching Process In
+500c334,335
+< 	(Skilakia:4)/0/621ms - Waking Up from Sleep
+---
+> 	(Skilakia:3)/0/621ms - Waking Up from Sleep
+> 	(Gatakia:1):(Interactive:5)/0/621ms - Waking Up from Sleep
+503c338
+< (5) curr_time 620000000 ext_burst:6666666  waitingRQ:10000000 goodness: 58
+---
+> (4) curr_time 620000000 ext_burst:55036636  waitingRQ:380000000 goodness: 8
+508,511c343,346
+< (4): ext_burst:9629629 waitingRQ: 0 goodness: 590000001 
+< (5): ext_burst:6666666 waitingRQ: 10000000 goodness: 58 
+< (3): ext_burst:45083333 waitingRQ: 560000000 goodness: 6 
+< (1): ext_burst:4197530 waitingRQ: 590000000 goodness: 0 
+---
+> (5): ext_burst:6666666 waitingRQ: 0 goodness: 1 
+> (3): ext_burst:15494589 waitingRQ: 0 goodness: 2 
+> (4): ext_burst:55036636 waitingRQ: 380000000 goodness: 8 
+> (1): ext_burst:25340649 waitingRQ: 590000000 goodness: 3 
+514c349
+< (Gatakia:1)/0/622ms - Switching Process In
+---
+> (Gatakia:1):(Interactive:5)/0/622ms - Switching Process In
+516,517c351,352
+< max_waiting: 590000000, min_exp_burst: 8065843
+< (1) curr_time 630000000 ext_burst:8065843  waitingRQ:590000000 goodness: 1
+---
+> max_waiting: 620000000, min_exp_burst: 16543209
+> (5) curr_time 650000000 ext_burst:16543209  waitingRQ:0 goodness: 1
+522,525c357,360
+< (4): ext_burst:9629629 waitingRQ: 10000000 goodness: 58 
+< (5): ext_burst:6666666 waitingRQ: 30000000 goodness: 0 
+< (3): ext_burst:45083333 waitingRQ: 570000000 goodness: 5 
+< (1): ext_burst:8065843 waitingRQ: 590000000 goodness: 1 
+---
+> (5): ext_burst:16543209 waitingRQ: 0 goodness: 1 
+> (3): ext_burst:15494589 waitingRQ: 30000000 goodness: 0 
+> (4): ext_burst:55036636 waitingRQ: 410000000 goodness: 3 
+> (1): ext_burst:25340649 waitingRQ: 620000000 goodness: 1 
+528c363,364
+< (Gatakia:1):(Interactive:5)/0/629ms - Switching Process In
+---
+> (Skilakia:3)/0/649ms - Switching Process In
+> ###-Process: (Skilakia:3) is going down-###
+530,531c366,367
+< max_waiting: 610000000, min_exp_burst: 8888888
+< (5) curr_time 640000000 ext_burst:8888888  waitingRQ:30000000 goodness: 20
+---
+> max_waiting: 620000000, min_exp_burst: 16543209
+> (1) curr_time 650000000 ext_burst:340000000  waitingRQ:0 goodness: 0
+536,539c372,374
+< (4): ext_burst:9629629 waitingRQ: 20000000 goodness: 30 
+< (5): ext_burst:8888888 waitingRQ: 30000000 goodness: 20 
+< (3): ext_burst:45083333 waitingRQ: 580000000 goodness: 5 
+< (1): ext_burst:8065843 waitingRQ: 610000000 goodness: 0 
+---
+> (5): ext_burst:16543209 waitingRQ: 30000000 goodness: 1 
+> (4): ext_burst:55036636 waitingRQ: 410000000 goodness: 3 
+> (1): ext_burst:25340649 waitingRQ: 620000000 goodness: 1 
+542c377
+< (Gatakia:1)/0/639ms - Switching Process In
+---
+> (Gatakia:1):(Interactive:5)/0/650ms - Switching Process In
+544,545c379,380
+< max_waiting: 610000000, min_exp_burst: 9355281
+< (1) curr_time 650000000 ext_burst:9355281  waitingRQ:610000000 goodness: 1
+---
+> max_waiting: 630000000, min_exp_burst: 25514403
+> (5) curr_time 660000000 ext_burst:25514403  waitingRQ:30000000 goodness: 1
+550,567c385,387
+< (4): ext_burst:9629629 waitingRQ: 30000000 goodness: 20 
+< (5): ext_burst:8888888 waitingRQ: 50000000 goodness: 0 
+< (3): ext_burst:45083333 waitingRQ: 590000000 goodness: 4 
+< (1): ext_burst:9355281 waitingRQ: 610000000 goodness: 1 
+< |                   |
+< ---------------------
+< (Gatakia:1):(Interactive:5)/0/649ms - Switching Process In
+< ____________________
+< max_waiting: 630000000, min_exp_burst: 9629629
+< (5) curr_time 660000000 ext_burst:9629629  waitingRQ:50000000 goodness: 12
+< 
+< ---------------------
+< |        RQ         |
+< ---------------------
+< (4): ext_burst:9629629 waitingRQ: 40000000 goodness: 15 
+< (5): ext_burst:9629629 waitingRQ: 50000000 goodness: 12 
+< (3): ext_burst:45083333 waitingRQ: 600000000 goodness: 4 
+< (1): ext_burst:9355281 waitingRQ: 630000000 goodness: 0 
+---
+> (5): ext_burst:25514403 waitingRQ: 30000000 goodness: 1 
+> (4): ext_burst:55036636 waitingRQ: 420000000 goodness: 2 
+> (1): ext_burst:25340649 waitingRQ: 630000000 goodness: 0 
+572,573c392,393
+< max_waiting: 630000000, min_exp_burst: 9785093
+< (1) curr_time 670000000 ext_burst:9785093  waitingRQ:630000000 goodness: 1
+---
+> max_waiting: 630000000, min_exp_burst: 35113549
+> (1) curr_time 670000000 ext_burst:35113549  waitingRQ:630000000 goodness: 1
+578,581c398,400
+< (4): ext_burst:9629629 waitingRQ: 50000000 goodness: 0 
+< (5): ext_burst:9629629 waitingRQ: 70000000 goodness: 0 
+< (3): ext_burst:45083333 waitingRQ: 610000000 goodness: 4 
+< (1): ext_burst:9785093 waitingRQ: 630000000 goodness: 1 
+---
+> (5): ext_burst:25514403 waitingRQ: 50000000 goodness: 0 
+> (4): ext_burst:55036636 waitingRQ: 430000000 goodness: 1 
+> (1): ext_burst:35113549 waitingRQ: 630000000 goodness: 1 
+584,585c403
+< (Skilakia:4)/0/669ms - Switching Process In
+< ###-Process: (Skilakia:4) is going down-###
+---
+> (Gatakia:1):(Interactive:5)/0/669ms - Switching Process In
+587,588c405,406
+< max_waiting: 640000000, min_exp_burst: 9629629
+< (1) curr_time 670000000 ext_burst:360000000  waitingRQ:0 goodness: 0
+---
+> max_waiting: 690000000, min_exp_burst: 35249030
+> (5) curr_time 720000000 ext_burst:35249030  waitingRQ:50000000 goodness: 1
+593,595c411,413
+< (5): ext_burst:9629629 waitingRQ: 70000000 goodness: 9 
+< (3): ext_burst:45083333 waitingRQ: 610000000 goodness: 4 
+< (1): ext_burst:9785093 waitingRQ: 640000000 goodness: 1 
+---
+> (5): ext_burst:35249030 waitingRQ: 50000000 goodness: 1 
+> (4): ext_burst:55036636 waitingRQ: 480000000 goodness: 1 
+> (1): ext_burst:35113549 waitingRQ: 690000000 goodness: 0 
+598c416
+< (Gatakia:1)/0/670ms - Switching Process In
+---
+> (Gatakia:1)/0/719ms - Switching Process In
+600,601c418,419
+< max_waiting: 670000000, min_exp_burst: 9629629
+< (1) curr_time 730000000 ext_burst:45061433  waitingRQ:640000000 goodness: 4
+---
+> max_waiting: 690000000, min_exp_burst: 18371183
+> (1) curr_time 730000000 ext_burst:18371183  waitingRQ:690000000 goodness: 1
+606,608c424,426
+< (5): ext_burst:9629629 waitingRQ: 130000000 goodness: 5 
+< (3): ext_burst:45083333 waitingRQ: 670000000 goodness: 4 
+< (1): ext_burst:45061433 waitingRQ: 640000000 goodness: 4 
+---
+> (5): ext_burst:35249030 waitingRQ: 110000000 goodness: 1 
+> (4): ext_burst:55036636 waitingRQ: 490000000 goodness: 2 
+> (1): ext_burst:18371183 waitingRQ: 690000000 goodness: 1 
+611c429
+< (Gatakia:1):(NoNInteractive:3)/0/729ms - Switching Process In
+---
+> (Gatakia:1):(Interactive:5)/0/729ms - Switching Process In
+613,614c431,432
+< max_waiting: 710000000, min_exp_burst: 9629629
+< (3) curr_time 740000000 ext_burst:55027777  waitingRQ:670000000 goodness: 5
+---
+> max_waiting: 710000000, min_exp_burst: 18371183
+> (5) curr_time 740000000 ext_burst:45083010  waitingRQ:110000000 goodness: 2
+619,621c437,439
+< (5): ext_burst:9629629 waitingRQ: 140000000 goodness: 5 
+< (3): ext_burst:55027777 waitingRQ: 670000000 goodness: 5 
+< (1): ext_burst:45061433 waitingRQ: 710000000 goodness: 4 
+---
+> (5): ext_burst:45083010 waitingRQ: 110000000 goodness: 2 
+> (4): ext_burst:55036636 waitingRQ: 500000000 goodness: 2 
+> (1): ext_burst:18371183 waitingRQ: 710000000 goodness: 1 
+626,627c444,445
+< max_waiting: 710000000, min_exp_burst: 9629629
+< (1) curr_time 750000000 ext_burst:55020477  waitingRQ:710000000 goodness: 5
+---
+> max_waiting: 710000000, min_exp_burst: 25658903
+> (1) curr_time 780000000 ext_burst:25658903  waitingRQ:710000000 goodness: 1
+632,634c450,452
+< (5): ext_burst:9629629 waitingRQ: 150000000 goodness: 4 
+< (3): ext_burst:55027777 waitingRQ: 690000000 goodness: 5 
+< (1): ext_burst:55020477 waitingRQ: 710000000 goodness: 5 
+---
+> (5): ext_burst:45083010 waitingRQ: 160000000 goodness: 1 
+> (4): ext_burst:55036636 waitingRQ: 540000000 goodness: 2 
+> (1): ext_burst:25658903 waitingRQ: 710000000 goodness: 1 
+637c455
+< (Gatakia:1):(Interactive:5)/0/749ms - Switching Process In
+---
+> (Gatakia:1):(Interactive:5)/0/779ms - Switching Process In
+639,640c457,458
+< max_waiting: 750000000, min_exp_burst: 16652949
+< (5) curr_time 780000000 ext_burst:16652949  waitingRQ:150000000 goodness: 4
+---
+> max_waiting: 790000000, min_exp_burst: 25988679
+> (5) curr_time 820000000 ext_burst:25988679  waitingRQ:160000000 goodness: 1
+645,647c463,465
+< (5): ext_burst:16652949 waitingRQ: 150000000 goodness: 4 
+< (3): ext_burst:55027777 waitingRQ: 720000000 goodness: 3 
+< (1): ext_burst:55020477 waitingRQ: 750000000 goodness: 3 
+---
+> (5): ext_burst:25988679 waitingRQ: 160000000 goodness: 1 
+> (4): ext_burst:55036636 waitingRQ: 580000000 goodness: 2 
+> (1): ext_burst:25658903 waitingRQ: 790000000 goodness: 0 
+650c468
+< (Gatakia:1):(NoNInteractive:3)/0/779ms - Switching Process In
+---
+> (Gatakia:1)/0/819ms - Switching Process In
+652,653c470,471
+< max_waiting: 780000000, min_exp_burst: 18334362
+< (3) curr_time 810000000 ext_burst:18334362  waitingRQ:720000000 goodness: 1
+---
+> max_waiting: 790000000, min_exp_burst: 35219634
+> (1) curr_time 830000000 ext_burst:35219634  waitingRQ:790000000 goodness: 1
+658,660c476,478
+< (5): ext_burst:16652949 waitingRQ: 210000000 goodness: 0 
+< (3): ext_burst:18334362 waitingRQ: 720000000 goodness: 1 
+< (1): ext_burst:55020477 waitingRQ: 780000000 goodness: 3 
+---
+> (5): ext_burst:25988679 waitingRQ: 210000000 goodness: 0 
+> (4): ext_burst:55036636 waitingRQ: 590000000 goodness: 1 
+> (1): ext_burst:35219634 waitingRQ: 790000000 goodness: 1 
+663c481
+< (Gatakia:1):(Interactive:5)/0/809ms - Switching Process In
+---
+> (Gatakia:1):(Interactive:5)/0/829ms - Switching Process In
+665,666c483,484
+< max_waiting: 790000000, min_exp_burst: 25550983
+< (5) curr_time 820000000 ext_burst:25550983  waitingRQ:210000000 goodness: 3
+---
+> max_waiting: 810000000, min_exp_burst: 35329559
+> (5) curr_time 840000000 ext_burst:35329559  waitingRQ:210000000 goodness: 1
+671,673c489,491
+< (5): ext_burst:25550983 waitingRQ: 210000000 goodness: 3 
+< (3): ext_burst:18334362 waitingRQ: 760000000 goodness: 0 
+< (1): ext_burst:55020477 waitingRQ: 790000000 goodness: 2 
+---
+> (5): ext_burst:35329559 waitingRQ: 210000000 goodness: 1 
+> (4): ext_burst:55036636 waitingRQ: 600000000 goodness: 1 
+> (1): ext_burst:35219634 waitingRQ: 810000000 goodness: 0 
+676,677c494
+< (Gatakia:1):(NoNInteractive:3)/0/819ms - Switching Process In
+< ###-An Interrupt has fired!-###
+---
+> (Gatakia:1)/0/839ms - Switching Process In
+679,680c496,497
+< max_waiting: 790000000, min_exp_burst: 26111454
+< (3) curr_time 820000000 ext_burst:26111454  waitingRQ:760000000 goodness: 1
+---
+> max_waiting: 810000000, min_exp_burst: 18406544
+> (1) curr_time 850000000 ext_burst:18406544  waitingRQ:810000000 goodness: 1
+685,687c502,504
+< (5): ext_burst:25550983 waitingRQ: 220000000 goodness: 0 
+< (3): ext_burst:26111454 waitingRQ: 760000000 goodness: 1 
+< (1): ext_burst:55020477 waitingRQ: 790000000 goodness: 2 
+---
+> (5): ext_burst:35329559 waitingRQ: 230000000 goodness: 1 
+> (4): ext_burst:55036636 waitingRQ: 610000000 goodness: 2 
+> (1): ext_burst:18406544 waitingRQ: 810000000 goodness: 1 
+690c507
+< (Gatakia:1):(Interactive:5)/0/821ms - Switching Process In
+---
+> (Gatakia:1):(Interactive:5)/0/849ms - Switching Process In
+692,693c509,510
+< max_waiting: 800000000, min_exp_burst: 15183661
+< (5) curr_time 830000000 ext_burst:15183661  waitingRQ:220000000 goodness: 3
+---
+> max_waiting: 860000000, min_exp_burst: 25868266
+> (5) curr_time 890000000 ext_burst:25868266  waitingRQ:230000000 goodness: 1
+698,700c515,517
+< (5): ext_burst:15183661 waitingRQ: 220000000 goodness: 3 
+< (3): ext_burst:26111454 waitingRQ: 770000000 goodness: 1 
+< (1): ext_burst:55020477 waitingRQ: 800000000 goodness: 3 
+---
+> (5): ext_burst:25868266 waitingRQ: 230000000 goodness: 1 
+> (4): ext_burst:55036636 waitingRQ: 650000000 goodness: 2 
+> (1): ext_burst:18406544 waitingRQ: 860000000 goodness: 0 
+703c520
+< (Gatakia:1):(NoNInteractive:3)/0/829ms - Switching Process In
+---
+> (Gatakia:1)/0/889ms - Switching Process In
+705,706c522,523
+< max_waiting: 830000000, min_exp_burst: 16522646
+< (3) curr_time 860000000 ext_burst:16522646  waitingRQ:770000000 goodness: 1
+---
+> max_waiting: 860000000, min_exp_burst: 16978020
+> (1) curr_time 920000000 ext_burst:16978020  waitingRQ:860000000 goodness: 1
+711,713c528,530
+< (5): ext_burst:15183661 waitingRQ: 260000000 goodness: 0 
+< (3): ext_burst:16522646 waitingRQ: 770000000 goodness: 1 
+< (1): ext_burst:55020477 waitingRQ: 830000000 goodness: 3 
+---
+> (5): ext_burst:25868266 waitingRQ: 300000000 goodness: 1 
+> (4): ext_burst:55036636 waitingRQ: 680000000 goodness: 3 
+> (1): ext_burst:16978020 waitingRQ: 860000000 goodness: 1 
+716,781c533,534
+< (Gatakia:1):(Interactive:5)/0/859ms - Switching Process In
+< ____________________
+< max_waiting: 840000000, min_exp_burst: 11727887
+< (5) curr_time 870000000 ext_burst:11727887  waitingRQ:260000000 goodness: 3
+< 
+< ---------------------
+< |        RQ         |
+< ---------------------
+< (5): ext_burst:11727887 waitingRQ: 260000000 goodness: 3 
+< (3): ext_burst:16522646 waitingRQ: 810000000 goodness: 1 
+< (1): ext_burst:55020477 waitingRQ: 840000000 goodness: 4 
+< |                   |
+< ---------------------
+< (Gatakia:1):(NoNInteractive:3)/0/869ms - Switching Process In
+< ____________________
+< max_waiting: 880000000, min_exp_burst: 11727887
+< (3) curr_time 910000000 ext_burst:26129909  waitingRQ:810000000 goodness: 2
+< 
+< ---------------------
+< |        RQ         |
+< ---------------------
+< (5): ext_burst:11727887 waitingRQ: 310000000 goodness: 2 
+< (3): ext_burst:26129909 waitingRQ: 810000000 goodness: 2 
+< (1): ext_burst:55020477 waitingRQ: 880000000 goodness: 4 
+< |                   |
+< ---------------------
+< (Gatakia:1):(Interactive:5)/0/909ms - Switching Process In
+< 	(Gatakia:1):(Interactive:5)/0/929ms - Going to Sleep
+< ____________________
+< max_waiting: 900000000, min_exp_burst: 26129909
+< (5) curr_time 930000000 ext_burst:10191987  waitingRQ:310000000 goodness: 2
+< 
+< ---------------------
+< |        RQ         |
+< ---------------------
+< (3): ext_burst:26129909 waitingRQ: 870000000 goodness: 1 
+< (1): ext_burst:55020477 waitingRQ: 900000000 goodness: 2 
+< |                   |
+< ---------------------
+< (Gatakia:1):(NoNInteractive:3)/0/930ms - Switching Process In
+< ____________________
+< max_waiting: 970000000, min_exp_burst: 55055386
+< (3) curr_time 1000000000 ext_burst:55055386  waitingRQ:870000000 goodness: 1
+< 
+< ---------------------
+< |        RQ         |
+< ---------------------
+< (3): ext_burst:55055386 waitingRQ: 870000000 goodness: 1 
+< (1): ext_burst:55020477 waitingRQ: 970000000 goodness: 0 
+< |                   |
+< ---------------------
+< (Gatakia:1)/0/999ms - Switching Process In
+< ###-Sending Kill Message-###
+< ____________________
+< max_waiting: 990000000, min_exp_burst: 35370454
+< (1) curr_time 1050000000 ext_burst:35370454  waitingRQ:970000000 goodness: 1
+< 
+< ---------------------
+< |        RQ         |
+< ---------------------
+< (3): ext_burst:55055386 waitingRQ: 990000000 goodness: 1 
+< (1): ext_burst:35370454 waitingRQ: 970000000 goodness: 1 
+< |                   |
+< ---------------------
+< (Gatakia:1):(NoNInteractive:3)/0/1049ms - Switching Process In
+< ###-Process: (Gatakia:1):(NoNInteractive:3) is going down-###
+---
+> (Gatakia:1):(Interactive:5)/0/919ms - Switching Process In
+> ###-Process: (Gatakia:1):(Interactive:5) is going down-###
+783,784c536,537
+< max_waiting: 1020000000, min_exp_burst: 35370454
+< (1) curr_time 1050000000 ext_burst:566666666  waitingRQ:0 goodness: 0
+---
+> max_waiting: 890000000, min_exp_burst: 16978020
+> (1) curr_time 920000000 ext_burst:546666666  waitingRQ:0 goodness: 0
+789c542,543
+< (1): ext_burst:35370454 waitingRQ: 1020000000 goodness: 1 
+---
+> (4): ext_burst:55036636 waitingRQ: 680000000 goodness: 3 
+> (1): ext_burst:16978020 waitingRQ: 890000000 goodness: 1 
+792,794c546
+< (Gatakia:1)/0/1050ms - Switching Process In
+< ###-An Interrupt has fired!-###
+< 	(Gatakia:1):(Interactive:5)/0/1438ms - Waking Up from Sleep
+---
+> (Gatakia:1)/0/920ms - Switching Process In
+796,797c548,549
+< max_waiting: 1020000000, min_exp_burst: 10191987
+< (1) curr_time 1460000000 ext_burst:395370370  waitingRQ:1020000000 goodness: 38
+---
+> max_waiting: 890000000, min_exp_burst: 35378510
+> (1) curr_time 970000000 ext_burst:35378510  waitingRQ:890000000 goodness: 1
+802,803c554,555
+< (5): ext_burst:10191987 waitingRQ: 30000000 goodness: 33 
+< (1): ext_burst:395370370 waitingRQ: 1020000000 goodness: 38 
+---
+> (4): ext_burst:55036636 waitingRQ: 730000000 goodness: 1 
+> (1): ext_burst:35378510 waitingRQ: 890000000 goodness: 1 
+806,807c558,559
+< (Gatakia:1):(Interactive:5)/0/1459ms - Switching Process In
+< ###-Process: (Gatakia:1):(Interactive:5) is going down-###
+---
+> (Gatakia:1):(NoNInteractive:4)/0/969ms - Switching Process In
+> ###-Process: (Gatakia:1):(NoNInteractive:4) is going down-###
+809,810c561,562
+< max_waiting: 1430000000, min_exp_burst: 395370370
+< (1) curr_time 1460000000 ext_burst:888888888  waitingRQ:0 goodness: 0
+---
+> max_waiting: 940000000, min_exp_burst: 35378510
+> (1) curr_time 970000000 ext_burst:795555555  waitingRQ:0 goodness: 0
+815c567
+< (1): ext_burst:395370370 waitingRQ: 1430000000 goodness: 1 
+---
+> (1): ext_burst:35378510 waitingRQ: 940000000 goodness: 1 
+818c570
+< (Gatakia:1)/0/1460ms - Switching Process In
+---
+> (Gatakia:1)/0/970ms - Switching Process In
+820c572,576
+< (Init:0)/0/1460ms - Switching Process In
+---
+> (Init:0)/0/970ms - Switching Process In
+> (Init:0)/0/979ms - Switching Process In
+> (Init:0)/0/989ms - Switching Process In
+> (Init:0)/0/999ms - Switching Process In
+> ###-Sending Kill Message-###

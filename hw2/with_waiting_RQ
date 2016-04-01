@@ -1,0 +1,822 @@
+###-Starting CPU-###
+(Init:0)/0/0ms - Switching Process In
+(Init:0)/0/9ms - Switching Process In
+(Init:0)/0/19ms - Switching Process In
+(Init:0)/0/29ms - Switching Process In
+###-Process: (Gatakia:1) has been created-###
+###-Process: (Papakia:2) has been created-###
+____________________
+max_waiting: 0, min_exp_burst: 0
+(1) curr_time 40000000 ext_burst:33333333  waitingRQ:0 goodness: 33333334
+
+---------------------
+|        RQ         |
+---------------------
+(2): ext_burst:0 waitingRQ: 0 goodness: 1 
+(1): ext_burst:33333333 waitingRQ: 0 goodness: 33333334 
+|                   |
+---------------------
+(Papakia:2)/0/40ms - Switching Process In
+____________________
+max_waiting: 30000000, min_exp_burst: 6666666
+(2) curr_time 60000000 ext_burst:6666666  waitingRQ:0 goodness: 30000001
+
+---------------------
+|        RQ         |
+---------------------
+(2): ext_burst:6666666 waitingRQ: 0 goodness: 30000001 
+(1): ext_burst:33333333 waitingRQ: 30000000 goodness: 4 
+|                   |
+---------------------
+(Gatakia:1)/0/59ms - Switching Process In
+###-Process: (Gatakia:1):(NoNInteractive:3) has been created-###
+###-Process: (Skilakia:4) has been created-###
+____________________
+max_waiting: 30000000, min_exp_burst: 0
+(1) curr_time 60000000 ext_burst:37777777  waitingRQ:30000000 goodness: 37777778
+
+---------------------
+|        RQ         |
+---------------------
+(4): ext_burst:0 waitingRQ: 0 goodness: 30000001 
+(3): ext_burst:0 waitingRQ: 0 goodness: 30000001 
+(2): ext_burst:6666666 waitingRQ: 20000000 goodness: 6666667 
+(1): ext_burst:37777777 waitingRQ: 30000000 goodness: 37777778 
+|                   |
+---------------------
+(Papakia:2)/0/60ms - Switching Process In
+____________________
+max_waiting: 40000000, min_exp_burst: 0
+(2) curr_time 70000000 ext_burst:15555555  waitingRQ:20000000 goodness: 15555556
+
+---------------------
+|        RQ         |
+---------------------
+(4): ext_burst:0 waitingRQ: 10000000 goodness: 3 
+(3): ext_burst:0 waitingRQ: 10000000 goodness: 3 
+(2): ext_burst:15555555 waitingRQ: 20000000 goodness: 15555556 
+(1): ext_burst:37777777 waitingRQ: 40000000 goodness: 37777778 
+|                   |
+---------------------
+(Skilakia:4)/0/69ms - Switching Process In
+____________________
+max_waiting: 50000000, min_exp_burst: 0
+(4) curr_time 80000000 ext_burst:0  waitingRQ:10000000 goodness: 4
+
+---------------------
+|        RQ         |
+---------------------
+(4): ext_burst:0 waitingRQ: 10000000 goodness: 4 
+(3): ext_burst:0 waitingRQ: 20000000 goodness: 2 
+(2): ext_burst:15555555 waitingRQ: 40000000 goodness: 15555556 
+(1): ext_burst:37777777 waitingRQ: 50000000 goodness: 37777778 
+|                   |
+---------------------
+(Gatakia:1):(NoNInteractive:3)/0/79ms - Switching Process In
+____________________
+max_waiting: 60000000, min_exp_burst: 0
+(3) curr_time 90000000 ext_burst:0  waitingRQ:20000000 goodness: 2
+
+---------------------
+|        RQ         |
+---------------------
+(4): ext_burst:0 waitingRQ: 30000000 goodness: 1 
+(3): ext_burst:0 waitingRQ: 20000000 goodness: 2 
+(2): ext_burst:15555555 waitingRQ: 50000000 goodness: 15555556 
+(1): ext_burst:37777777 waitingRQ: 60000000 goodness: 37777778 
+|                   |
+---------------------
+(Skilakia:4)/0/89ms - Switching Process In
+____________________
+max_waiting: 70000000, min_exp_burst: 6666666
+(4) curr_time 100000000 ext_burst:6666666  waitingRQ:30000000 goodness: 2
+
+---------------------
+|        RQ         |
+---------------------
+(4): ext_burst:6666666 waitingRQ: 30000000 goodness: 2 
+(3): ext_burst:0 waitingRQ: 40000000 goodness: 0 
+(2): ext_burst:15555555 waitingRQ: 60000000 goodness: 2 
+(1): ext_burst:37777777 waitingRQ: 70000000 goodness: 5 
+|                   |
+---------------------
+(Gatakia:1):(NoNInteractive:3)/0/99ms - Switching Process In
+____________________
+max_waiting: 80000000, min_exp_burst: 6666666
+(3) curr_time 110000000 ext_burst:6666666  waitingRQ:40000000 goodness: 1
+
+---------------------
+|        RQ         |
+---------------------
+(4): ext_burst:6666666 waitingRQ: 50000000 goodness: 1 
+(3): ext_burst:6666666 waitingRQ: 40000000 goodness: 1 
+(2): ext_burst:15555555 waitingRQ: 70000000 goodness: 2 
+(1): ext_burst:37777777 waitingRQ: 80000000 goodness: 5 
+|                   |
+---------------------
+(Skilakia:4)/0/109ms - Switching Process In
+____________________
+max_waiting: 90000000, min_exp_burst: 8888888
+(4) curr_time 120000000 ext_burst:8888888  waitingRQ:50000000 goodness: 1
+
+---------------------
+|        RQ         |
+---------------------
+(4): ext_burst:8888888 waitingRQ: 50000000 goodness: 1 
+(3): ext_burst:6666666 waitingRQ: 60000000 goodness: 0 
+(2): ext_burst:15555555 waitingRQ: 80000000 goodness: 1 
+(1): ext_burst:37777777 waitingRQ: 90000000 goodness: 4 
+|                   |
+---------------------
+(Gatakia:1):(NoNInteractive:3)/0/119ms - Switching Process In
+____________________
+max_waiting: 100000000, min_exp_burst: 8888888
+(3) curr_time 130000000 ext_burst:8888888  waitingRQ:60000000 goodness: 1
+
+---------------------
+|        RQ         |
+---------------------
+(4): ext_burst:8888888 waitingRQ: 70000000 goodness: 1 
+(3): ext_burst:8888888 waitingRQ: 60000000 goodness: 1 
+(2): ext_burst:15555555 waitingRQ: 90000000 goodness: 1 
+(1): ext_burst:37777777 waitingRQ: 100000000 goodness: 4 
+|                   |
+---------------------
+(Skilakia:4)/0/129ms - Switching Process In
+	(Skilakia:4)/0/134ms - Going to Sleep
+____________________
+max_waiting: 100000000, min_exp_burst: 8888888
+(4) curr_time 130000000 ext_burst:9629629  waitingRQ:70000000 goodness: 1
+
+---------------------
+|        RQ         |
+---------------------
+(3): ext_burst:8888888 waitingRQ: 70000000 goodness: 1 
+(2): ext_burst:15555555 waitingRQ: 90000000 goodness: 1 
+(1): ext_burst:37777777 waitingRQ: 100000000 goodness: 4 
+|                   |
+---------------------
+(Gatakia:1):(NoNInteractive:3)/0/135ms - Switching Process In
+____________________
+max_waiting: 130000000, min_exp_burst: 16625514
+(3) curr_time 160000000 ext_burst:16625514  waitingRQ:70000000 goodness: 1
+
+---------------------
+|        RQ         |
+---------------------
+(3): ext_burst:16625514 waitingRQ: 70000000 goodness: 1 
+(2): ext_burst:15555555 waitingRQ: 120000000 goodness: 0 
+(1): ext_burst:37777777 waitingRQ: 130000000 goodness: 2 
+|                   |
+---------------------
+(Papakia:2)/0/159ms - Switching Process In
+____________________
+max_waiting: 140000000, min_exp_burst: 11851851
+(2) curr_time 170000000 ext_burst:11851851  waitingRQ:120000000 goodness: 1
+
+---------------------
+|        RQ         |
+---------------------
+(3): ext_burst:16625514 waitingRQ: 110000000 goodness: 1 
+(2): ext_burst:11851851 waitingRQ: 120000000 goodness: 1 
+(1): ext_burst:37777777 waitingRQ: 140000000 goodness: 3 
+|                   |
+---------------------
+(Gatakia:1):(NoNInteractive:3)/0/169ms - Switching Process In
+____________________
+max_waiting: 150000000, min_exp_burst: 11851851
+(3) curr_time 180000000 ext_burst:25541838  waitingRQ:110000000 goodness: 2
+
+---------------------
+|        RQ         |
+---------------------
+(3): ext_burst:25541838 waitingRQ: 110000000 goodness: 2 
+(2): ext_burst:11851851 waitingRQ: 140000000 goodness: 1 
+(1): ext_burst:37777777 waitingRQ: 150000000 goodness: 3 
+|                   |
+---------------------
+(Papakia:2)/0/179ms - Switching Process In
+____________________
+max_waiting: 180000000, min_exp_burst: 16735253
+(2) curr_time 210000000 ext_burst:16735253  waitingRQ:140000000 goodness: 1
+
+---------------------
+|        RQ         |
+---------------------
+(3): ext_burst:25541838 waitingRQ: 150000000 goodness: 1 
+(2): ext_burst:16735253 waitingRQ: 140000000 goodness: 1 
+(1): ext_burst:37777777 waitingRQ: 180000000 goodness: 2 
+|                   |
+---------------------
+(Gatakia:1):(NoNInteractive:3)/0/209ms - Switching Process In
+____________________
+max_waiting: 210000000, min_exp_burst: 17242290
+(3) curr_time 240000000 ext_burst:17242290  waitingRQ:150000000 goodness: 1
+
+---------------------
+|        RQ         |
+---------------------
+(3): ext_burst:17242290 waitingRQ: 150000000 goodness: 1 
+(2): ext_burst:16735253 waitingRQ: 200000000 goodness: 0 
+(1): ext_burst:37777777 waitingRQ: 210000000 goodness: 2 
+|                   |
+---------------------
+(Papakia:2)/0/239ms - Switching Process In
+____________________
+max_waiting: 220000000, min_exp_burst: 25578417
+(2) curr_time 250000000 ext_burst:25578417  waitingRQ:200000000 goodness: 1
+
+---------------------
+|        RQ         |
+---------------------
+(3): ext_burst:17242290 waitingRQ: 190000000 goodness: 0 
+(2): ext_burst:25578417 waitingRQ: 200000000 goodness: 1 
+(1): ext_burst:37777777 waitingRQ: 220000000 goodness: 1 
+|                   |
+---------------------
+(Gatakia:1):(NoNInteractive:3)/0/249ms - Switching Process In
+____________________
+max_waiting: 230000000, min_exp_burst: 25747430
+(3) curr_time 260000000 ext_burst:25747430  waitingRQ:190000000 goodness: 1
+
+---------------------
+|        RQ         |
+---------------------
+(3): ext_burst:25747430 waitingRQ: 190000000 goodness: 1 
+(2): ext_burst:25578417 waitingRQ: 220000000 goodness: 0 
+(1): ext_burst:37777777 waitingRQ: 230000000 goodness: 1 
+|                   |
+---------------------
+(Papakia:2)/0/259ms - Switching Process In
+____________________
+max_waiting: 240000000, min_exp_burst: 15192805
+(2) curr_time 270000000 ext_burst:15192805  waitingRQ:220000000 goodness: 1
+
+---------------------
+|        RQ         |
+---------------------
+(3): ext_burst:25747430 waitingRQ: 210000000 goodness: 1 
+(2): ext_burst:15192805 waitingRQ: 220000000 goodness: 1 
+(1): ext_burst:37777777 waitingRQ: 240000000 goodness: 2 
+|                   |
+---------------------
+(Gatakia:1):(NoNInteractive:3)/0/269ms - Switching Process In
+____________________
+max_waiting: 270000000, min_exp_burst: 17249904
+(3) curr_time 300000000 ext_burst:17249904  waitingRQ:210000000 goodness: 1
+
+---------------------
+|        RQ         |
+---------------------
+(3): ext_burst:17249904 waitingRQ: 210000000 goodness: 1 
+(2): ext_burst:15192805 waitingRQ: 260000000 goodness: 0 
+(1): ext_burst:37777777 waitingRQ: 270000000 goodness: 2 
+|                   |
+---------------------
+(Papakia:2)/0/299ms - Switching Process In
+____________________
+max_waiting: 280000000, min_exp_burst: 11730935
+(2) curr_time 310000000 ext_burst:11730935  waitingRQ:260000000 goodness: 1
+
+---------------------
+|        RQ         |
+---------------------
+(3): ext_burst:17249904 waitingRQ: 250000000 goodness: 1 
+(2): ext_burst:11730935 waitingRQ: 260000000 goodness: 1 
+(1): ext_burst:37777777 waitingRQ: 280000000 goodness: 3 
+|                   |
+---------------------
+(Gatakia:1):(NoNInteractive:3)/0/309ms - Switching Process In
+____________________
+max_waiting: 290000000, min_exp_burst: 11730935
+(3) curr_time 320000000 ext_burst:25749968  waitingRQ:250000000 goodness: 2
+
+---------------------
+|        RQ         |
+---------------------
+(3): ext_burst:25749968 waitingRQ: 250000000 goodness: 2 
+(2): ext_burst:11730935 waitingRQ: 280000000 goodness: 1 
+(1): ext_burst:37777777 waitingRQ: 290000000 goodness: 3 
+|                   |
+---------------------
+(Papakia:2)/0/319ms - Switching Process In
+____________________
+max_waiting: 320000000, min_exp_burst: 16730775
+(2) curr_time 350000000 ext_burst:16730775  waitingRQ:280000000 goodness: 1
+
+---------------------
+|        RQ         |
+---------------------
+(3): ext_burst:25749968 waitingRQ: 290000000 goodness: 1 
+(2): ext_burst:16730775 waitingRQ: 280000000 goodness: 1 
+(1): ext_burst:37777777 waitingRQ: 320000000 goodness: 2 
+|                   |
+---------------------
+(Gatakia:1):(NoNInteractive:3)/0/349ms - Switching Process In
+____________________
+max_waiting: 350000000, min_exp_burst: 17249998
+(3) curr_time 380000000 ext_burst:17249998  waitingRQ:290000000 goodness: 1
+
+---------------------
+|        RQ         |
+---------------------
+(3): ext_burst:17249998 waitingRQ: 290000000 goodness: 1 
+(2): ext_burst:16730775 waitingRQ: 340000000 goodness: 0 
+(1): ext_burst:37777777 waitingRQ: 350000000 goodness: 2 
+|                   |
+---------------------
+(Papakia:2)/0/379ms - Switching Process In
+____________________
+max_waiting: 360000000, min_exp_burst: 25576925
+(2) curr_time 390000000 ext_burst:25576925  waitingRQ:340000000 goodness: 1
+
+---------------------
+|        RQ         |
+---------------------
+(3): ext_burst:17249998 waitingRQ: 330000000 goodness: 0 
+(2): ext_burst:25576925 waitingRQ: 340000000 goodness: 1 
+(1): ext_burst:37777777 waitingRQ: 360000000 goodness: 1 
+|                   |
+---------------------
+(Gatakia:1):(NoNInteractive:3)/0/389ms - Switching Process In
+____________________
+max_waiting: 370000000, min_exp_burst: 25749999
+(3) curr_time 400000000 ext_burst:25749999  waitingRQ:330000000 goodness: 1
+
+---------------------
+|        RQ         |
+---------------------
+(3): ext_burst:25749999 waitingRQ: 330000000 goodness: 1 
+(2): ext_burst:25576925 waitingRQ: 360000000 goodness: 0 
+(1): ext_burst:37777777 waitingRQ: 370000000 goodness: 1 
+|                   |
+---------------------
+(Papakia:2)/0/399ms - Switching Process In
+____________________
+max_waiting: 380000000, min_exp_burst: 15192308
+(2) curr_time 410000000 ext_burst:15192308  waitingRQ:360000000 goodness: 1
+
+---------------------
+|        RQ         |
+---------------------
+(3): ext_burst:25749999 waitingRQ: 350000000 goodness: 1 
+(2): ext_burst:15192308 waitingRQ: 360000000 goodness: 1 
+(1): ext_burst:37777777 waitingRQ: 380000000 goodness: 2 
+|                   |
+---------------------
+(Gatakia:1):(NoNInteractive:3)/0/409ms - Switching Process In
+____________________
+max_waiting: 410000000, min_exp_burst: 17249999
+(3) curr_time 440000000 ext_burst:17249999  waitingRQ:350000000 goodness: 1
+
+---------------------
+|        RQ         |
+---------------------
+(3): ext_burst:17249999 waitingRQ: 350000000 goodness: 1 
+(2): ext_burst:15192308 waitingRQ: 400000000 goodness: 0 
+(1): ext_burst:37777777 waitingRQ: 410000000 goodness: 2 
+|                   |
+---------------------
+(Papakia:2)/0/439ms - Switching Process In
+____________________
+max_waiting: 420000000, min_exp_burst: 11730769
+(2) curr_time 450000000 ext_burst:11730769  waitingRQ:400000000 goodness: 1
+
+---------------------
+|        RQ         |
+---------------------
+(3): ext_burst:17249999 waitingRQ: 390000000 goodness: 1 
+(2): ext_burst:11730769 waitingRQ: 400000000 goodness: 1 
+(1): ext_burst:37777777 waitingRQ: 420000000 goodness: 3 
+|                   |
+---------------------
+(Gatakia:1):(NoNInteractive:3)/0/449ms - Switching Process In
+____________________
+max_waiting: 430000000, min_exp_burst: 11730769
+(3) curr_time 460000000 ext_burst:25749999  waitingRQ:390000000 goodness: 2
+
+---------------------
+|        RQ         |
+---------------------
+(3): ext_burst:25749999 waitingRQ: 390000000 goodness: 2 
+(2): ext_burst:11730769 waitingRQ: 420000000 goodness: 1 
+(1): ext_burst:37777777 waitingRQ: 430000000 goodness: 3 
+|                   |
+---------------------
+(Papakia:2)/0/459ms - Switching Process In
+____________________
+max_waiting: 460000000, min_exp_burst: 16730769
+(2) curr_time 490000000 ext_burst:16730769  waitingRQ:420000000 goodness: 1
+
+---------------------
+|        RQ         |
+---------------------
+(3): ext_burst:25749999 waitingRQ: 430000000 goodness: 1 
+(2): ext_burst:16730769 waitingRQ: 420000000 goodness: 1 
+(1): ext_burst:37777777 waitingRQ: 460000000 goodness: 2 
+|                   |
+---------------------
+(Gatakia:1):(NoNInteractive:3)/0/489ms - Switching Process In
+____________________
+max_waiting: 490000000, min_exp_burst: 17249999
+(3) curr_time 520000000 ext_burst:17249999  waitingRQ:430000000 goodness: 1
+
+---------------------
+|        RQ         |
+---------------------
+(3): ext_burst:17249999 waitingRQ: 430000000 goodness: 1 
+(2): ext_burst:16730769 waitingRQ: 480000000 goodness: 0 
+(1): ext_burst:37777777 waitingRQ: 490000000 goodness: 2 
+|                   |
+---------------------
+(Papakia:2)/0/519ms - Switching Process In
+____________________
+max_waiting: 500000000, min_exp_burst: 25576923
+(2) curr_time 530000000 ext_burst:25576923  waitingRQ:480000000 goodness: 1
+
+---------------------
+|        RQ         |
+---------------------
+(3): ext_burst:17249999 waitingRQ: 470000000 goodness: 0 
+(2): ext_burst:25576923 waitingRQ: 480000000 goodness: 1 
+(1): ext_burst:37777777 waitingRQ: 500000000 goodness: 1 
+|                   |
+---------------------
+(Gatakia:1):(NoNInteractive:3)/0/529ms - Switching Process In
+____________________
+max_waiting: 510000000, min_exp_burst: 25749999
+(3) curr_time 540000000 ext_burst:25749999  waitingRQ:470000000 goodness: 1
+
+---------------------
+|        RQ         |
+---------------------
+(3): ext_burst:25749999 waitingRQ: 470000000 goodness: 1 
+(2): ext_burst:25576923 waitingRQ: 500000000 goodness: 0 
+(1): ext_burst:37777777 waitingRQ: 510000000 goodness: 1 
+|                   |
+---------------------
+(Papakia:2)/0/539ms - Switching Process In
+CDA: thread (Papakia:2) finished
+###-Process: (Papakia:2) is going down-###
+____________________
+max_waiting: 510000000, min_exp_burst: 25749999
+(1) curr_time 540000000 ext_burst:0  waitingRQ:0 goodness: 0
+
+---------------------
+|        RQ         |
+---------------------
+(3): ext_burst:25749999 waitingRQ: 480000000 goodness: 1 
+(1): ext_burst:37777777 waitingRQ: 510000000 goodness: 1 
+|                   |
+---------------------
+(Gatakia:1):(NoNInteractive:3)/0/540ms - Switching Process In
+____________________
+max_waiting: 570000000, min_exp_burst: 45083333
+(3) curr_time 600000000 ext_burst:45083333  waitingRQ:480000000 goodness: 1
+
+---------------------
+|        RQ         |
+---------------------
+(3): ext_burst:45083333 waitingRQ: 480000000 goodness: 1 
+(1): ext_burst:37777777 waitingRQ: 570000000 goodness: 0 
+|                   |
+---------------------
+(Gatakia:1)/0/599ms - Switching Process In
+###-Process: (Gatakia:1):(Interactive:5) has been created-###
+____________________
+max_waiting: 570000000, min_exp_burst: 0
+(1) curr_time 610000000 ext_burst:4197530  waitingRQ:570000000 goodness: 4197531
+
+---------------------
+|        RQ         |
+---------------------
+(5): ext_burst:0 waitingRQ: 10000000 goodness: 56 
+(3): ext_burst:45083333 waitingRQ: 550000000 goodness: 45083334 
+(1): ext_burst:4197530 waitingRQ: 570000000 goodness: 4197531 
+|                   |
+---------------------
+(Gatakia:1):(Interactive:5)/0/609ms - Switching Process In
+###-An Interrupt has fired!-###
+	(Skilakia:4)/0/621ms - Waking Up from Sleep
+____________________
+max_waiting: 590000000, min_exp_burst: 6666666
+(5) curr_time 620000000 ext_burst:6666666  waitingRQ:10000000 goodness: 58
+
+---------------------
+|        RQ         |
+---------------------
+(4): ext_burst:9629629 waitingRQ: 0 goodness: 590000001 
+(5): ext_burst:6666666 waitingRQ: 10000000 goodness: 58 
+(3): ext_burst:45083333 waitingRQ: 560000000 goodness: 6 
+(1): ext_burst:4197530 waitingRQ: 590000000 goodness: 0 
+|                   |
+---------------------
+(Gatakia:1)/0/622ms - Switching Process In
+____________________
+max_waiting: 590000000, min_exp_burst: 8065843
+(1) curr_time 630000000 ext_burst:8065843  waitingRQ:590000000 goodness: 1
+
+---------------------
+|        RQ         |
+---------------------
+(4): ext_burst:9629629 waitingRQ: 10000000 goodness: 58 
+(5): ext_burst:6666666 waitingRQ: 30000000 goodness: 0 
+(3): ext_burst:45083333 waitingRQ: 570000000 goodness: 5 
+(1): ext_burst:8065843 waitingRQ: 590000000 goodness: 1 
+|                   |
+---------------------
+(Gatakia:1):(Interactive:5)/0/629ms - Switching Process In
+____________________
+max_waiting: 610000000, min_exp_burst: 8888888
+(5) curr_time 640000000 ext_burst:8888888  waitingRQ:30000000 goodness: 20
+
+---------------------
+|        RQ         |
+---------------------
+(4): ext_burst:9629629 waitingRQ: 20000000 goodness: 30 
+(5): ext_burst:8888888 waitingRQ: 30000000 goodness: 20 
+(3): ext_burst:45083333 waitingRQ: 580000000 goodness: 5 
+(1): ext_burst:8065843 waitingRQ: 610000000 goodness: 0 
+|                   |
+---------------------
+(Gatakia:1)/0/639ms - Switching Process In
+____________________
+max_waiting: 610000000, min_exp_burst: 9355281
+(1) curr_time 650000000 ext_burst:9355281  waitingRQ:610000000 goodness: 1
+
+---------------------
+|        RQ         |
+---------------------
+(4): ext_burst:9629629 waitingRQ: 30000000 goodness: 20 
+(5): ext_burst:8888888 waitingRQ: 50000000 goodness: 0 
+(3): ext_burst:45083333 waitingRQ: 590000000 goodness: 4 
+(1): ext_burst:9355281 waitingRQ: 610000000 goodness: 1 
+|                   |
+---------------------
+(Gatakia:1):(Interactive:5)/0/649ms - Switching Process In
+____________________
+max_waiting: 630000000, min_exp_burst: 9629629
+(5) curr_time 660000000 ext_burst:9629629  waitingRQ:50000000 goodness: 12
+
+---------------------
+|        RQ         |
+---------------------
+(4): ext_burst:9629629 waitingRQ: 40000000 goodness: 15 
+(5): ext_burst:9629629 waitingRQ: 50000000 goodness: 12 
+(3): ext_burst:45083333 waitingRQ: 600000000 goodness: 4 
+(1): ext_burst:9355281 waitingRQ: 630000000 goodness: 0 
+|                   |
+---------------------
+(Gatakia:1)/0/659ms - Switching Process In
+____________________
+max_waiting: 630000000, min_exp_burst: 9785093
+(1) curr_time 670000000 ext_burst:9785093  waitingRQ:630000000 goodness: 1
+
+---------------------
+|        RQ         |
+---------------------
+(4): ext_burst:9629629 waitingRQ: 50000000 goodness: 0 
+(5): ext_burst:9629629 waitingRQ: 70000000 goodness: 0 
+(3): ext_burst:45083333 waitingRQ: 610000000 goodness: 4 
+(1): ext_burst:9785093 waitingRQ: 630000000 goodness: 1 
+|                   |
+---------------------
+(Skilakia:4)/0/669ms - Switching Process In
+###-Process: (Skilakia:4) is going down-###
+____________________
+max_waiting: 640000000, min_exp_burst: 9629629
+(1) curr_time 670000000 ext_burst:360000000  waitingRQ:0 goodness: 0
+
+---------------------
+|        RQ         |
+---------------------
+(5): ext_burst:9629629 waitingRQ: 70000000 goodness: 9 
+(3): ext_burst:45083333 waitingRQ: 610000000 goodness: 4 
+(1): ext_burst:9785093 waitingRQ: 640000000 goodness: 1 
+|                   |
+---------------------
+(Gatakia:1)/0/670ms - Switching Process In
+____________________
+max_waiting: 670000000, min_exp_burst: 9629629
+(1) curr_time 730000000 ext_burst:45061433  waitingRQ:640000000 goodness: 4
+
+---------------------
+|        RQ         |
+---------------------
+(5): ext_burst:9629629 waitingRQ: 130000000 goodness: 5 
+(3): ext_burst:45083333 waitingRQ: 670000000 goodness: 4 
+(1): ext_burst:45061433 waitingRQ: 640000000 goodness: 4 
+|                   |
+---------------------
+(Gatakia:1):(NoNInteractive:3)/0/729ms - Switching Process In
+____________________
+max_waiting: 710000000, min_exp_burst: 9629629
+(3) curr_time 740000000 ext_burst:55027777  waitingRQ:670000000 goodness: 5
+
+---------------------
+|        RQ         |
+---------------------
+(5): ext_burst:9629629 waitingRQ: 140000000 goodness: 5 
+(3): ext_burst:55027777 waitingRQ: 670000000 goodness: 5 
+(1): ext_burst:45061433 waitingRQ: 710000000 goodness: 4 
+|                   |
+---------------------
+(Gatakia:1)/0/739ms - Switching Process In
+____________________
+max_waiting: 710000000, min_exp_burst: 9629629
+(1) curr_time 750000000 ext_burst:55020477  waitingRQ:710000000 goodness: 5
+
+---------------------
+|        RQ         |
+---------------------
+(5): ext_burst:9629629 waitingRQ: 150000000 goodness: 4 
+(3): ext_burst:55027777 waitingRQ: 690000000 goodness: 5 
+(1): ext_burst:55020477 waitingRQ: 710000000 goodness: 5 
+|                   |
+---------------------
+(Gatakia:1):(Interactive:5)/0/749ms - Switching Process In
+____________________
+max_waiting: 750000000, min_exp_burst: 16652949
+(5) curr_time 780000000 ext_burst:16652949  waitingRQ:150000000 goodness: 4
+
+---------------------
+|        RQ         |
+---------------------
+(5): ext_burst:16652949 waitingRQ: 150000000 goodness: 4 
+(3): ext_burst:55027777 waitingRQ: 720000000 goodness: 3 
+(1): ext_burst:55020477 waitingRQ: 750000000 goodness: 3 
+|                   |
+---------------------
+(Gatakia:1):(NoNInteractive:3)/0/779ms - Switching Process In
+____________________
+max_waiting: 780000000, min_exp_burst: 18334362
+(3) curr_time 810000000 ext_burst:18334362  waitingRQ:720000000 goodness: 1
+
+---------------------
+|        RQ         |
+---------------------
+(5): ext_burst:16652949 waitingRQ: 210000000 goodness: 0 
+(3): ext_burst:18334362 waitingRQ: 720000000 goodness: 1 
+(1): ext_burst:55020477 waitingRQ: 780000000 goodness: 3 
+|                   |
+---------------------
+(Gatakia:1):(Interactive:5)/0/809ms - Switching Process In
+____________________
+max_waiting: 790000000, min_exp_burst: 25550983
+(5) curr_time 820000000 ext_burst:25550983  waitingRQ:210000000 goodness: 3
+
+---------------------
+|        RQ         |
+---------------------
+(5): ext_burst:25550983 waitingRQ: 210000000 goodness: 3 
+(3): ext_burst:18334362 waitingRQ: 760000000 goodness: 0 
+(1): ext_burst:55020477 waitingRQ: 790000000 goodness: 2 
+|                   |
+---------------------
+(Gatakia:1):(NoNInteractive:3)/0/819ms - Switching Process In
+###-An Interrupt has fired!-###
+____________________
+max_waiting: 790000000, min_exp_burst: 26111454
+(3) curr_time 820000000 ext_burst:26111454  waitingRQ:760000000 goodness: 1
+
+---------------------
+|        RQ         |
+---------------------
+(5): ext_burst:25550983 waitingRQ: 220000000 goodness: 0 
+(3): ext_burst:26111454 waitingRQ: 760000000 goodness: 1 
+(1): ext_burst:55020477 waitingRQ: 790000000 goodness: 2 
+|                   |
+---------------------
+(Gatakia:1):(Interactive:5)/0/821ms - Switching Process In
+____________________
+max_waiting: 800000000, min_exp_burst: 15183661
+(5) curr_time 830000000 ext_burst:15183661  waitingRQ:220000000 goodness: 3
+
+---------------------
+|        RQ         |
+---------------------
+(5): ext_burst:15183661 waitingRQ: 220000000 goodness: 3 
+(3): ext_burst:26111454 waitingRQ: 770000000 goodness: 1 
+(1): ext_burst:55020477 waitingRQ: 800000000 goodness: 3 
+|                   |
+---------------------
+(Gatakia:1):(NoNInteractive:3)/0/829ms - Switching Process In
+____________________
+max_waiting: 830000000, min_exp_burst: 16522646
+(3) curr_time 860000000 ext_burst:16522646  waitingRQ:770000000 goodness: 1
+
+---------------------
+|        RQ         |
+---------------------
+(5): ext_burst:15183661 waitingRQ: 260000000 goodness: 0 
+(3): ext_burst:16522646 waitingRQ: 770000000 goodness: 1 
+(1): ext_burst:55020477 waitingRQ: 830000000 goodness: 3 
+|                   |
+---------------------
+(Gatakia:1):(Interactive:5)/0/859ms - Switching Process In
+____________________
+max_waiting: 840000000, min_exp_burst: 11727887
+(5) curr_time 870000000 ext_burst:11727887  waitingRQ:260000000 goodness: 3
+
+---------------------
+|        RQ         |
+---------------------
+(5): ext_burst:11727887 waitingRQ: 260000000 goodness: 3 
+(3): ext_burst:16522646 waitingRQ: 810000000 goodness: 1 
+(1): ext_burst:55020477 waitingRQ: 840000000 goodness: 4 
+|                   |
+---------------------
+(Gatakia:1):(NoNInteractive:3)/0/869ms - Switching Process In
+____________________
+max_waiting: 880000000, min_exp_burst: 11727887
+(3) curr_time 910000000 ext_burst:26129909  waitingRQ:810000000 goodness: 2
+
+---------------------
+|        RQ         |
+---------------------
+(5): ext_burst:11727887 waitingRQ: 310000000 goodness: 2 
+(3): ext_burst:26129909 waitingRQ: 810000000 goodness: 2 
+(1): ext_burst:55020477 waitingRQ: 880000000 goodness: 4 
+|                   |
+---------------------
+(Gatakia:1):(Interactive:5)/0/909ms - Switching Process In
+	(Gatakia:1):(Interactive:5)/0/929ms - Going to Sleep
+____________________
+max_waiting: 900000000, min_exp_burst: 26129909
+(5) curr_time 930000000 ext_burst:10191987  waitingRQ:310000000 goodness: 2
+
+---------------------
+|        RQ         |
+---------------------
+(3): ext_burst:26129909 waitingRQ: 870000000 goodness: 1 
+(1): ext_burst:55020477 waitingRQ: 900000000 goodness: 2 
+|                   |
+---------------------
+(Gatakia:1):(NoNInteractive:3)/0/930ms - Switching Process In
+____________________
+max_waiting: 970000000, min_exp_burst: 55055386
+(3) curr_time 1000000000 ext_burst:55055386  waitingRQ:870000000 goodness: 1
+
+---------------------
+|        RQ         |
+---------------------
+(3): ext_burst:55055386 waitingRQ: 870000000 goodness: 1 
+(1): ext_burst:55020477 waitingRQ: 970000000 goodness: 0 
+|                   |
+---------------------
+(Gatakia:1)/0/999ms - Switching Process In
+###-Sending Kill Message-###
+____________________
+max_waiting: 990000000, min_exp_burst: 35370454
+(1) curr_time 1050000000 ext_burst:35370454  waitingRQ:970000000 goodness: 1
+
+---------------------
+|        RQ         |
+---------------------
+(3): ext_burst:55055386 waitingRQ: 990000000 goodness: 1 
+(1): ext_burst:35370454 waitingRQ: 970000000 goodness: 1 
+|                   |
+---------------------
+(Gatakia:1):(NoNInteractive:3)/0/1049ms - Switching Process In
+###-Process: (Gatakia:1):(NoNInteractive:3) is going down-###
+____________________
+max_waiting: 1020000000, min_exp_burst: 35370454
+(1) curr_time 1050000000 ext_burst:566666666  waitingRQ:0 goodness: 0
+
+---------------------
+|        RQ         |
+---------------------
+(1): ext_burst:35370454 waitingRQ: 1020000000 goodness: 1 
+|                   |
+---------------------
+(Gatakia:1)/0/1050ms - Switching Process In
+###-An Interrupt has fired!-###
+	(Gatakia:1):(Interactive:5)/0/1438ms - Waking Up from Sleep
+____________________
+max_waiting: 1020000000, min_exp_burst: 10191987
+(1) curr_time 1460000000 ext_burst:395370370  waitingRQ:1020000000 goodness: 38
+
+---------------------
+|        RQ         |
+---------------------
+(5): ext_burst:10191987 waitingRQ: 30000000 goodness: 33 
+(1): ext_burst:395370370 waitingRQ: 1020000000 goodness: 38 
+|                   |
+---------------------
+(Gatakia:1):(Interactive:5)/0/1459ms - Switching Process In
+###-Process: (Gatakia:1):(Interactive:5) is going down-###
+____________________
+max_waiting: 1430000000, min_exp_burst: 395370370
+(1) curr_time 1460000000 ext_burst:888888888  waitingRQ:0 goodness: 0
+
+---------------------
+|        RQ         |
+---------------------
+(1): ext_burst:395370370 waitingRQ: 1430000000 goodness: 1 
+|                   |
+---------------------
+(Gatakia:1)/0/1460ms - Switching Process In
+###-Process: (Gatakia:1) is going down-###
+(Init:0)/0/1460ms - Switching Process In
+###-Process: (Init:0) is going down-###
+###-Shutting Down CPU-###
