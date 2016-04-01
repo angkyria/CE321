@@ -165,19 +165,6 @@ void schedule(){
         if (min_goodness != current) {
 			min_goodness->start_burst = sched_clock();
             current->CPU = 0;
-            printf("____________________\n");
-            printf("max_waiting: %lld, min_exp_burst: %lld\n", max_waiting->waitingRQ, min_exp_burst->exp_burst);
-			printf("(%d) curr_time %lld ext_burst:%lld  waitingRQ:%lld goodness: %lld\n",current->thread_info->id, curr_time, current->exp_burst, current->waitingRQ, current->goodness);
-			curr = rq->head->next;
-			printf("\n---------------------\n");
-			printf("|        RQ         |\n");
-			printf("---------------------\n");
-			while (curr!= rq->head) {
-				 printf("(%d): ext_burst:%lld waitingRQ: %lld goodness: %lld \n",curr->thread_info->id, curr->exp_burst, curr->waitingRQ, curr->goodness);
-				 curr=curr->next;
-			}
-			printf("|                   |\n");
-			printf("---------------------\n");
 			context_switch(min_goodness);
         }
     }
