@@ -65,9 +65,6 @@ void initschedule(struct runqueue *newrq, struct task_struct *seedTask){
  * It SHOULD NOT free the runqueue itself.
  */
 void killschedule(){
-
-    free(rq->head);
-
     return;
 }
 
