@@ -129,8 +129,8 @@ void print_rq () {
  */
 void schedule(){
 
-    struct task_struct *curr, *test, *min, *max;
-    unsigned long long max_wait, min_exp_burst, curr_time;
+    struct task_struct *curr, *min, *max, *min1;
+    unsigned long long curr_time;
 
 
     if(current->CPU ==0){
@@ -167,17 +167,15 @@ void schedule(){
             curr = curr->next;
         }
 
-        min_exp_burst = min->exp_burst;
 
         curr = rq->head->next;
-        max = curr;
+        max=curr;
 
         curr_time = sched_clock();
-        max_wait = curr_time - max->entry_time_RQ;
         while (curr != rq->head) {
             curr->waitingRQ=curr_time - curr->entry_time_RQ;
-            if (curr_time - max->entry_time_RQ < curr_time - curr->entry_time_RQ) {
-                max_wait = curr_time - curr->entry_time_RQ;
+            if (max->waitingRQ < curr->waitingRQ) {
+                max=curr;
             }
             curr = curr->next;
         }
@@ -188,21 +186,22 @@ void schedule(){
 
 	    current->burst=current->end_burst-current->start_burst;
 
-        current->goodness = ((1 + current->exp_burst)/(1 + min->exp_burst))*((1 + max_wait)/(1 + curr_time - current->entry_time_RQ));
+        //current->goodness = ((1 + current->exp_burst)/(1 + min->exp_burst))*((1 + max->waitingRQ)/(1 + current->waitingRQ));
 
 
         curr = rq->head->next;
-        min = curr;
+        min1 = curr;
 
         while (curr != rq->head) {                 // finds minimum goodness
-            if (min->goodness > curr->goodness) {
-                min = curr;
+            curr->goodness= ((1 + curr->exp_burst)/(1 + min->exp_burst))*((1 + max->waitingRQ)/(1 + curr->waitingRQ)); 
+            if (min1->goodness > curr->goodness) {
+                min1 = curr;
             }
             curr = curr->next;
         }
 
-        if (min != current) {
-			min->start_burst = sched_clock();
+        if (min1 != current) {
+			min1->start_burst = sched_clock();
 			//current->end_burst = sched_clock();
             current->CPU = 0;
             printf("____________________\n");
@@ -217,7 +216,7 @@ void schedule(){
 			}
 			printf("|                   |\n");
 			printf("---------------------\n");
-			context_switch(min);
+			context_switch(min1);
         }
     }
 }
