@@ -218,9 +218,15 @@ static void *slob_page_alloc(struct page *sp, size_t size, int align)
 {
 	slob_t *prev, *cur, *aligned = NULL;
 	int delta = 0, units = SLOB_UNITS(size);
+	int i=0;
 
 	for (prev = NULL, cur = sp->freelist; ; prev = cur, cur = slob_next(cur)) {
 		slobidx_t avail = slob_units(cur);
+		i++;
+		if(i==90){
+			printk("Size block: %d, Request size: %d, diafora: %d\n", avail, delta, avail-delta);
+			i=0;
+		}
 
 		if (align) {
 			aligned = (slob_t *)ALIGN((unsigned long)cur, align);
@@ -272,9 +278,11 @@ static void *slob_alloc(size_t size, gfp_t gfp, int align, int node)
 	struct list_head *slob_list;
 	slob_t *b = NULL;
 	unsigned long flags;
+	int i=0;
 
 	if (size < SLOB_BREAK1)
 		slob_list = &free_slob_small;
+		
 	else if (size < SLOB_BREAK2)
 		slob_list = &free_slob_medium;
 	else
@@ -283,6 +291,7 @@ static void *slob_alloc(size_t size, gfp_t gfp, int align, int node)
 	spin_lock_irqsave(&slob_lock, flags);
 	/* Iterate through each partially free page, try to find room */
 	list_for_each_entry(sp, slob_list, list) {
+	i++;
 #ifdef CONFIG_NUMA
 		/*
 		 * If there's a node specification, search for a partial
@@ -292,6 +301,10 @@ static void *slob_alloc(size_t size, gfp_t gfp, int align, int node)
 			continue;
 #endif
 		/* Enough room on this page? */
+		if(i==3125){
+			printk("Page size: %d, slob size: %d, diafora: %d\n",sp->units, SLOB_UNITS(size), SLOB_UNITS(size)-sp->units);
+			i=0;
+		}
 		if (sp->units < SLOB_UNITS(size))
 			continue;
 
