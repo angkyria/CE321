@@ -331,7 +331,15 @@ static void *slob_alloc(size_t size, gfp_t gfp, int align, int node)
                     if(SLOB_UNITS(size)<=slob_units(cur)){
                         min=sp;
                         diff=sp->units-SLOB_UNITS(size);
-                        if(i==50){
+                        if(i==6000){
+
+							if(list_last_entry(slob_list, typeof(*sp), list) == sp){
+								printk("\n\n\t\t I am the end of the list\n");
+							}
+
+							if(list_first_entry(slob_list, typeof(*sp), list) == sp){
+								printk("\n\n\t\t I am the Start of the list\n");
+							}
 
                             printk("page size : %d, request size : %d\n", sp->units, SLOB_UNITS(size));
                             for (pre = NULL, cur = sp->freelist; ; pre = cur, cur = slob_next(cur)) {
