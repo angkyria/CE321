@@ -238,7 +238,10 @@ static void *slob_page_alloc(struct page *sp, size_t size, int align)
             min_aligned = aligned;
             min_delta =delta;
             fit = avail - (units + delta);
-            if(i==7 && avail == units)printk("extract fit\n");
+            if(i==7 && avail == units)
+                printk("extract fit\n");
+            else
+                printk("fit with fragment\n");
         }
 
         if (slob_last(cur)){
