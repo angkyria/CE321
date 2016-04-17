@@ -219,6 +219,76 @@ static void *slob_page_alloc(struct page *sp, size_t size, int align)
 	slob_t *prev, *cur, *aligned = NULL;
 	int delta = 0, units = SLOB_UNITS(size);
 
+	#ifdef BEST_FIT
+
+	slob_t *min_prev = NULL, *min_cur = NULL, *min_aligned = NULL;
+	int min_delta = 0;
+	slobidx_t fit = 0;
+	int i=0;
+
+	for (prev = NULL, cur = sp->freelist; ; prev = cur, cur = slob_next(cur)) {
+		slobidx_t avail = slob_units(cur);
+		i++;
+		if (align) {
+			aligned = (slob_t *)ALIGN((unsigned long)cur, align);
+			delta = aligned - cur;
+		}
+		if ( (avail >= units + delta) && ( min_cur == NULL || avail - (units + delta) < fit) ) { /* room enough? */
+
+			min_prev = prev;
+			min_cur = cur;
+			min_aligned = aligned;
+			min_delta =delta;
+			fit = avail - (units + delta);
+			if(i==7 && avail == units)
+				printk("extract fit\n");
+			else
+				printk("fit with fragment\n");
+		}
+
+		if (slob_last(cur)){
+			if (min_cur !=NULL){
+
+				slob_t *next = NULL;
+				slobidx_t min_avail = slob_units(min_cur);
+
+				if(min_delta){  /* need to fragment head to align? */
+					next = slob_next(min_cur);
+					set_slob(min_aligned, min_avail - min_delta, next);
+					set_slob(min_cur, min_delta, min_aligned);
+					min_prev = min_cur;
+					min_cur = min_aligned;
+					min_avail = slob_units(min_cur);
+				}
+
+				next = slob_next(min_cur);
+
+				if(min_avail == units) {/*exact fit? unlink. */
+				   if(min_prev)
+					  set_slob(min_prev, slob_units(min_prev), next);
+				  else
+					 sp->freelist = next;
+				}else {/*fragment*/
+					if(min_prev)
+						set_slob(min_prev, slob_units(min_prev), min_cur + units);
+					else
+						sp->freelist = min_cur + units;
+					set_slob(min_cur + units, min_avail - units, next);
+				}
+
+				sp->units -= units;
+				if (!sp->units)
+					clear_slob_page_free(sp);
+				return min_cur;
+
+			}
+			return NULL;
+		}
+	}
+
+	#endif
+
+	#ifdef FIRST_FIT
 	for (prev = NULL, cur = sp->freelist; ; prev = cur, cur = slob_next(cur)) {
 		slobidx_t avail = slob_units(cur);
 
@@ -260,6 +330,9 @@ static void *slob_page_alloc(struct page *sp, size_t size, int align)
 		if (slob_last(cur))
 			return NULL;
 	}
+	#endif
+
+	
 }
 
 /*
