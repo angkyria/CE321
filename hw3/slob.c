@@ -250,7 +250,7 @@ static void *slob_page_alloc(struct page *sp, size_t size, int align)
                 slob_t *next = NULL;
                 slobidx_t min_avail = slob_units(min_cur);
 
-                if(min_delta){  /* need to fragment head to align? */ 
+                if(min_delta){  /* need to fragment head to align? */
                     next = slob_next(min_cur);
                     set_slob(min_aligned, min_avail - min_delta, next);
                     set_slob(min_cur, min_delta, min_aligned);
@@ -272,7 +272,7 @@ static void *slob_page_alloc(struct page *sp, size_t size, int align)
                     else
                         sp->freelist = min_cur + units;
                     set_slob(min_cur + units, min_avail - units, next);
-                } 
+                }
 
                 sp->units -= units;
                 if (!sp->units)
@@ -282,7 +282,7 @@ static void *slob_page_alloc(struct page *sp, size_t size, int align)
             }
             return NULL;
         }
-	}                                  
+	}
 }
 
 /*
@@ -356,9 +356,14 @@ static void *slob_alloc(size_t size, gfp_t gfp, int align, int node)
                         diff=sp->units-SLOB_UNITS(size);
                         if(i==50){
 
-							if(list_last_entry(slob_list,typeof(*sp),list) == sp){
-									printk("\n\n\t\t I am the end of the list");
+							if(list_last_entry(slob_list, typeof(*sp), list) == sp){
+								printk("\n\n\t\t I am the end of the list\n");
 							}
+
+							if(list_first_entry(slob_list, typeof(*sp), list) == sp){
+								printk("\n\n\t\t I am the Start of the list\n");
+							}
+
 
                             printk("page size : %d, request size : %d\n", sp->units, SLOB_UNITS(size));
                             for (pre = NULL, cur = sp->freelist; ; pre = cur, cur = slob_next(cur)) {
