@@ -74,8 +74,8 @@
 
 #include "slab.h"
 
-static long total_free_mem = 5;
-static long total_alloc_mem = 10;
+long total_free_mem = 5;
+long total_alloc_mem = 10;
 /*
  * slob_block has a field 'units', which indicates size of block if +ve,
  * or offset of next block if -ve (in SLOB_UNITs).
