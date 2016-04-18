@@ -74,8 +74,8 @@
 
 #include "slab.h"
 
-long total_free_mem = 5;
-long total_alloc_mem = 10;
+long total_free_mem = 0;
+long total_alloc_mem = 0;
 /*
  * slob_block has a field 'units', which indicates size of block if +ve,
  * or offset of next block if -ve (in SLOB_UNITs).
@@ -104,6 +104,7 @@ static LIST_HEAD(free_slob_small);
 static LIST_HEAD(free_slob_medium);
 static LIST_HEAD(free_slob_large);
 
+//static struct list_head small_head = LIST_HEAD(free_slob_small);
 /*
  * slob_page_free: true for pages on free_slob_pages list.
  */
@@ -204,6 +205,8 @@ static void *slob_new_pages(gfp_t gfp, int order, int node)
 	if (!page)
 		return NULL;
 
+	total_alloc_mem = total_alloc_mem + sizeof(page);
+
 	return page_address(page);
 }
 
@@ -213,6 +216,9 @@ static void slob_free_pages(void *b, int order)
 		current->reclaim_state->reclaimed_slab += 1 << order;
 	free_pages((unsigned long)b, order);
 
+	//total_free_mem = total_free_mem + LIST_HEAD(free_slob_small)->units;
+	//total_free_mem = total_free_mem + LIST_HEAD(free_slob_medium)->units;
+	//total_free_mem = total_free_mem + LIST_HEAD(free_slob_large)->units;
 
 }
 
