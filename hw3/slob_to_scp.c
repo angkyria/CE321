@@ -74,6 +74,10 @@
 
 #include "slab.h"
 
+//#define BEST_FIT_SLOB_ALG
+#define FIRST_FIT_SLOB_ALG
+#define NEXT_FIT_SLOB_ALG
+
 long total_free_mem ;
 long total_alloc_mem = 0;
 /*
@@ -215,32 +219,7 @@ static void slob_free_pages(void *b, int order)
 		current->reclaim_state->reclaimed_slab += 1 << order;
 	free_pages((unsigned long)b, order);
 
-	//struct list_head *slob_list;
-	//struct page *sp;
-
-	//struct list_head *head =  LIST_HEAD(free_slob_small);
-
-	//list_for_each_entry(,list_first_entry(LIST_HEAD(free_slob_small), typeof(*list_head), list),list)
-
-	//total_free_mem = total_free_mem + LIST_HEAD(free_slob_small)->units;
-	//total_free_mem = total_free_mem + LIST_HEAD(free_slob_medium)->units;
-	//total_free_mem = total_free_mem + LIST_HEAD(free_slob_large)->units;
-
-	/*
-	slob_list = &free_slob_small;
-	list_for_each_entry(sp, slob_list, list) {
-		total_free_mem = total_free_mem + sp->units;
-	}
-
-	slob_list = &free_slob_medium;
-	list_for_each_entry(sp, slob_list, list) {
-		total_free_mem = total_free_mem + sp->units;
-	}
-
-	slob_list = &free_slob_large;
-	list_for_each_entry(sp, slob_list, list) {
-		total_free_mem = total_free_mem + sp->units;
-	} */
+	total_alloc_mem = total_alloc_mem - sizeof(order);
 }
 
 /*
@@ -250,6 +229,8 @@ static void *slob_page_alloc(struct page *sp, size_t size, int align)
 {
 	slob_t *prev, *cur, *aligned = NULL;
 	int delta = 0, units = SLOB_UNITS(size);
+
+	#ifdef FIRST_FIT_SLOB_ALG
 
 	for (prev = NULL, cur = sp->freelist; ; prev = cur, cur = slob_next(cur)) {
 		slobidx_t avail = slob_units(cur);
@@ -292,6 +273,8 @@ static void *slob_page_alloc(struct page *sp, size_t size, int align)
 		if (slob_last(cur))
 			return NULL;
 	}
+
+	#endif
 }
 
 /*
@@ -326,6 +309,7 @@ static void *slob_alloc(size_t size, gfp_t gfp, int align, int node)
 			continue;
 #endif
 
+#ifdef NEXT_FIT_SLOB_ALG
 		total_free_mem = total_free_mem + sp->units;
 		/* Enough room on this page? */
 		if (sp->units < SLOB_UNITS(size))
@@ -345,6 +329,8 @@ static void *slob_alloc(size_t size, gfp_t gfp, int align, int node)
 			list_move_tail(slob_list, prev->next);
 		break;
 	}
+#ifdef NEXT_FIT_SLOB_ALG
+
 	spin_unlock_irqrestore(&slob_lock, flags);
 
 	/* Not enough space: must allocate a new page */
