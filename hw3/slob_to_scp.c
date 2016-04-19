@@ -74,7 +74,7 @@
 
 #include "slab.h"
 
-long total_free_mem = 0;
+long total_free_mem ;
 long total_alloc_mem = 0;
 /*
  * slob_block has a field 'units', which indicates size of block if +ve,
@@ -104,7 +104,6 @@ static LIST_HEAD(free_slob_small);
 static LIST_HEAD(free_slob_medium);
 static LIST_HEAD(free_slob_large);
 
-//static struct list_head small_head = LIST_HEAD(free_slob_small);
 /*
  * slob_page_free: true for pages on free_slob_pages list.
  */
@@ -216,10 +215,32 @@ static void slob_free_pages(void *b, int order)
 		current->reclaim_state->reclaimed_slab += 1 << order;
 	free_pages((unsigned long)b, order);
 
+	//struct list_head *slob_list;
+	//struct page *sp;
+
+	//struct list_head *head =  LIST_HEAD(free_slob_small);
+
+	//list_for_each_entry(,list_first_entry(LIST_HEAD(free_slob_small), typeof(*list_head), list),list)
+
 	//total_free_mem = total_free_mem + LIST_HEAD(free_slob_small)->units;
 	//total_free_mem = total_free_mem + LIST_HEAD(free_slob_medium)->units;
 	//total_free_mem = total_free_mem + LIST_HEAD(free_slob_large)->units;
 
+	/*
+	slob_list = &free_slob_small;
+	list_for_each_entry(sp, slob_list, list) {
+		total_free_mem = total_free_mem + sp->units;
+	}
+
+	slob_list = &free_slob_medium;
+	list_for_each_entry(sp, slob_list, list) {
+		total_free_mem = total_free_mem + sp->units;
+	}
+
+	slob_list = &free_slob_large;
+	list_for_each_entry(sp, slob_list, list) {
+		total_free_mem = total_free_mem + sp->units;
+	} */
 }
 
 /*
@@ -284,6 +305,8 @@ static void *slob_alloc(size_t size, gfp_t gfp, int align, int node)
 	slob_t *b = NULL;
 	unsigned long flags;
 
+	total_free_mem = 0 ;
+
 	if (size < SLOB_BREAK1)
 		slob_list = &free_slob_small;
 	else if (size < SLOB_BREAK2)
@@ -302,6 +325,8 @@ static void *slob_alloc(size_t size, gfp_t gfp, int align, int node)
 		if (node != NUMA_NO_NODE && page_to_nid(sp) != node)
 			continue;
 #endif
+
+		total_free_mem = total_free_mem + sp->units;
 		/* Enough room on this page? */
 		if (sp->units < SLOB_UNITS(size))
 			continue;
