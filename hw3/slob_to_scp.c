@@ -219,7 +219,7 @@ static void slob_free_pages(void *b, int order)
 		current->reclaim_state->reclaimed_slab += 1 << order;
 	free_pages((unsigned long)b, order);
 
-	total_alloc_mem = total_alloc_mem - sizeof(order);
+	total_alloc_mem = total_alloc_mem - sizeof(b);
 }
 
 /*
@@ -230,7 +230,11 @@ static void *slob_page_alloc(struct page *sp, size_t size, int align)
 	slob_t *prev, *cur, *aligned = NULL;
 	int delta = 0, units = SLOB_UNITS(size);
 
-	#ifdef FIRST_FIT_SLOB_ALG
+#ifdef BEST_FIT_SLOB_ALG
+
+#endif
+
+#ifdef FIRST_FIT_SLOB_ALG
 
 	for (prev = NULL, cur = sp->freelist; ; prev = cur, cur = slob_next(cur)) {
 		slobidx_t avail = slob_units(cur);
@@ -274,7 +278,7 @@ static void *slob_page_alloc(struct page *sp, size_t size, int align)
 			return NULL;
 	}
 
-	#endif
+#endif
 }
 
 /*
@@ -309,6 +313,11 @@ static void *slob_alloc(size_t size, gfp_t gfp, int align, int node)
 			continue;
 #endif
 
+#ifdef BEST_FIT_SLOB_ALG
+
+#endif
+
+
 #ifdef NEXT_FIT_SLOB_ALG
 		total_free_mem = total_free_mem + sp->units;
 		/* Enough room on this page? */
@@ -329,7 +338,7 @@ static void *slob_alloc(size_t size, gfp_t gfp, int align, int node)
 			list_move_tail(slob_list, prev->next);
 		break;
 	}
-#ifdef NEXT_FIT_SLOB_ALG
+#endif
 
 	spin_unlock_irqrestore(&slob_lock, flags);
 
