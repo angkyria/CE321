@@ -1,0 +1,6 @@
+#!/bin/sh
+gcc -Wall -g -c -o slob_get_total_alloc_mem.o slob_get_total_alloc_mem.c 
+gcc -Wall -g -c -o slob_get_total_free_mem.o slob_get_total_free_mem.c
+ar rcs libmem.a slob_get_total_alloc_mem.o slob_get_total_free_mem.o
+gcc -Wall -g -c get_slob_mem_measurement.c -o get_slob_mem_measurement.o
+gcc -g -o get_slob_mem_measurement get_slob_mem_measurement.o -L. -lmem

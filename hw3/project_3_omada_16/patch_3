@@ -1,0 +1,403 @@
+diff -ruN linux-3.14.62-orig/arch/x86/syscalls/syscall_32.tbl linux-3.14.62-dev/arch/x86/syscalls/syscall_32.tbl
+--- linux-3.14.62-orig/arch/x86/syscalls/syscall_32.tbl	2016-02-25 21:59:45.000000000 +0200
++++ linux-3.14.62-dev/arch/x86/syscalls/syscall_32.tbl	2016-04-18 18:44:26.193172931 +0300
+@@ -359,3 +359,5 @@
+ 350	i386	finit_module		sys_finit_module
+ 351	i386	sched_setattr		sys_sched_setattr
+ 352	i386	sched_getattr		sys_sched_getattr
++353	i386	slob_get_total_alloc_mem sys_slob_get_total_alloc_mem
++354	i386	slob_get_total_free_mem sys_slob_get_total_free_mem
+diff -ruN linux-3.14.62-orig/include/linux/slab.h linux-3.14.62-dev/include/linux/slab.h
+--- linux-3.14.62-orig/include/linux/slab.h	2016-02-25 21:59:45.000000000 +0200
++++ linux-3.14.62-dev/include/linux/slab.h	2016-04-18 23:40:44.665865031 +0300
+@@ -15,6 +15,8 @@
+ #include <linux/types.h>
+ #include <linux/workqueue.h>
+ 
++extern long int total_free_mem;
++extern long int total_alloc_mem;
+ 
+ /*
+  * Flags to pass to kmem_cache_create().
+diff -ruN linux-3.14.62-orig/include/linux/syscalls.h linux-3.14.62-dev/include/linux/syscalls.h
+--- linux-3.14.62-orig/include/linux/syscalls.h	2016-02-25 21:59:45.000000000 +0200
++++ linux-3.14.62-dev/include/linux/syscalls.h	2016-04-18 18:36:46.833178690 +0300
+@@ -856,3 +856,5 @@
+ 			 unsigned long idx1, unsigned long idx2);
+ asmlinkage long sys_finit_module(int fd, const char __user *uargs, int flags);
+ #endif
++asmlinkage long sys_get_total_alloc_mem(void);
++asmlinkage long sys_get_total_free_mem(void);
+diff -ruN linux-3.14.62-orig/kernel/Makefile linux-3.14.62-dev/kernel/Makefile
+--- linux-3.14.62-orig/kernel/Makefile	2016-02-25 21:59:45.000000000 +0200
++++ linux-3.14.62-dev/kernel/Makefile	2016-04-18 17:53:51.149210980 +0300
+@@ -10,7 +10,7 @@
+ 	    kthread.o sys_ni.o posix-cpu-timers.o \
+ 	    hrtimer.o nsproxy.o \
+ 	    notifier.o ksysfs.o cred.o reboot.o \
+-	    async.o range.o groups.o smpboot.o
++	    async.o range.o groups.o smpboot.o slob_get_total_alloc_mem.o slob_get_total_free_mem.o
+ 
+ ifdef CONFIG_FUNCTION_TRACER
+ # Do not trace debug files and internal ftrace files
+diff -ruN linux-3.14.62-orig/kernel/slob_get_total_alloc_mem.c linux-3.14.62-dev/kernel/slob_get_total_alloc_mem.c
+--- linux-3.14.62-orig/kernel/slob_get_total_alloc_mem.c	1970-01-01 02:00:00.000000000 +0200
++++ linux-3.14.62-dev/kernel/slob_get_total_alloc_mem.c	2016-04-19 22:32:25.050167825 +0300
+@@ -0,0 +1,23 @@
++#include<linux/kernel.h>
++#include<linux/syscalls.h>
++#include<linux/slab.h>
++
++SYSCALL_DEFINE0(slob_get_total_alloc_mem) {
++
++	long allocated_mem[100];
++	long allocated_mem_avg = 0;
++	int i;
++
++	for (i = 0; i < 100; i++) {
++		allocated_mem[i] = total_alloc_mem;
++	}
++
++	for(i=0; i < 100; i++){
++		allocated_mem_avg = allocated_mem_avg + allocated_mem[i];
++	}
++
++	allocated_mem_avg = allocated_mem_avg / 100;
++
++	return(allocated_mem_avg);
++
++}
+diff -ruN linux-3.14.62-orig/kernel/slob_get_total_free_mem.c linux-3.14.62-dev/kernel/slob_get_total_free_mem.c
+--- linux-3.14.62-orig/kernel/slob_get_total_free_mem.c	1970-01-01 02:00:00.000000000 +0200
++++ linux-3.14.62-dev/kernel/slob_get_total_free_mem.c	2016-04-19 22:32:31.930167692 +0300
+@@ -0,0 +1,22 @@
++#include<linux/kernel.h>
++#include<linux/syscalls.h>
++#include<linux/slab.h>
++
++SYSCALL_DEFINE0(slob_get_total_free_mem) {
++
++	long emty_mem[100];
++	long emty_mem_avg = 0;
++	int i;
++
++	for (i = 0; i < 100; i++) {
++		emty_mem[i] = total_free_mem;
++	}
++
++	for(i=0; i < 100; i++){
++		emty_mem_avg = emty_mem_avg + emty_mem[i];
++	}
++
++	emty_mem_avg = emty_mem_avg / 100;
++
++	return(emty_mem_avg);
++}
+diff -ruN linux-3.14.62-orig/Makefile linux-3.14.62-dev/Makefile
+--- linux-3.14.62-orig/Makefile	2016-02-25 21:59:45.000000000 +0200
++++ linux-3.14.62-dev/Makefile	2016-04-15 20:03:56.682420864 +0300
+@@ -1,7 +1,7 @@
+ VERSION = 3
+ PATCHLEVEL = 14
+ SUBLEVEL = 62
+-EXTRAVERSION =
++EXTRAVERSION = -dev
+ NAME = Remembering Coco
+ 
+ # *DOCUMENTATION*
+diff -ruN linux-3.14.62-orig/mm/slob.c linux-3.14.62-dev/mm/slob.c
+--- linux-3.14.62-orig/mm/slob.c	2016-02-25 21:59:45.000000000 +0200
++++ linux-3.14.62-dev/mm/slob.c	2016-04-21 16:01:25.872354654 +0300
+@@ -73,6 +73,20 @@
+ #include <linux/atomic.h>
+ 
+ #include "slab.h"
++
++/* Uncomment the last two defines to enable
++ * original slob.c functionality ( First/Next fit) */
++#define BEST_FIT_SLOB_ALG
++
++/* #define FIRST_FIT_SLOB_ALG
++ * #define NEXT_FIT_SLOB_ALG */
++
++long total_free_mem ;
++long total_alloc_mem = 0;
++
++#ifdef BEST_FIT_SLOB_ALG
++	static unsigned int alloc_iter = 0;
++#endif
+ /*
+  * slob_block has a field 'units', which indicates size of block if +ve,
+  * or offset of next block if -ve (in SLOB_UNITs).
+@@ -201,6 +215,8 @@
+ 	if (!page)
+ 		return NULL;
+ 
++	total_alloc_mem = total_alloc_mem + sizeof(page);
++
+ 	return page_address(page);
+ }
+ 
+@@ -209,6 +225,8 @@
+ 	if (current->reclaim_state)
+ 		current->reclaim_state->reclaimed_slab += 1 << order;
+ 	free_pages((unsigned long)b, order);
++
++	total_alloc_mem = total_alloc_mem - sizeof(b);
+ }
+ 
+ /*
+@@ -217,7 +235,96 @@
+ static void *slob_page_alloc(struct page *sp, size_t size, int align)
+ {
+ 	slob_t *prev, *cur, *aligned = NULL;
+-	int delta = 0, units = SLOB_UNITS(size);
++    int delta = 0, units = SLOB_UNITS(size);
++
++#ifdef BEST_FIT_SLOB_ALG
++
++    slob_t *min_prev = NULL, *min_cur = NULL, *min_aligned = NULL, *cur_print, *prev_print;
++    int min_delta = 0;
++    slobidx_t fit = 0;
++	slobidx_t avail;
++    int i=0;
++
++    for (prev = NULL, cur = sp->freelist; ; prev = cur, cur = slob_next(cur)) {
++        avail = slob_units(cur);
++        i++;
++        if (align) {
++            aligned = (slob_t *)ALIGN((unsigned long)cur, align);
++            delta = aligned - cur;
++        }
++        if ( (avail >= units + delta) && ( min_cur == NULL || avail - (units + delta) < fit) ) { /* room enough? */
++
++            min_prev = prev;
++            min_cur = cur;
++            min_aligned = aligned;
++            min_delta =delta;
++            fit = avail - (units + delta);
++        }
++
++        if (slob_last(cur)){
++
++            if (min_cur !=NULL){
++
++                slob_t *next = NULL;
++                slobidx_t min_avail = slob_units(min_cur);
++
++                if(min_delta){  /* need to fragment head to align? */
++                    next = slob_next(min_cur);
++                    set_slob(min_aligned, min_avail - min_delta, next);
++                    set_slob(min_cur, min_delta, min_aligned);
++                    min_prev = min_cur;
++                    min_cur = min_aligned;
++                    min_avail = slob_units(min_cur);
++                }
++
++if (alloc_iter >= 6000){
++
++					printk("\nslob_alloc:Request: %d \n", units);
++					printk("slob_alloc:Candidate blocks size: ");
++					for (prev_print = NULL, cur_print = sp->freelist; ; prev_print = cur_print, cur_print = slob_next(cur_print)) {
++						printk("%d ", slob_units(cur_print));
++						if (slob_last(cur_print)){
++							break;
++						}
++					}
++					if (slob_units(min_cur) >= units){
++						printk("\nslob_alloc:Best Fit: %d", slob_units(min_cur));
++					}else {
++						printk("\nslob_alloc:Best Fit:None");
++					}
++					alloc_iter = 0;
++				}
++
++                next = slob_next(min_cur);
++
++                if(min_avail == units) {/*exact fit? unlink. */
++                    if(min_prev)
++                        set_slob(min_prev, slob_units(min_prev), next);
++                    else
++                        sp->freelist = next;
++                }else {/*fragment*/
++                    if(min_prev)
++                        set_slob(min_prev, slob_units(min_prev), min_cur + units);
++                    else
++                        sp->freelist = min_cur + units;
++                    set_slob(min_cur + units, min_avail - units, next);
++                }
++
++                sp->units -= units;
++
++                if (!sp->units)
++                    clear_slob_page_free(sp);
++                return min_cur;
++
++            }
++            return NULL;
++        }
++    }
++
++
++#endif
++
++#ifdef FIRST_FIT_SLOB_ALG
+ 
+ 	for (prev = NULL, cur = sp->freelist; ; prev = cur, cur = slob_next(cur)) {
+ 		slobidx_t avail = slob_units(cur);
+@@ -260,6 +367,9 @@
+ 		if (slob_last(cur))
+ 			return NULL;
+ 	}
++
++#endif
++
+ }
+ 
+ /*
+@@ -267,12 +377,20 @@
+  */
+ static void *slob_alloc(size_t size, gfp_t gfp, int align, int node)
+ {
+-	struct page *sp;
++	struct page *sp ;
+ 	struct list_head *prev;
+ 	struct list_head *slob_list;
+ 	slob_t *b = NULL;
+ 	unsigned long flags;
+ 
++#ifdef BEST_FIT_SLOB_ALG
++	struct page *min_sp = NULL;
++   	 int min_fit = -1, min_page_size = 2147483647, delta = 0, diff=10000, found_perfect_fit=-1;
++	slob_t *prev_block, *cur_block, *aligned = NULL, *min_cur = NULL;
++	slobidx_t avail;
++#endif
++	total_free_mem = 0 ;
++
+ 	if (size < SLOB_BREAK1)
+ 		slob_list = &free_slob_small;
+ 	else if (size < SLOB_BREAK2)
+@@ -283,6 +401,8 @@
+ 	spin_lock_irqsave(&slob_lock, flags);
+ 	/* Iterate through each partially free page, try to find room */
+ 	list_for_each_entry(sp, slob_list, list) {
++
++
+ #ifdef CONFIG_NUMA
+ 		/*
+ 		 * If there's a node specification, search for a partial
+@@ -291,6 +411,82 @@
+ 		if (node != NUMA_NO_NODE && page_to_nid(sp) != node)
+ 			continue;
+ #endif
++
++#ifdef BEST_FIT_SLOB_ALG
++		alloc_iter++;
++
++		/* iterates the page and attempts to find as a best-fit block as possible */
++		/* this will be done for all pages, the page with the best-fit block will be selected */
++
++		for (prev_block = NULL, cur_block = sp->freelist; ; prev_block=cur_block, cur_block = slob_next(cur_block)) {
++			avail = slob_units(cur_block);
++
++			if (align) {
++				aligned = (slob_t *)ALIGN((unsigned long)cur_block, align);
++				delta = aligned - cur_block;
++			}
++			if (avail >= SLOB_UNITS(size) + delta && diff > avail - SLOB_UNITS(size) + delta) {
++				diff = avail - SLOB_UNITS(size)+delta;
++				min_cur = cur_block;
++				found_perfect_fit = 0;
++				if (diff == 0) {
++					found_perfect_fit = 1;
++					break;
++				}
++			}
++			if (slob_last(cur_block)) {
++				break;
++			}
++		}
++
++		total_free_mem = total_free_mem + ( (sp->units) * SLOB_UNIT );
++		/* Enough room on this page? */
++		if (sp->units < SLOB_UNITS(size))
++			continue;
++        if(sp->units > min_page_size) { /*finds minimum page to further reduce fragmentation  */
++            continue;
++	}
++
++        if(found_perfect_fit == 1){
++            min_sp = sp;
++            min_fit = diff;
++            b = slob_page_alloc(min_sp, size, align);
++            break;
++        }
++        else if(found_perfect_fit == 0 && (min_fit == -1 || diff < min_fit)){
++            min_sp = sp;
++            min_page_size = sp->units;
++            min_fit = diff;
++        }
++
++        if(min_fit >= 0){
++            prev = min_sp->list.prev;
++            min_sp = sp;
++            b = slob_page_alloc(min_sp, size, align);
++            if(list_last_entry(slob_list, typeof(*sp), list) == sp){ /*finds the end and exits */
++                break;
++            }
++        }else{
++            continue;
++        }
++
++
++        if(!b)
++            continue;
++        /* Improve fragment distribution and reduce our average
++         * search time by starting our next search here. (see
++         * Knuth vol 1, sec 2.5, pg 449) */
++        if (prev != slob_list->prev &&
++            slob_list->next != prev->next){
++            list_move_tail(slob_list, prev->next);
++        }
++        break;
++
++    }
++#endif
++
++#ifdef NEXT_FIT_SLOB_ALG
++		total_free_mem = total_free_mem + ( (sp->units) * SLOB_UNIT );
+ 		/* Enough room on this page? */
+ 		if (sp->units < SLOB_UNITS(size))
+ 			continue;
+@@ -309,6 +505,9 @@
+ 			list_move_tail(slob_list, prev->next);
+ 		break;
+ 	}
++#endif
++
++
+ 	spin_unlock_irqrestore(&slob_lock, flags);
+ 
+ 	/* Not enough space: must allocate a new page */
+diff -ruN linux-3.14.62-orig/security/tomoyo/builtin-policy.h linux-3.14.62-dev/security/tomoyo/builtin-policy.h
+--- linux-3.14.62-orig/security/tomoyo/builtin-policy.h	1970-01-01 02:00:00.000000000 +0200
++++ linux-3.14.62-dev/security/tomoyo/builtin-policy.h	2016-04-13 21:24:49.778732298 +0300
+@@ -0,0 +1,12 @@
++static char tomoyo_builtin_profile[] __initdata =
++"";
++static char tomoyo_builtin_exception_policy[] __initdata =
++"initialize_domain /sbin/modprobe from any\n"
++"initialize_domain /sbin/hotplug from any\n"
++"";
++static char tomoyo_builtin_domain_policy[] __initdata =
++"";
++static char tomoyo_builtin_manager[] __initdata =
++"";
++static char tomoyo_builtin_stat[] __initdata =
++"";
+diff -ruN linux-3.14.62-orig/security/tomoyo/policy/exception_policy.conf linux-3.14.62-dev/security/tomoyo/policy/exception_policy.conf
+--- linux-3.14.62-orig/security/tomoyo/policy/exception_policy.conf	1970-01-01 02:00:00.000000000 +0200
++++ linux-3.14.62-dev/security/tomoyo/policy/exception_policy.conf	2016-04-13 21:24:40.626732077 +0300
+@@ -0,0 +1,2 @@
++initialize_domain /sbin/modprobe from any
++initialize_domain /sbin/hotplug from any
