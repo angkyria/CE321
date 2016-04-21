@@ -280,7 +280,24 @@ static void *slob_page_alloc(struct page *sp, size_t size, int align)
                     min_avail = slob_units(min_cur);
                 }
 
-if (alloc_iter >= 6000){
+                next = slob_next(min_cur);
+
+                if(min_avail == units) {/*exact fit? unlink. */
+                    if(min_prev)
+                        set_slob(min_prev, slob_units(min_prev), next);
+                    else
+                        sp->freelist = next;
+                }else {/*fragment*/
+                    if(min_prev)
+                        set_slob(min_prev, slob_units(min_prev), min_cur + units);
+                    else
+                        sp->freelist = min_cur + units;
+                    set_slob(min_cur + units, min_avail - units, next);
+                }
+
+                sp->units -= units;
+
+				if (alloc_iter >= 6000){
 					/* delete from this point .. */
 					printk("\nslob_alloc:Request: %d \n", units);
 					printk("slob_alloc:Candidate blocks size: ");
@@ -298,23 +315,6 @@ if (alloc_iter >= 6000){
 					}
 					alloc_iter = 0;
 				}
-
-                next = slob_next(min_cur);
-
-                if(min_avail == units) {/*exact fit? unlink. */
-                    if(min_prev)
-                        set_slob(min_prev, slob_units(min_prev), next);
-                    else
-                        sp->freelist = next;
-                }else {/*fragment*/
-                    if(min_prev)
-                        set_slob(min_prev, slob_units(min_prev), min_cur + units);
-                    else
-                        sp->freelist = min_cur + units;
-                    set_slob(min_cur + units, min_avail - units, next);
-                }
-
-                sp->units -= units;
 
                 if (!sp->units)
                     clear_slob_page_free(sp);
@@ -376,6 +376,42 @@ if (alloc_iter >= 6000){
 
 }
 
+#ifdef BEST_FIT_SLOB_ALG
+
+static int slob_page_best_fit_check(struct page *sp, size_t size, int align)
+{
+	slob_t *prev, *cur, *aligned = NULL;
+	int delta = 0, units = SLOB_UNITS(size);
+
+	slob_t *best_cur = NULL;
+	slobidx_t best_fit = 0;
+
+	for (prev = NULL, cur = sp->freelist; ; prev = cur, cur = slob_next(cur)) {
+		slobidx_t avail = slob_units(cur);
+
+		if (align) {
+			aligned = (slob_t *)ALIGN((unsigned long)cur, align);
+			delta = aligned - cur;
+		}
+		if (avail >= units + delta && (best_cur == NULL || avail - (units + delta) < best_fit) ) { /* room enough? */
+			best_cur = cur;
+			best_fit = avail - (units + delta);
+			if(best_fit == 0){
+                /*printk("find best fit\n"); */
+				return 0;
+            }
+		}
+		if (slob_last(cur)) {
+			if (best_cur != NULL)
+				return best_fit;
+
+			return -1;
+		}
+	}
+}
+
+#endif
+
 /*
  * slob_alloc: entry point into the slob allocator.
  */
@@ -389,9 +425,7 @@ static void *slob_alloc(size_t size, gfp_t gfp, int align, int node)
 
 #ifdef BEST_FIT_SLOB_ALG
 	struct page *min_sp = NULL;
-   	 int min_fit = -1, min_page_size = 2147483647, delta = 0, diff=10000, found_perfect_fit=-1;
-	slob_t *prev_block, *cur_block, *aligned = NULL, *min_cur = NULL;
-	slobidx_t avail;
+    int min_fit = -1, cur_fit, min_size = 2147483647;
 #endif
 	total_free_mem = 0 ;
 
@@ -418,56 +452,33 @@ static void *slob_alloc(size_t size, gfp_t gfp, int align, int node)
 
 #ifdef BEST_FIT_SLOB_ALG
 		alloc_iter++;
-
-		/* iterates the page and attempts to find as a best-fit block as possible */
-		/* this will be done for all pages, the page with the best-fit block will be selected */
-
-		for (prev_block = NULL, cur_block = sp->freelist; ; prev_block=cur_block, cur_block = slob_next(cur_block)) {
-			avail = slob_units(cur_block);
-			
-			if (align) {
-				aligned = (slob_t *)ALIGN((unsigned long)cur_block, align);
-				delta = aligned - cur_block;
-			}
-			if (avail >= SLOB_UNITS(size) + delta && diff > avail - SLOB_UNITS(size) + delta) {
-				diff = avail - SLOB_UNITS(size)+delta;
-				min_cur = cur_block;
-				found_perfect_fit = 0;
-				if (diff == 0) {
-					found_perfect_fit = 1;   
-					break;
-				}
-			}
-			if (slob_last(cur_block)) {
-				break;
-			}
-		}
-
+		cur_fit = -1;
 		total_free_mem = total_free_mem + ( (sp->units) * SLOB_UNIT );
 		/* Enough room on this page? */
 		if (sp->units < SLOB_UNITS(size))
 			continue;
-        if(sp->units > min_page_size) { /*finds minimum page to further reduce fragmentation  */
+        if(sp->units > min_size)
             continue;
-	}
 
-        if(found_perfect_fit == 1){
+        cur_fit = slob_page_best_fit_check(sp, size, align);
+        if(cur_fit == 0){
             min_sp = sp;
-            min_fit = diff;
+            min_fit = cur_fit;
             b = slob_page_alloc(min_sp, size, align);
             break;
         }
-        else if(found_perfect_fit == 0 && (min_fit == -1 || diff < min_fit)){
+        else if(cur_fit > 0 && (min_fit == -1 || cur_fit < min_fit)){
             min_sp = sp;
-            min_page_size = sp->units;
-            min_fit = diff;
+            min_size = sp->units;
+            min_fit = cur_fit;
         }
 
         if(min_fit >= 0){
             prev = min_sp->list.prev;
             min_sp = sp;
             b = slob_page_alloc(min_sp, size, align);
-            if(list_last_entry(slob_list, typeof(*sp), list) == sp){ /*finds the end and exits */
+            if(list_last_entry(slob_list, typeof(*sp), list) == sp){
+                //printk("find the end\n");
                 break;
             }
         }else{
@@ -482,6 +493,7 @@ static void *slob_alloc(size_t size, gfp_t gfp, int align, int node)
          * Knuth vol 1, sec 2.5, pg 449) */
         if (prev != slob_list->prev &&
             slob_list->next != prev->next){
+            //printk("hello\n");
             list_move_tail(slob_list, prev->next);
         }
         break;
