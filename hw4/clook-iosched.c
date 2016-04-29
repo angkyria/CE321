@@ -8,11 +8,11 @@
 #include <linux/slab.h>
 #include <linux/init.h>
 
-struct noop_data {
+struct clook_data {
 	struct list_head queue;
 };
 
-static void noop_merged_requests(struct request_queue *q, struct request *rq,
+static void clook_merged_requests(struct request_queue *q, struct request *rq,
 				 struct request *next)
 {
 	list_del_init(&next->queuelist);
@@ -20,7 +20,7 @@ static void noop_merged_requests(struct request_queue *q, struct request *rq,
 
 static int clook_dispatch(struct request_queue *q, int force)
 {
-	struct noop_data *nd = q->elevator->elevator_data;
+	struct clook_data *nd = q->elevator->elevator_data;
 
 	if (!list_empty(&nd->queue)) {
 		struct request *rq;
