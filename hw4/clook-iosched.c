@@ -8,6 +8,8 @@
 #include <linux/slab.h>
 #include <linux/init.h>
 
+int direction = 0;
+
 struct clook_data {
 	struct list_head queue;
 };
