@@ -8,7 +8,7 @@
 #include <linux/slab.h>
 #include <linux/init.h>
 
-int direction = 0;
+int direction = 1;
 
 struct clook_data {
 	struct list_head queue;
@@ -23,12 +23,22 @@ static void clook_merged_requests(struct request_queue *q, struct request *rq,
 static int clook_dispatch(struct request_queue *q, int force)
 {
 	struct clook_data *nd = q->elevator->elevator_data;
+	char action;
 
 	if (!list_empty(&nd->queue)) {
 		struct request *rq;
 		rq = list_entry(nd->queue.next, struct request, queuelist);
 		list_del_init(&rq->queuelist);
 		elv_dispatch_sort(q, rq);
+
+
+		if(rq_data_dir(rq) == WRITE){
+			action = 'W';
+		}else{
+			action = 'R';
+		}
+		printk("[CLOOK] dsp %c %llu \n", action, blk_rq_pos(rq) );
+
 		return 1;
 	}
 	return 0;
@@ -36,9 +46,30 @@ static int clook_dispatch(struct request_queue *q, int force)
 
 static void clook_add_request(struct request_queue *q, struct request *rq)
 {
+	char action;
+	struct list_head *curr=NULL;
+	struct request *curr_req=NULL;
+
 	struct clook_data *nd = q->elevator->elevator_data;
 
-	list_add_tail(&rq->queuelist, &nd->queue);
+	list_for_each(curr,&nd->queue){
+		curr_req = list_entry(curr,struct request, queuelist);
+
+		if (blk_rq_pos(curr_req) > blk_rq_pos(rq)){
+			list_add_tail(&rq->queuelist, curr);
+			break;
+		}
+	}
+
+
+	if(rq_data_dir(rq) == WRITE){
+		action = 'W';
+	}else{
+		action = 'R';
+	}
+	printk("[CLOOK] add %c %llu \n", action, blk_rq_pos(rq));
+
+	//list_add_tail(&rq->queuelist, &nd->queue);
 }
 
 static struct request *
