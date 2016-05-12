@@ -52,13 +52,21 @@ static void clook_add_request(struct request_queue *q, struct request *rq)
 
 	struct clook_data *nd = q->elevator->elevator_data;
 
-	list_for_each(curr,&nd->queue){
-		curr_req = list_entry(curr,struct request, queuelist);
+	list_for_each_entry(curr_req,&nd->queue,queuelist){
 
-		if (blk_rq_pos(curr_req) > blk_rq_pos(rq)){
+        if( &curr_req->sector == NULL)
+            break;
+
+        if( &curr_req->sector < &rq->sector )
+            continue;
+
+        list_add_tail(&rq->queuelist, &curr_req->queuelist);
+        break;
+
+		/*if (blk_rq_pos(curr_req) > blk_rq_pos(rq)){
 			list_add_tail(&rq->queuelist, curr);
 			break;
-		}
+		}*/
 	}
 
 
@@ -69,7 +77,7 @@ static void clook_add_request(struct request_queue *q, struct request *rq)
 	}
 	printk("[CLOOK] add %c %llu \n", action, blk_rq_pos(rq));
 
-	//list_add_tail(&rq->queuelist, &nd->queue);
+	/*list_add_tail(&rq->queuelist, &nd->queue);*/
 }
 
 static struct request *
