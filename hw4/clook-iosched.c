@@ -31,7 +31,7 @@ static int clook_dispatch(struct request_queue *q, int force)
 		list_del_init(&rq->queuelist);
 		elv_dispatch_sort(q, rq);
 
-        if( blk_rq_pos(rq->queuelist.next) == NULL){
+        if( rq == list_last_entry(&nd->queue, struct request, queuelist)){
             direction = -direction;
         } 
 
@@ -64,7 +64,7 @@ static void clook_add_request(struct request_queue *q, struct request *rq)
         }
 
         if( curr_req == list_last_entry(&nd->queue, struct request, queuelist)){
-            printk("End of list at clook_add_request/n");
+            printk("End of list at clook_add_request\n");
             list_add(&rq->queuelist, &curr_req->queuelist);
             break;
         }
@@ -75,6 +75,7 @@ static void clook_add_request(struct request_queue *q, struct request *rq)
         if( ( blk_rq_pos(curr_req) > blk_rq_pos(rq) ) && (direction == -1) )
             continue; 
 
+        printk("----Add----\n");
         list_add_tail(&rq->queuelist, &curr_req->queuelist);
         break;
 
