@@ -33,7 +33,7 @@ static int clook_dispatch(struct request_queue *q, int force)
 
         if( rq == list_last_entry(&nd->queue, struct request, queuelist)){
             direction = -direction;
-        } 
+        }
 
 
 		if(rq_data_dir(rq) == WRITE){
@@ -58,10 +58,10 @@ static void clook_add_request(struct request_queue *q, struct request *rq)
 
 	list_for_each_entry(curr_req,&nd->queue,queuelist){
 
-        if (list_empty(&nd->queue)) {
+    /*    if (list_empty(&nd->queue)) {
             list_add_tail(&rq->queuelist, &nd->queue);
             break;
-        }
+        } */
 
         if( curr_req == list_last_entry(&nd->queue, struct request, queuelist)){
             printk("End of list at clook_add_request\n");
@@ -73,7 +73,7 @@ static void clook_add_request(struct request_queue *q, struct request *rq)
             continue;
 
         if( ( blk_rq_pos(curr_req) > blk_rq_pos(rq) ) && (direction == -1) )
-            continue; 
+            continue;
 
         printk("----Add----\n");
         list_add_tail(&rq->queuelist, &curr_req->queuelist);
@@ -85,6 +85,10 @@ static void clook_add_request(struct request_queue *q, struct request *rq)
 		}*/
 	}
 
+	if (list_empty(&nd->queue)) {
+		list_add_tail(&rq->queuelist, &nd->queue);
+		printk("----Added first request \n");
+	}
 
 	if(rq_data_dir(rq) == WRITE){
 		action = 'W';
