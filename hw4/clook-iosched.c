@@ -9,13 +9,11 @@
 #include <linux/init.h>
 
 int direction = 1;
+struct request *temp_rq = NULL;
 
 struct clook_data {
 	struct list_head queue;
 };
-
-static struct request * clook_latter_request(struct request_queue *q, struct request *rq);
-static struct request * clook_former_request(struct request_queue *q, struct request *rq);
 
 static void clook_merged_requests(struct request_queue *q, struct request *rq,
 				 struct request *next)
@@ -34,14 +32,16 @@ static int clook_dispatch(struct request_queue *q, int force)
 		list_del_init(&rq->queuelist);
 		elv_dispatch_sort(q, rq);
 
-        if( (clook_former_request(q, rq) == NULL) && (direction == -1) ){
+        if( rq == list_last_entry(&nd->queue, struct request, queuelist) && direction == 1){
             direction = -direction;
-			printk("--------- Changed Direction %d", direction);
+			printk("\nRight -> Left");
         }
-		if( (clook_latter_request(q, rq) == NULL ) && (direction == 1)){
-            direction = -direction;
-			printk("--------- Changed Direction %d", direction);
-        }
+		if( rq == list_first_entry(&nd->queue, struct request, queuelist) && direction == -1){
+			direction = -direction;
+			printk("\nLeft -> Right");
+		}
+
+		temp_rq = rq; 	/*last position */
 
 
 		if(rq_data_dir(rq) == WRITE){
@@ -59,15 +59,47 @@ static int clook_dispatch(struct request_queue *q, int force)
 static void clook_add_request(struct request_queue *q, struct request *rq)
 {
 	char action;
-	struct list_head *curr=NULL;
+	//struct list_head *curr=NULL;
 	struct request *curr_req=NULL;
 
 	struct clook_data *nd = q->elevator->elevator_data;
-
 	if (list_empty(&nd->queue)) {
 		list_add_tail(&rq->queuelist, &nd->queue);
 		printk("----Added first request \n");
+
+			if(rq_data_dir(rq) == WRITE){
+				action = 'W';
+			}else{
+				action = 'R';
+			}
+			printk("[CLOOK] add %c %llu \n", action, blk_rq_pos(rq));
+			return ;
 	}
+
+	if (blk_rq_pos(rq) > blk_rq_pos(temp_rq)) {
+
+		list_for_each_entry(curr_req, &temp_rq->queuelist, queuelist){
+
+			if(blk_rq_pos(curr_req)<blk_rq_pos(rq))
+				continue;
+
+			break;
+		}
+
+	}else{
+
+		list_for_each_entry_reverse(curr_req, &temp_rq->queuelist, queuelist){
+
+			if(blk_rq_pos(curr_req)>blk_rq_pos(rq))
+				continue;
+
+			break;
+		}
+
+
+	}
+
+	list_add_tail(&rq->queuelist, &curr_req->queuelist);
 
 	if(rq_data_dir(rq) == WRITE){
 		action = 'W';
@@ -75,55 +107,6 @@ static void clook_add_request(struct request_queue *q, struct request *rq)
 		action = 'R';
 	}
 	printk("[CLOOK] add %c %llu \n", action, blk_rq_pos(rq));
-
-	if(  direction == 1 ){
-		list_for_each_entry(curr_req,&nd->queue,queuelist){
-
-	    /*    if (list_empty(&nd->queue)) {
-	            list_add_tail(&rq->queuelist, &nd->queue);
-	            break;
-	        } */
-
-	        if( curr_req == list_last_entry(&nd->queue, struct request, queuelist)){
-	            printk("End of list at clook_add_request\n");
-	            /*list_add(&rq->queuelist, &curr_req->queuelist);*/
-	            break;
-	        }
-
-	        if( ( blk_rq_pos(curr_req) < blk_rq_pos(rq) ))
-	            continue;
-
-
-	        printk("----Add----\n");
-	        list_add_tail(&rq->queuelist, &curr_req->queuelist);
-	        break;
-
-			/*if (blk_rq_pos(curr_req) > blk_rq_pos(rq)){
-				list_add_tail(&rq->queuelist, curr);
-				break;
-			}*/
-		}
-	}
-
-	if( direction == -1  ){
-	list_for_each_entry(curr_req,&nd->queue,queuelist){
-
-			if( ( blk_rq_pos(curr_req) > blk_rq_pos(rq) ) )
-				continue;
-
-	        printk("----Add----\n");
-	        list_add_tail(&rq->queuelist, &curr_req->queuelist);
-	        break;
-
-			/*if (blk_rq_pos(curr_req) > blk_rq_pos(rq)){
-				list_add_tail(&rq->queuelist, curr);
-				break;
-			}*/
-		}
-	}
-
-
-
 
 	/*list_add_tail(&rq->queuelist, &nd->queue);*/
 }
@@ -139,6 +122,7 @@ clook_former_request(struct request_queue *q, struct request *rq)
 		return NULL;
 	return list_entry(rq->queuelist.prev, struct request, queuelist);
 }
+
 static struct request *
 clook_latter_request(struct request_queue *q, struct request *rq)
 {
