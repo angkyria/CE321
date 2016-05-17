@@ -8,7 +8,7 @@
 #include <linux/slab.h>
 #include <linux/init.h>
 
-int direction = 1;
+int direction;
 struct request *temp_rq = NULL;
 struct clook_data {
 	struct list_head queue;
@@ -30,24 +30,21 @@ static int clook_dispatch(struct request_queue *q, int force)
 
 		if (direction == 1) {
 			rq = list_entry(nd->queue.next, struct request, queuelist);
+			if (rq == list_last_entry(&nd->queue, struct request, queuelist) ){
+				rq = list_entry(nd->queue.prev, struct request, queuelist);
+				direction = -direction;
+			}
 		}
 		else {
 			rq = list_entry(nd->queue.prev, struct request, queuelist);
+			if (rq == list_first_entry(&nd->queue, struct request, queuelist)) {
+				rq = list_entry(nd->queue.next, struct request, queuelist);
+				direction = -direction;
+			}
 		}
 
 		list_del_init(&rq->queuelist);
 		elv_dispatch_sort(q, rq);
-
-		temp_rq = rq;
-
-        if( rq == list_last_entry(&nd->queue, struct request, queuelist) && direction == 1){
-            direction = -direction;
-        }
-		else if (rq == list_first_entry(&nd->queue, struct request, queuelist) && direction == -1) {
-			direction = -direction;
-		}
-
-
 
 		if(rq_data_dir(rq) == WRITE){
 			action = 'W';
@@ -70,7 +67,6 @@ static void clook_add_request(struct request_queue *q, struct request *rq)
 
 	if (list_empty(&nd->queue)) {
 		list_add_tail(&rq->queuelist, &nd->queue);
-		printk("----Added first request \n");
 		if(rq_data_dir(rq) == WRITE){
 			action = 'W';
 		}else{
@@ -91,8 +87,6 @@ static void clook_add_request(struct request_queue *q, struct request *rq)
 
 	list_add(&rq->queuelist, &curr_req->queuelist);
 
-
-
 	if(rq_data_dir(rq) == WRITE){
 		action = 'W';
 	}else{
@@ -100,15 +94,12 @@ static void clook_add_request(struct request_queue *q, struct request *rq)
 	}
 	printk("[CLOOK] add %c %llu \n", action, blk_rq_pos(rq));
 
-	/*list_add_tail(&rq->queuelist, &nd->queue);*/
 }
 
 static struct request *
 clook_former_request(struct request_queue *q, struct request *rq)
 {
 	struct clook_data *nd = q->elevator->elevator_data;
-
-	printk(" ----------- This is clook_former_request ----------\n");
 
 	if (rq->queuelist.prev == &nd->queue)
 		return NULL;
@@ -119,7 +110,6 @@ static struct request *
 clook_latter_request(struct request_queue *q, struct request *rq)
 {
 	struct clook_data *nd = q->elevator->elevator_data;
-	printk(" ----------- This is clook_latter_request ----------\n");
 	if (rq->queuelist.next == &nd->queue)
 		return NULL;
 	return list_entry(rq->queuelist.next, struct request, queuelist);
@@ -129,6 +119,9 @@ static int clook_init_queue(struct request_queue *q, struct elevator_type *e)
 {
 	struct clook_data *nd;
 	struct elevator_queue *eq;
+
+	direction = 1;
+	/* Initialized head direction */
 
 	eq = elevator_alloc(q, e);
 	if (!eq)
@@ -142,7 +135,6 @@ static int clook_init_queue(struct request_queue *q, struct elevator_type *e)
 	eq->elevator_data = nd;
 
 	INIT_LIST_HEAD(&nd->queue);
-	printk("-------Init queue--------- \n");
 
 	spin_lock_irq(q->queue_lock);
 	q->elevator = eq;
