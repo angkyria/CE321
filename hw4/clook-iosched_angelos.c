@@ -64,7 +64,6 @@ static int clook_dispatch(struct request_queue *q, int force)
 static void clook_add_request(struct request_queue *q, struct request *rq)
 {
 	char action;
-	//struct list_head *curr=NULL;
 	struct request *curr_req=NULL;
 
 	struct clook_data *nd = q->elevator->elevator_data;
