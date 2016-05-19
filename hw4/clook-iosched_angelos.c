@@ -8,7 +8,6 @@
 #include <linux/slab.h>
 #include <linux/init.h>
 
-int direction;
 struct request *temp_rq = NULL;
 struct clook_data {
 	struct list_head queue;
@@ -28,20 +27,12 @@ static int clook_dispatch(struct request_queue *q, int force)
 	if (!list_empty(&nd->queue)) {
 		struct request *rq;
 
-		if (direction == 1) {
-			rq = list_entry(nd->queue.next, struct request, queuelist);
-			if (rq == list_last_entry(&nd->queue, struct request, queuelist) ){
-				rq = list_entry(nd->queue.prev, struct request, queuelist);
-				direction = -direction;
-			}
+
+		rq = list_entry(nd->queue.next, struct request, queuelist);
+		if (rq == list_last_entry(&nd->queue, struct request, queuelist) ){
+			rq = list_first_entry(&nd->queue, struct request, queuelist);
 		}
-		else {
-			rq = list_entry(nd->queue.prev, struct request, queuelist);
-			if (rq == list_first_entry(&nd->queue, struct request, queuelist)) {
-				rq = list_entry(nd->queue.next, struct request, queuelist);
-				direction = -direction;
-			}
-		}
+
 
 		list_del_init(&rq->queuelist);
 		elv_dispatch_sort(q, rq);
@@ -119,9 +110,6 @@ static int clook_init_queue(struct request_queue *q, struct elevator_type *e)
 {
 	struct clook_data *nd;
 	struct elevator_queue *eq;
-
-	direction = 1;
-	/* Initialized head direction */
 
 	eq = elevator_alloc(q, e);
 	if (!eq)
