@@ -29,8 +29,8 @@ static int clook_dispatch(struct request_queue *q, int force)
 
 
 		rq = list_entry(nd->queue.next, struct request, queuelist);
-		if (rq == list_last_entry(&nd->queue, struct request, queuelist) ){
-			rq = list_first_entry(&nd->queue, struct request, queuelist);
+		if (rq == list_first_entry(&nd->queue, struct request, queuelist) ){
+			rq = list_last_entry(&nd->queue, struct request, queuelist);
 		}
 
 
